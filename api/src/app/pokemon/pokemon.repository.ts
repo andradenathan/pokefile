@@ -37,7 +37,12 @@ export class PokemonRepository {
     constructor(private readonly pokemonService: PokemonService) {}
 
     async all(): Promise<Pokemon[]> {
-        return await prismaClient.pokemon.findMany();
+        return await prismaClient.pokemon.findMany({
+            include: {
+                image: true,
+                type: true,
+            }
+        });
     }
 
     async find(id: number): Promise<Pokemon | null> {
@@ -45,7 +50,9 @@ export class PokemonRepository {
     }
     
     async getAllPokemonsAndStore(): Promise<string> {
-        for(let i = 1; i < 152; i++) {
+        const FIRST_SEASON_LAST_POKEMON_ID = 152;
+
+        for(let i = 1; i < FIRST_SEASON_LAST_POKEMON_ID; i++) {
             const { data }: AxiosResponse<PokemonResponseData> 
             = await this.pokemonService.getAllPokemons(i);                                    
         
@@ -86,26 +93,32 @@ export class PokemonRepository {
 
             await prismaClient.pokemon.create({data: pokemonData});
 
-            const typesData = {
-                name: '',
-                pokemonName: data.name,
-            }
-
             data.types.forEach(async(type) => {
-                typesData.name = type.type.name
+                const typesData = {
+                    name: type.type.name,
+                    pokemonName: data.name,
+                }
+
                 await prismaClient.type.create({data: typesData});
             });
 
-            // const imagesData = {
-            //     path: '',
-            //     pokemonId: i
-            // }
-
-            // for(let image of Object.entries(data.sprites)) {
-            //     imagesData.path = image[1];
-                
-            //     await prismaClient.image.create({data: imagesData});
-            // }
+            for(let image of Object.entries(data.sprites)) {
+                if(image[1] != null && typeof image[1] === 'string') {
+                    if(image[1].endsWith('.png')) {
+                        const imagesData = {
+                            path: image[1],
+                            pokemonId: i,
+                        }
+    
+                        await prismaClient.image.create({data: imagesData});
+    
+                    } else {
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
+            }
         }
 
         return "Pokémons registrados com sucesso!";
