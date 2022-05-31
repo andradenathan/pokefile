@@ -6,9 +6,15 @@ import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { UserRepository } from "./app/user/user.repository";
 import "./app/user/user.controller";
+import "./app/pokemon/pokemon.controller";
+import PokemonService from "./app/pokemon/pokemon.service";
+import { PokemonRepository } from "./app/pokemon/pokemon.repository";
 
 const container = new Container();
 container.bind(UserRepository).toSelf();
+
+container.bind(PokemonService).toSelf();
+container.bind(PokemonRepository).toSelf();
 
 const server = new InversifyExpressServer(container);
 
