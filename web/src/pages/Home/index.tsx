@@ -7,14 +7,16 @@ function Home() {
     <>
       <Menu/>
       <div className="home-container">
-        <div className="home-container__logo">
+        <h1 className="home-container__logo">
           Pokefile
+        </h1>
+        <span className="home-container__description">
+          Veja todas as informações sobre a Primeira Geração do jogo, 
+          registre seus Pokemons e compartilhe seu perfil e time com amigos!
+        </span>
+        <div className="home-container__pikachu">
+          <img src={require('../../assets/home-pikachu.gif')}/>
         </div>
-        <div className="home-container__description">
-          Veja todas as informações sobre a primeira geração, 
-          registre seus Pokemons e compartilhe seu time com amigos!
-        </div>
-        <div className="home-container__pikachu"></div>
       </div>
     </>
   );

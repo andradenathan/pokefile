@@ -10,10 +10,18 @@ function Menu() {
           <Link to="/">Pokefile</Link>
         </a>
         <ul className="menu__container__buttons">
-          <li className="menu__container__buttons__pokedex">pokedex</li>
-          <li className="menu__container__buttons__trainers">treinadores</li>
-          <li className="menu__container__buttons__bag">mochila</li>
-          <li className="menu__container__buttons__profile">perfil</li>
+          <li className="menu__container__buttons__pokedex">
+            <Link to="/pokedex">pokedex</Link>
+          </li>
+          <li className="menu__container__buttons__trainers">
+            <Link to="/trainers">treinadores</Link>
+          </li>
+          <li className="menu__container__buttons__bag">
+            <Link to="/bag">mochila</Link>
+          </li>
+          <li className="menu__container__buttons__profile">
+            <Link to="/profile"/>
+          </li>
         </ul>
       </div>
     </div>
