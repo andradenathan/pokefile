@@ -8,7 +8,10 @@ function Bag() {
     <>
       <Menu/>
       <div className="container">
-        Bag
+        <div className="container__title">
+          <img src={require('../../assets/backpack.png')}/>
+          <span>Mochila</span>
+        </div>
       </div>
     </>
   );

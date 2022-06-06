@@ -11,8 +11,8 @@ function Home() {
           Pokefile
         </h1>
         <span className="home-container__description">
-          Veja todas as informações sobre a Primeira Geração do jogo, 
-          registre seus Pokemons e compartilhe seu perfil e time com amigos!
+          Veja todas as informações sobre a <span>Primeira Geração</span> de Pokemon, 
+          registre os seus próprios e compartilhe seu time com amigos!
         </span>
         <div className="home-container__pikachu">
           <img src={require('../../assets/home-pikachu.gif')}/>

@@ -13,4 +13,54 @@ body {
   height: 100vh;
   padding: 80px 20px 20px 20px;
   // background-color: white;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 40px 0px;
+
+    & > img {
+      width: 30px;
+      margin-right: 20px;
+    }
+
+    & > span {
+      text-transform: uppercase;
+      font-size: 12px;
+      font-family: 'Press Start 2P';
+      color: #151515;
+      letter-spacing: 2px;
+    }
+  }
+
+  &__search {
+    display: flex;
+    position: relative;
+    z-index: -1;
+    justify-content: space-between;
+    height: 40px;
+    margin-bottom: 40px;
+
+    & > svg {
+      position: absolute;
+      top: 11px;
+      left: 25px;
+      font-size: 18px;
+    }
+
+    &__bar {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 0px 20px 0px 60px;
+      border: 1px solid #151515;
+      border-radius: 50px;
+      background-color: white;
+
+      &::placeholder {
+        font-family: 'Montserrat';
+        font-style: italic;
+      }
+    }
+  }
 }

@@ -20,6 +20,10 @@
   &__description {
     font-size: 20px;
     font-family: 'Montserrat';
+
+    & > span {
+      background-color: #FFFDC7;
+    }
   }
 
   &__pikachu {
