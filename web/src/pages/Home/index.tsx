@@ -15,7 +15,10 @@ function Home() {
           registre os seus próprios e compartilhe seu time com amigos!
         </span>
         <div className="home-container__pikachu">
-          <img src={require('../../assets/home-pikachu.gif')}/>
+          <img 
+            src={require('../../assets/home-pikachu.gif')}
+            alt="pikachu"
+          />
         </div>
       </div>
     </>

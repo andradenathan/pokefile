@@ -12,7 +12,10 @@ function Pokedex() {
       <Menu/>
       <div className="container">
         <div className="container__title">
-          <img src={require('../../assets/pikachu.png')}/>
+          <img 
+            src={require('../../assets/pikachu.png')}
+            alt="pikachu"
+          />
           <span>Pokedex</span>
         </div>
         <div className="container__search">

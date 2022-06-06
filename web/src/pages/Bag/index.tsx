@@ -9,7 +9,10 @@ function Bag() {
       <Menu/>
       <div className="container">
         <div className="container__title">
-          <img src={require('../../assets/backpack.png')}/>
+          <img 
+            src={require('../../assets/backpack.png')}
+            alt="backpack"
+          />
           <span>Mochila</span>
         </div>
       </div>
