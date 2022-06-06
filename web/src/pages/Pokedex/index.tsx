@@ -11,26 +11,27 @@ function Pokedex() {
     <>
       <Menu/>
       <div className="container">
-        <div className="container__title">
-          <img 
-            src={require('../../assets/pikachu.png')}
-            alt="pikachu"
-          />
-          <span>Pokedex</span>
-        </div>
-        <div className="container__search">
-          <FaSearch/>
-          <input 
-            className="container__search__bar"
-            placeholder="Pesquise por nome ou tipo..."
-          />
-          <div className="container__search__filter">
-            <BsFilter/>
+        <div className="container-wrapper">
+          <div className="container__title">
+            <img 
+              src={require('../../assets/pikachu.png')}
+              alt="pikachu"
+            />
+            <span>Pokedex</span>
           </div>
+          <div className="container__search">
+            <FaSearch/>
+            <input 
+              className="container__search__bar"
+              placeholder="Search by name or type..."
+            />
+            <div className="container__search__filter">
+              <BsFilter/>
+            </div>
+          </div>
+          <div className="container__filter-box"></div>
         </div>
-        <div className="container__filter-box"></div>
         <div className="container__pokedex">
-          <Card/>
           <Card/>
           <Card/>
           <Card/>

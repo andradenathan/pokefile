@@ -14,10 +14,10 @@ function Menu() {
             <Link to="/pokedex">pokedex</Link>
           </li>
           <li className="menu__container__buttons__trainers">
-            <Link to="/trainers">treinadores</Link>
+            <Link to="/trainers">trainers</Link>
           </li>
           <li className="menu__container__buttons__bag">
-            <Link to="/bag">mochila</Link>
+            <Link to="/bag">backpack</Link>
           </li>
           <li className="menu__container__buttons__profile">
             <Link to="/profile"/>

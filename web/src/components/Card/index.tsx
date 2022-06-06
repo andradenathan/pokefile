@@ -13,7 +13,7 @@ function Card() {
           />
         </div>
         <div className="card-container__number">N°001</div>
-        <div className="card-container__name">Bulbasauro</div>
+        <div className="card-container__name">Bulbasaur</div>
         <div className="card-container__add">+</div>
       </div>
     </>

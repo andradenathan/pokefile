@@ -10,21 +10,30 @@ function Trainers() {
     <>
       <Menu/>
       <div className="container">
-        <div className="container__title">
-          <img 
-            src={require('../../assets/cap.png')}
-            alt="cap"  
-          />
-          <span>Treinadores</span>
-        </div>
-        <div className="container__search">
-          <FaSearch/>
-          <input 
-            className="container__search__bar"
-            placeholder="Procure por nome ou ID de usuário..."
-          />
+        <div className="container-wrapper">
+          <div className="container__title">
+            <img 
+              src={require('../../assets/cap.png')}
+              alt="cap"  
+            />
+            <span>Trainers</span>
+          </div>
+          <div className="container__search">
+            <FaSearch/>
+            <input 
+              className="container__search__bar"
+              placeholder="Search by name or Trainer ID..."
+            />
+          </div>
         </div>
         <div className="container__trainers">
+          <TrainerCard/>
+          <TrainerCard/>
+          <TrainerCard/>
+          <TrainerCard/>
+          <TrainerCard/>
+          <TrainerCard/>
+          <TrainerCard/>
           <TrainerCard/>
           <TrainerCard/>
           <TrainerCard/>

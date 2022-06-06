@@ -28,5 +28,7 @@
   &__pokedex {
     display: flex;
     flex-wrap: wrap;
+    margin-top: 190px;
+    z-index: -1;
   }
 }

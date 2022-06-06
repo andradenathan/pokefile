@@ -10,6 +10,8 @@
   display: flex;
   justify-content: center;
 
+  z-index: 1;
+
   &__container {
     box-sizing: border-box;
     width: 960px;
