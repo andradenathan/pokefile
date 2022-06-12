@@ -48,7 +48,7 @@ function Register() {
               <button onClick={() => {setSlide(0);}} className="account-container__button-container--button">&lt;&lt;</button>
               <button className="account-container__button-container--button">Register</button>
             </div>
-            </> 
+          </> 
         }
       </div>
     </>
