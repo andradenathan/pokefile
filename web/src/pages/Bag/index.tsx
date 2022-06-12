@@ -11,9 +11,9 @@ function Bag() {
         <div className="container__title">
           <img 
             src={require('../../assets/backpack.png')}
-            alt="backpack"
+            alt="bag"
           />
-          <span>Mochila</span>
+          <span>Bag</span>
         </div>
       </div>
     </>

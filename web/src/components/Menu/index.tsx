@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import { FaUser } from 'react-icons/fa';
 import './styles.scss';
 
 function Menu() {
@@ -17,10 +18,12 @@ function Menu() {
             <Link to="/trainers">trainers</Link>
           </li>
           <li className="menu__container__buttons__bag">
-            <Link to="/bag">backpack</Link>
+            <Link to="/bag">my bag</Link>
           </li>
           <li className="menu__container__buttons__profile">
-            <Link to="/profile"/>
+            <Link to="/login">
+              <FaUser/>
+            </Link>
           </li>
         </ul>
       </div>
