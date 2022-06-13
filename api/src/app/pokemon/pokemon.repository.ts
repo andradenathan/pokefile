@@ -1,5 +1,4 @@
 import { Prisma, Pokemon } from "@prisma/client";
-import { AxiosResponse } from "axios";
 import { injectable } from "inversify";
 import prismaClient from "../../database/prisma";
 
@@ -22,8 +21,6 @@ export class PokemonRepository {
         return await prismaClient.pokemon.findUnique({where: {id: id}});
     }
     
-    
-
     async update(id: number, data: Prisma.PokemonUpdateInput): Promise<Pokemon> {
         return await prismaClient.pokemon.update(
             {
@@ -35,5 +32,9 @@ export class PokemonRepository {
 
     async delete(id: number): Promise<void> {
         await prismaClient.pokemon.delete({where: {id: id}});
+    }
+
+    async getPokemonByName(name: string): Promise<Pokemon | null> {
+        return await prismaClient.pokemon.findUnique({where: {name: name}});
     }
 }

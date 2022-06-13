@@ -35,8 +35,6 @@ CREATE TABLE `PokemonEvolution` (
     `pokemonName` VARCHAR(191) NOT NULL,
     `pokemonEvolutionName` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `PokemonEvolution_pokemonName_key`(`pokemonName`),
-    UNIQUE INDEX `PokemonEvolution_pokemonEvolutionName_key`(`pokemonEvolutionName`),
     PRIMARY KEY (`pokemonName`, `pokemonEvolutionName`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

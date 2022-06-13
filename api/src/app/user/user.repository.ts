@@ -13,6 +13,12 @@ export class UserRepository {
     }
     
     async create(data: Prisma.UserCreateInput): Promise<User> {
+        let code = this.generateCode(1, 99999);
+        if(await this.find(code)) {
+            data.code = this.generateCode(1, 99999);
+        } else {
+            data.code = code;
+        }
         return await prismaClient.user.create({data: data});
     } 
     
@@ -27,5 +33,9 @@ export class UserRepository {
 
     async delete(code: number): Promise<void> {
         await prismaClient.user.delete({where: {code: code}});
+    }
+
+     private generateCode(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min) + 1) + min;
     }
 }

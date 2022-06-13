@@ -9,17 +9,22 @@ import "./app/user/user.controller";
 import "./app/pokemon/pokemon.controller";
 import PokemonService from "./app/pokemon/pokemon.service";
 import { PokemonRepository } from "./app/pokemon/pokemon.repository";
+import { PokemonEvolutionService } from "./app/pokemon/pokemon-evolution/pokemon-evolution.service";
 
 const container = new Container();
 container.bind(UserRepository).toSelf();
 
 container.bind(PokemonService).toSelf();
 container.bind(PokemonRepository).toSelf();
+container.bind(PokemonEvolutionService).toSelf();
 
-const server = new InversifyExpressServer(container);
+
+const server = new InversifyExpressServer(container).setConfig((app) => {
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.listen(process.env.APP_PORT);
+    
+});
 
 const app = server.build();
 
-app.use(express.json());
-
-app.listen(process.env.APP_PORT);

@@ -35,8 +35,8 @@ model Pokemon {
     type    Type[]
     bag Bag?
     region  PokemonRegion?
-    pokemon    PokemonEvolution? @relation("Pokemons")
-    evolution   PokemonEvolution? @relation("Evolutions")
+    pokemon    PokemonEvolution[] @relation("Pokemons")
+    evolution   PokemonEvolution[] @relation("Evolutions")
 }
 
 model PokemonEvolution {
