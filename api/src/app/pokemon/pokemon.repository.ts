@@ -13,7 +13,7 @@ export class PokemonRepository {
             include: {
                 image: true,
                 type: true,
-                evolution: true,
+                pokemon: true,
             }
         });
     }

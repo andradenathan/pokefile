@@ -1,4 +1,3 @@
-import { Prisma, PokemonEvolution } from "@prisma/client";
 import { AxiosResponse } from "axios";
 import { injectable } from "inversify";
 import prismaClient from "../../../database/prisma";
@@ -12,54 +11,57 @@ interface IPokemonEvolutionChainResponseData extends AxiosResponse {
                 evolves_to: Array<{
                     species: {
                         name: string;
-                    };
+                    },
                 }>,
                 species: {
                     name: string;
                 }
-            }>
+            }>,
             species: {
                 name: string;
-            }
-        }
-    }
+            },
+        },
+    },
 }
 
 @injectable()
 export class PokemonEvolutionService {
     constructor(private readonly pokemonRepository: PokemonRepository) { }
 
-    async execute(): Promise<string> {
-        const FIRST_SEASON_LAST_POKEMON_ID = 100;
+    async execute(): Promise<Array<any>> {
+        const FIRST_GENERATION_LAST_POKEMON_ID = 100;
         const pokemonEvolutions = [];
-        for (let idx = 1; idx < FIRST_SEASON_LAST_POKEMON_ID; idx++) {
+        for (let idx = 1; idx < FIRST_GENERATION_LAST_POKEMON_ID; idx++) {
             const { data }: IPokemonEvolutionChainResponseData
                 = await this._getAllEvolutionChains(idx);
-                
-            const storedPokemon = await this.pokemonRepository.getPokemonByName(data.chain.species.name);
+
+            const isStoredPokemon = await this.pokemonRepository.getPokemonByName(data.chain.species.name);
             
-            if(!storedPokemon) continue;
+            if(!isStoredPokemon) continue;
             
             if(data.chain.evolves_to.length <= 0) continue;
 
-            data.chain.evolves_to.forEach(async(evolution) => {
+           for(let evo = 0; evo < data.chain.evolves_to.length; evo++) {
+                const evolution = data.chain.evolves_to[evo];
+
                 const isEvolutionStored = await this
-                .pokemonRepository
-                .getPokemonByName(evolution.species.name);
-                
-                if(!isEvolutionStored) return;
+                    .pokemonRepository
+                    .getPokemonByName(evolution.species.name);
+                    
+                if(!isEvolutionStored) continue;
 
                 pokemonEvolutions.push({
-                    pokemonName: storedPokemon.name,
+                    pokemonName: data.chain.species.name,
                     pokemonEvolutionName: evolution.species.name
                 });
-            })
+           }
 
             if(data.chain.evolves_to[0].evolves_to.length <= 0) continue;
             
             const isEvolutionEvolutionStored = await this
                 .pokemonRepository
-                .getPokemonByName(data.chain.evolves_to[0].species.name);
+                .getPokemonByName(data.chain.evolves_to[0].evolves_to[0].species.name);
+                
 
                 if(!isEvolutionEvolutionStored) continue;
 
@@ -67,13 +69,12 @@ export class PokemonEvolutionService {
                     pokemonName: data.chain.evolves_to[0].species.name,
                     pokemonEvolutionName: data.chain.evolves_to[0].evolves_to[0].species.name
                 });
-
-            console.log(pokemonEvolutions);
         }
+
 
         await prismaClient.pokemonEvolution.createMany({data: pokemonEvolutions});
         
-        return 'Evoluções registradas com sucesso!';
+        return pokemonEvolutions;
     }
 
     private async _getAllEvolutionChains(id: number) {
