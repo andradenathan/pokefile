@@ -25,11 +25,6 @@ interface IPokemonEvolutionChainResponseData extends AxiosResponse {
     }
 }
 
-interface IPokemonEvolutionsData {
-    pokemonName: string;
-    pokemonEvolutionName: string;
-}
-
 @injectable()
 export class PokemonEvolutionService {
     constructor(private readonly pokemonRepository: PokemonRepository) { }
