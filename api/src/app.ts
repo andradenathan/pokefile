@@ -18,12 +18,11 @@ container.bind(PokemonService).toSelf();
 container.bind(PokemonRepository).toSelf();
 container.bind(PokemonEvolutionService).toSelf();
 
-
-const server = new InversifyExpressServer(container).setConfig((app) => {
+const server = new InversifyExpressServer(container).setConfig((app: express.Application) => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.listen(process.env.APP_PORT);
-    
+
 });
 
 const app = server.build();

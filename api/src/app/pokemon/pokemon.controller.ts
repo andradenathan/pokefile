@@ -45,8 +45,8 @@ export default class PokemonController {
     @httpGet('/populate/evolutions')
     async populateEvolutions(request: Request, response: Response) {
         try {
-            const pokemons = await this.pokemonEvoService.execute();
-            return response.status(200).json({ success: { pokemons: pokemons } });
+            const evolutions = await this.pokemonEvoService.execute();
+            return response.status(200).json({ success: { pokemon_evolutions: evolutions } });
         } catch (err: any) {
             return response.status(422).json({ error: { message: err.message } });
         }

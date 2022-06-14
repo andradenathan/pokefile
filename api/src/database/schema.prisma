@@ -33,20 +33,20 @@ model Pokemon {
     
     image   Image[]
     type    Type[]
-    bag Bag?
-    region  PokemonRegion?
+    bag Bag[]
+    region  PokemonRegion[]
     pokemon    PokemonEvolution[] @relation("Pokemons")
     evolution   PokemonEvolution[] @relation("Evolutions")
 }
 
 model PokemonEvolution {
+    id Int @id @default(autoincrement())
+    
     pokemon Pokemon @relation("Pokemons", references: [name], fields: [pokemonName])
     evolution Pokemon @relation("Evolutions", references: [name], fields: [pokemonEvolutionName])    
 
     pokemonName String
     pokemonEvolutionName    String
-
-    @@id([pokemonName, pokemonEvolutionName])
 }
 
 model PokemonRegion {

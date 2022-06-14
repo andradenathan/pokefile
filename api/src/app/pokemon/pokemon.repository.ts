@@ -13,6 +13,7 @@ export class PokemonRepository {
             include: {
                 image: true,
                 type: true,
+                evolution: true,
             }
         });
     }
@@ -35,6 +36,6 @@ export class PokemonRepository {
     }
 
     async getPokemonByName(name: string): Promise<Pokemon | null> {
-        return await prismaClient.pokemon.findUnique({where: {name: name}});
+        return await prismaClient.pokemon.findFirst({where: {name: name}});
     }
 }

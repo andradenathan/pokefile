@@ -32,10 +32,11 @@ CREATE TABLE `Pokemon` (
 
 -- CreateTable
 CREATE TABLE `PokemonEvolution` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `pokemonName` VARCHAR(191) NOT NULL,
     `pokemonEvolutionName` VARCHAR(191) NOT NULL,
 
-    PRIMARY KEY (`pokemonName`, `pokemonEvolutionName`)
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -45,7 +46,6 @@ CREATE TABLE `PokemonRegion` (
     `regionId` INTEGER NOT NULL,
     `pokemonName` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `PokemonRegion_pokemonName_key`(`pokemonName`),
     UNIQUE INDEX `PokemonRegion_regionId_key`(`regionId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
