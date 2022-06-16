@@ -36,44 +36,44 @@ export class PokemonEvolutionService {
                 = await this._getAllEvolutionChains(idx);
 
             const isStoredPokemon = await this.pokemonRepository.getPokemonByName(data.chain.species.name);
-            
-            if(!isStoredPokemon) continue;
-            
-            if(data.chain.evolves_to.length <= 0) continue;
 
-           for(let evo = 0; evo < data.chain.evolves_to.length; evo++) {
+            if (!isStoredPokemon) continue;
+
+            if (data.chain.evolves_to.length <= 0) continue;
+
+            for (let evo = 0; evo < data.chain.evolves_to.length; evo++) {
                 const evolution = data.chain.evolves_to[evo];
 
                 const isEvolutionStored = await this
                     .pokemonRepository
                     .getPokemonByName(evolution.species.name);
-                    
-                if(!isEvolutionStored) continue;
+
+                if (!isEvolutionStored) continue;
 
                 pokemonEvolutions.push({
                     pokemonName: data.chain.species.name,
                     pokemonEvolutionName: evolution.species.name
                 });
-           }
+            }
 
-            if(data.chain.evolves_to[0].evolves_to.length <= 0) continue;
-            
+            if (data.chain.evolves_to[0].evolves_to.length <= 0) continue;
+
             const isEvolutionEvolutionStored = await this
                 .pokemonRepository
                 .getPokemonByName(data.chain.evolves_to[0].evolves_to[0].species.name);
-                
 
-                if(!isEvolutionEvolutionStored) continue;
 
-                pokemonEvolutions.push({
-                    pokemonName: data.chain.evolves_to[0].species.name,
-                    pokemonEvolutionName: data.chain.evolves_to[0].evolves_to[0].species.name
-                });
+            if (!isEvolutionEvolutionStored) continue;
+
+            pokemonEvolutions.push({
+                pokemonName: data.chain.evolves_to[0].species.name,
+                pokemonEvolutionName: data.chain.evolves_to[0].evolves_to[0].species.name
+            });
         }
 
 
-        await prismaClient.pokemonEvolution.createMany({data: pokemonEvolutions});
-        
+        await prismaClient.pokemonEvolution.createMany({ data: pokemonEvolutions });
+
         return pokemonEvolutions;
     }
 
