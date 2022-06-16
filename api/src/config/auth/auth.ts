@@ -9,7 +9,7 @@ interface IGenerateHash {
     hash: string;
 }
 
-interface IUserPayload {
+export interface IUserPayload {
     code: number;
     name: string;
     email: string;
