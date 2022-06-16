@@ -5,7 +5,7 @@ import {
     Strategy, 
     StrategyOptions 
 } from "passport-jwt";
-import { Authenticator } from "passport";
+import { PassportStatic } from "passport";
 import { ExtractJwt } from "passport-jwt";
 import { IUserPayload } from "../auth";
 
@@ -18,7 +18,7 @@ const options: StrategyOptions = {
     algorithms: ['RS256']
 }
 
-export const validatePassport = (passport: Authenticator): void => {
+export const validatePassport = (passport: PassportStatic): void => {
     const strategy = new Strategy(options, async (payload: IUserPayload, done) => {
         try {
             let user = await (new UserRepository).find(payload.code);
