@@ -32,7 +32,7 @@ export default class UserController {
     async all(request: Request, response: Response): Promise<IUserResponse> {
         try {
             const users = this.userRepository.all();
-            return response.status(200).json({success: {users: users}});
+            return response.status(200).json({success: {user: users}});
         } catch(err: any) {
             return response.status(422).json({error: {message: err.message}});
         }
