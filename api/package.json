@@ -4,6 +4,7 @@
   "description": "Compartilhe seu time com seus amigos",
   "main": "index.js",
   "scripts": {
+    "keys": "npx ts-node ./src/config/auth/generate-key.ts",
     "dev": "nodemon --watch 'src/' --exec 'ts-node src/app.ts' -e ts",
     "migrate": "npx prisma migrate dev --schema=./src/database/schema.prisma",
     "migrate --generate": "npx prisma migrate generate --schema=./src/database/schema.prisma",
@@ -22,6 +23,7 @@
     "inversify-express-utils": "^6.4.3",
     "jsonwebtoken": "^8.5.1",
     "latest": "^0.2.0",
+    "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.8",
@@ -34,6 +36,6 @@
     "dotenv": "^16.0.1",
     "nodemon": "^2.0.16",
     "prisma": "^3.14.0",
-    "ts-node": "^10.8.0"
+    "ts-node": "^10.8.1"
   }
 }

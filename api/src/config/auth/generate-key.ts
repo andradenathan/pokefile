@@ -15,6 +15,6 @@ import fs from "fs";
         }
     });
 
-    fs.writeFileSync(__dirname + '/../../id_rsa_pub.pem', keyPair.publicKey);
+    fs.writeFileSync(__dirname + '/../../../id_rsa_pub.pem', keyPair.publicKey);
     fs.writeFileSync(__dirname + '/../../../id_rsa_priv.pem', keyPair.privateKey);
 })();
