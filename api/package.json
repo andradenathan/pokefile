@@ -4,8 +4,8 @@
   "description": "Compartilhe seu time com seus amigos",
   "main": "index.js",
   "scripts": {
-    "keys": "npx ts-node ./src/config/auth/generate-key.ts",
     "dev": "nodemon --watch 'src/' --exec 'ts-node src/app.ts' -e ts",
+    "keys": "nodemon --exec 'ts-node ./src/config/auth/generate-key.ts'",
     "migrate": "npx prisma migrate dev --schema=./src/database/schema.prisma",
     "migrate --generate": "npx prisma migrate generate --schema=./src/database/schema.prisma",
     "migrate --reset": "npx prisma migrate reset --schema=./src/database/schema.prisma",

@@ -4,7 +4,10 @@ import {
     httpPost 
 } from "inversify-express-utils";
 import { UserRepository } from "../user.repository";
-import { Request, Response } from "express";
+import { 
+    Request, 
+    Response 
+} from "express";
 import { 
     checkPassword, 
     generateToken, 
@@ -13,6 +16,7 @@ import {
     IUserPayload 
 } from "../../../config/auth/auth";
 import { User } from "@prisma/client";
+import passport from "passport";
 
 interface ILoginData {
     email: string;
@@ -30,7 +34,7 @@ interface IAuthResponse extends Response {
 @controller('/auth')
 export default class AuthController {
     constructor(private readonly userRepository: UserRepository) { }
-
+    
     @httpPost('/login')
     async login(request: Request, response: Response): Promise<IAuthResponse> {
         const data = request.body as ILoginData;
@@ -54,7 +58,7 @@ export default class AuthController {
         }
     }
 
-    @httpGet('/me')
+    @httpGet('/', passport.authenticate('jwt', { session: false }))
     async me(request: Request, response: Response): Promise<IAuthResponse> {
         const token = getToken(request);
         const user = getAuthenticatedUser(token);

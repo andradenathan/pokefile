@@ -9,7 +9,7 @@ import { PassportStatic } from "passport";
 import { ExtractJwt } from "passport-jwt";
 import { IUserPayload } from "../auth";
 
-const pathToKey = path.join(__dirname, '../../../../../id_rsa_priv.pem');
+const pathToKey = path.join(__dirname, '../../../../id_rsa_priv.pem');
 const PUB_KEY = fs.readFileSync(pathToKey, 'utf-8');
 
 const options: StrategyOptions = {

@@ -14,6 +14,7 @@ import { PokemonEvolutionService } from "./app/pokemon/pokemon-evolution/pokemon
 import { validatePassport } from "./config/auth/middleware/passport";
 
 const container = new Container();
+
 container.bind(UserRepository).toSelf();
 
 container.bind(PokemonService).toSelf();
@@ -25,7 +26,6 @@ const server = new InversifyExpressServer(container).setConfig((app: express.App
     app.use(passport.initialize())
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.use
     app.listen(process.env.APP_PORT);
 
 });
