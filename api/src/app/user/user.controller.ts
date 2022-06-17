@@ -10,6 +10,7 @@ import {
     httpPost, 
     httpPut 
 } from "inversify-express-utils";
+import { generateHash } from "../../config/auth/auth";
 
 import { UserRepository } from "./user.repository";
 
@@ -53,6 +54,13 @@ export default class UserController {
     async store(request: Request, response: Response): Promise<IUserResponse> {
         try {
             const data = request.body;
+            const passwordHash = generateHash(data.password);
+
+            data.salt = passwordHash.salt;
+            data.hash = passwordHash.hash;
+
+            delete data.password;
+            
             const user = await this.userRepository.create(data);
             return response.status(201).json({success: {user: user}});
         } catch(err: any) {

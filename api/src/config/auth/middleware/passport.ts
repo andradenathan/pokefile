@@ -18,17 +18,16 @@ const options: StrategyOptions = {
     algorithms: ['RS256']
 }
 
-export const validatePassport = (passport: PassportStatic): void => {
-    const strategy = new Strategy(options, async (payload: IUserPayload, done) => {
+export default (passport: PassportStatic): void => {
+    passport.use(new Strategy(options, async (payload: IUserPayload, done) => {
         try {
-            let user = await (new UserRepository).find(payload.code);
+            console.log(payload);
+            let user = await (new UserRepository()).findByEmail(payload.email);
             if (!user) return done(null, false);
 
             return done(null, user);
         } catch (err: any) {
-            return err;
+            return done(err, null);
         }
-    });
-
-    passport.use(strategy);
+    }));
 }

@@ -35,6 +35,17 @@ interface IAuthResponse extends Response {
 export default class AuthController {
     constructor(private readonly userRepository: UserRepository) { }
     
+    @httpGet('/me', passport.authenticate('jwt', { session: false }))
+    me(request: Request, response: Response): IAuthResponse {
+        try {
+            const token = getToken(request);
+            const user = getAuthenticatedUser(token);
+            return response.status(200).json({ success: { auth: user } });
+        } catch(err: any) {
+            return response.status(422).json({error: err.message});
+        }
+    }
+
     @httpPost('/login')
     async login(request: Request, response: Response): Promise<IAuthResponse> {
         const data = request.body as ILoginData;
@@ -56,12 +67,5 @@ export default class AuthController {
         } catch (err: any) {
             return response.status(500).json({ error: { message: err.message } });
         }
-    }
-
-    @httpGet('/', passport.authenticate('jwt', { session: false }))
-    async me(request: Request, response: Response): Promise<IAuthResponse> {
-        const token = getToken(request);
-        const user = getAuthenticatedUser(token);
-        return response.status(200).json({ success: { auth: user } });
     }
 } 

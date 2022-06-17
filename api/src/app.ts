@@ -11,24 +11,26 @@ import "./app/pokemon/pokemon.controller";
 import PokemonService from "./app/pokemon/pokemon.service";
 import { PokemonRepository } from "./app/pokemon/pokemon.repository";
 import { PokemonEvolutionService } from "./app/pokemon/pokemon-evolution/pokemon-evolution.service";
-import { validatePassport } from "./config/auth/middleware/passport";
+import validatePassport from "./config/auth/middleware/passport";
+import AuthController from "./app/user/auth/auth.controller";
+
+validatePassport(passport);
 
 const container = new Container();
 
 container.bind(UserRepository).toSelf();
+container.bind(AuthController).toSelf();
 
 container.bind(PokemonService).toSelf();
 container.bind(PokemonRepository).toSelf();
 container.bind(PokemonEvolutionService).toSelf();
 
 const server = new InversifyExpressServer(container).setConfig((app: express.Application) => {
-    validatePassport(passport);
+    
     app.use(passport.initialize())
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.listen(process.env.APP_PORT);
-
 });
 
-const app = server.build();
-
+server.build();
