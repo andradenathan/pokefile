@@ -10,13 +10,14 @@ import {
     httpPost, 
     httpPut 
 } from "inversify-express-utils";
-import { generateHash } from "../../config/auth/auth";
+import { generateHash, generateToken } from "../../config/auth/auth";
 
 import { UserRepository } from "./user.repository";
 
 interface IUserResponse extends Response {
     success?: {
         user: User | User[] | string;
+        token?: string;
     }
 
     error?: {
@@ -32,7 +33,7 @@ export default class UserController {
     @httpGet('/')
     async all(request: Request, response: Response): Promise<IUserResponse> {
         try {
-            const users = this.userRepository.all();
+            const users = await this.userRepository.all();
             return response.status(200).json({success: {user: users}});
         } catch(err: any) {
             return response.status(422).json({error: {message: err.message}});
@@ -62,7 +63,8 @@ export default class UserController {
             delete data.password;
             
             const user = await this.userRepository.create(data);
-            return response.status(201).json({success: {user: user}});
+            const token = generateToken(user);
+            return response.status(201).json({success: {user: user, token: token}});
         } catch(err: any) {
             return response.status(422).json({error: {message: err.message}});
         }
