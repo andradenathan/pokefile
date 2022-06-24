@@ -1,0 +1,105 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+    code  Int  @id  @unique
+    email   String  @unique
+    name    String  @db.VarChar(255)
+    birthday    DateTime
+    hash    String
+    salt    String
+    bio String  @db.VarChar(200)
+
+    bag Bag?
+}
+
+model Pokemon {
+    id  Int @id @default(autoincrement())
+    name    String @unique
+    weight  Int @default(0)
+    height  Int @default(0)
+    baseAttack Int  @default(0)
+    baseDefense Int @default(0)
+    baseSpecialAttack Int   @default(0)
+    baseSpecialDefense  Int @default(0)
+    baseSpeed   Int @default(0)
+    baseHp  Int @default(0)
+    
+    image   Image[]
+    type    Type[]
+    bag Bag[]
+    region  PokemonRegion[]
+    pokemon    PokemonEvolution[] @relation("Pokemons")
+    evolution   PokemonEvolution[] @relation("Evolutions")
+}
+
+model PokemonEvolution {
+    id Int @id @default(autoincrement())
+    
+    pokemon Pokemon @relation("Pokemons", references: [name], fields: [pokemonName])
+    evolution Pokemon @relation("Evolutions", references: [name], fields: [pokemonEvolutionName])    
+
+    pokemonName String
+    pokemonEvolutionName    String
+}
+
+model PokemonRegion {
+    id  Int @id @default(autoincrement())
+    chance  String
+    
+    region  Region  @relation(references: [id], fields: [regionId])
+    pokemon Pokemon @relation(references: [name], fields: [pokemonName])
+    
+    regionId    Int
+    pokemonName String
+}
+
+model Image {
+    id  Int @id @default(autoincrement())
+    path    String  @unique
+
+    pokemon Pokemon @relation(references: [id], fields: [pokemonId])
+    pokemonId   Int
+}
+
+model Type {
+    id  Int @id @default(autoincrement())
+    name    String
+
+    pokemon Pokemon @relation(references: [name], fields: [pokemonName])
+    pokemonName String
+}
+
+model Region {
+    id  Int @id @default(autoincrement())
+    name    String
+    local   String
+
+    pokemon PokemonRegion?  
+}
+
+model Bag {
+    id  Int @id @default(autoincrement())
+    attack  Int
+    defense Int
+    specialAttack   Int
+    specialDefense  Int
+    hp  Int
+    speed   Int
+    level   Int
+    pokemonGender   String  @db.Char(1) @default("M")
+    isShiny Boolean @default(false)
+
+    pokemon Pokemon @relation(references: [id], fields: [id])
+    user    User    @relation(references: [code], fields: [userCode])
+    
+    userCode    Int
+    pokemonId   Int 
+}
+
