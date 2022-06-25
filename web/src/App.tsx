@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Router from './routes';
 import AuthProvider from './contexts/Auth';
 import WebFont from 'webfontloader';
 
 function App() {
-  
   useEffect(() => {
     WebFont.load({
       google: {

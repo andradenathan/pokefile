@@ -1,8 +1,12 @@
-import React from 'react';
 import { FaCopy } from 'react-icons/fa';
 import './styles.scss';
 
-function TrainerCard() {
+interface ITrainersCardProps {
+  name: string;
+  code: number;
+}
+
+function TrainerCard({name, code}: ITrainersCardProps) {
   return (
     <>
       <div className="trainer-container">
@@ -10,8 +14,8 @@ function TrainerCard() {
           <img/>
         </div>
         <div className="trainer-container__info">
-          <div className="trainer-container__info--name">Milton</div>
-          <div className="trainer-container__info--tid"><b>#</b>153456</div>
+          <div className="trainer-container__info--name">{name}</div>
+          <div className="trainer-container__info--tid"><b>#</b>{code}</div>
         </div>
         <div className="trainer-container__copy">
           <FaCopy/>

@@ -1,11 +1,33 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Menu from '../../components/Menu';
 import { FaSearch } from 'react-icons/fa';
 import TrainerCard from '../../components/TrainerCard';
 import './styles.scss';
 import '../styles.scss';
+import { getTrainers, IUserData } from '../../services/trainer.service';
 
 function Trainers() {
+  const [trainers, setTrainers] = useState<IUserData[]>([]);
+
+  useEffect(() => {
+    async function getAllTrainers(): Promise<void> {
+      try {
+        const { data } = await getTrainers();
+
+        if (data.success) {
+          setTrainers(data.success.user);
+          return;
+        }
+
+        return;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    getAllTrainers();
+  }, []);
+
   return (
     <>
       <Menu/>
@@ -27,18 +49,12 @@ function Trainers() {
           </div>
         </div>
         <div className="container__trainers">
-          <TrainerCard/>
-          <TrainerCard/>
-          <TrainerCard/>
-          <TrainerCard/>
-          <TrainerCard/>
-          <TrainerCard/>
-          <TrainerCard/>
-          <TrainerCard/>
-          <TrainerCard/>
-          <TrainerCard/>
-          <TrainerCard/>
-          <TrainerCard/>
+          {trainers.map((trainer, key) => {
+            return (
+                <TrainerCard name={trainer.name} code={trainer.code} key={key}/>
+              )
+            }
+          )}
         </div>
       </div>
     </>
