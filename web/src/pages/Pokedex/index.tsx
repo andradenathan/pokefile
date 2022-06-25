@@ -70,7 +70,7 @@ function Pokedex() {
           <div className="container__filter-box"></div>
         </div>
         <div className="container__pokedex">
-          {allPokemons.map((pokemon, key) => {
+          {allPokemons.length > 0 && allPokemons.map((pokemon, key) => {
             return (
               <Card
                 key={key}
