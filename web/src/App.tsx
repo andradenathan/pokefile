@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Router from './routes';
+import AuthProvider from './contexts/Auth';
 import WebFont from 'webfontloader';
 
 function App() {
@@ -14,7 +15,9 @@ function App() {
 
   return (
     <div className="App">
+      <AuthProvider>
         <Router/>
+      </AuthProvider>
     </div>
   );
 }

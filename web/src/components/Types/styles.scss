@@ -1,0 +1,21 @@
+.type-container {
+  height: 15px;
+  border: 1px solid #151515;
+  border-radius: 50px;
+
+  margin: 5px 5px 5px 0px;
+  padding: 0px 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__name {
+    font-family: 'Montserrat';
+    text-transform: uppercase;
+    font-size: 50%;
+    letter-spacing: 1px;
+    color: white;
+    text-shadow: -1px 0 #151515, 0 1px #151515, 1px 0 #151515, 0 -1px #151515;
+  }
+}
