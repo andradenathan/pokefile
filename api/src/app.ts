@@ -1,6 +1,7 @@
 import express from "express";
 import 'reflect-metadata';
 import 'dotenv/config';
+import cors from 'cors';
 import passport from "passport";
 
 import { Container } from 'inversify';
@@ -14,8 +15,6 @@ import { PokemonEvolutionService } from "./app/pokemon/pokemon-evolution/pokemon
 import validatePassport from "./config/auth/middleware/passport";
 import AuthController from "./app/user/auth/auth.controller";
 
-validatePassport(passport);
-
 const container = new Container();
 
 container.bind(UserRepository).toSelf();
@@ -26,7 +25,8 @@ container.bind(PokemonRepository).toSelf();
 container.bind(PokemonEvolutionService).toSelf();
 
 const server = new InversifyExpressServer(container).setConfig((app: express.Application) => {
-    
+    app.use(cors());
+    validatePassport(passport);
     app.use(passport.initialize())
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
