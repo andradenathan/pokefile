@@ -12,6 +12,10 @@ export class UserRepository {
         return await prismaClient.user.findUnique({where: {code: code}});
     }
     
+    async findByEmail(email: string): Promise<User | null> {
+        return await prismaClient.user.findUnique({where: {email: email}});
+    }
+
     async create(data: Prisma.UserCreateInput): Promise<User> {
         let code = this.generateCode(1, 99999);
         if(await this.find(code)) {

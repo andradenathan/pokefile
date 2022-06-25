@@ -1,21 +1,25 @@
 import { User } from "@prisma/client";
-import { 
-    Request, 
-    Response 
+import {
+    Request,
+    Response
 } from "express";
-import { 
-    controller, 
-    httpDelete, 
-    httpGet, 
-    httpPost, 
-    httpPut 
+import {
+    controller,
+    httpDelete,
+    httpGet,
+    httpPost,
+    httpPut
 } from "inversify-express-utils";
-
+import {
+    generateHash,
+    generateToken
+} from "../../config/auth/auth";
 import { UserRepository } from "./user.repository";
 
 interface IUserResponse extends Response {
     success?: {
         user: User | User[] | string;
+        token?: string;
     }
 
     error?: {
@@ -26,15 +30,15 @@ interface IUserResponse extends Response {
 @controller('/users')
 export default class UserController {
 
-    constructor(private readonly userRepository: UserRepository) {}
-    
+    constructor(private readonly userRepository: UserRepository) { }
+
     @httpGet('/')
     async all(request: Request, response: Response): Promise<IUserResponse> {
         try {
-            const users = this.userRepository.all();
-            return response.status(200).json({success: {users: users}});
-        } catch(err: any) {
-            return response.status(422).json({error: {message: err.message}});
+            const users = await this.userRepository.all();
+            return response.status(200).json({ success: { user: users } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
         }
     }
 
@@ -43,9 +47,9 @@ export default class UserController {
         try {
             const id = parseInt(request.params.id);
             const user = await this.userRepository.find(id);
-            return response.status(201).json({success: {user: user}});
-        } catch(err: any) {
-            return response.status(422).json({error: {message: err.message}});
+            return response.status(201).json({ success: { user: user } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
         }
     }
 
@@ -53,10 +57,18 @@ export default class UserController {
     async store(request: Request, response: Response): Promise<IUserResponse> {
         try {
             const data = request.body;
+            const passwordHash = generateHash(data.password);
+
+            data.salt = passwordHash.salt;
+            data.hash = passwordHash.hash;
+
+            delete data.password;
+
             const user = await this.userRepository.create(data);
-            return response.status(201).json({success: {user: user}});
-        } catch(err: any) {
-            return response.status(422).json({error: {message: err.message}});
+            const token = generateToken(user);
+            return response.status(201).json({ success: { user: user, token: token } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
         }
     }
 
@@ -65,9 +77,9 @@ export default class UserController {
         try {
             const code = parseInt(request.params.id);
             await this.userRepository.delete(code);
-            return response.status(200).json({success: "user successfully deleted"});
-        } catch(err: any) {
-            return response.status(422).json({error: {message: err.message}});
+            return response.status(200).json({ success: "user successfully deleted" });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
         }
     }
 
@@ -77,9 +89,9 @@ export default class UserController {
             const code = parseInt(request.params.id);
             const data = request.body;
             const user = await this.userRepository.update(code, data);
-            return response.status(200).json({success: {user: user}});
-        } catch(err: any) {
-            return response.status(422).json({error: {message: err.message}});
+            return response.status(200).json({ success: { user: user } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
         }
     }
 }
