@@ -1,25 +1,35 @@
-import React from 'react';
-import Types from '../Types';
 import './styles.scss';
 import './../../pages/styles.scss';
+import { PokemonTypes } from '../../services/pokedex.service';
+import Types from '../Types';
 
-function Card() {
+interface CardProps {
+  id: number;
+  name: string;
+  types: PokemonTypes[];
+  image: string;
+}
+
+function Card({ name, id, types, image }: CardProps) {
   return (
     <>
       <div className="card-container">
         <div className="card-container__add">+</div>
         <div className="card-container__img">
-          <img 
-            src={require('../../assets/pikachu.png')}
+          <img
+            src={image}
             className="card-container__image"
             alt="pokemon"
           />
         </div>
-        <div className="card-container__number">N°001</div>
-        <div className="card-container__name">Bulbasaur</div>
+        <div className="card-container__number">Nº {id}</div>
+        <div className="card-container__name">{name}</div>
         <div className="type-wrapper">
-          <Types type={'grass'}/>
-          <Types type={'poison'}/>
+          {types.map((type) => {
+            return (
+              <Types type={type.name} />
+            )
+          })}
         </div>
       </div>
     </>

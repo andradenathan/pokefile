@@ -1,5 +1,8 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { createContext, useEffect, useState } from "react";
+import React, { 
+    createContext, 
+    useEffect, 
+    useState 
+} from "react";
 
 interface IAuthProps {
     children: React.ReactNode;
@@ -20,7 +23,7 @@ const AuthProvider = (props: IAuthProps) => {
     const userToken = async() => {
         let token = '';
         try {
-            const value = await AsyncStorage.getItem('token');
+            const value = await localStorage.getItem('token');
             if(value !== null) token = 'Bearer ' + value;
         } catch(err: any) {
             return err.message;
