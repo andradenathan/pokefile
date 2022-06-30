@@ -1,20 +1,39 @@
-import './styles.scss';
-import './../../pages/styles.scss';
+import { useEffect, useState } from 'react';
 import { PokemonTypes } from '../../services/pokedex.service';
 import Types from '../Types';
+import IdAdjust from '../../utils/IdAdjust';
+import './styles.scss';
+import './../../pages/styles.scss';
 
 interface CardProps {
   id: number;
   name: string;
   types: PokemonTypes[];
   image: string;
+  setId: React.Dispatch<React.SetStateAction<number>>;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Card({ name, id, types, image }: CardProps) {
+function Card({ name, id, types, image, setId, setIsOpen }: CardProps) {
+  const [ newId, setNewId ] = useState('');
+
+  function handleSetId() {
+    setId(id);
+    setIsOpen(true);
+  }
+
+  useEffect(() => {
+    IdAdjust({ id: id, setNewId: setNewId });
+  }, [])
+
   return (
     <>
-      <div className="card-container">
-        <div className="card-container__add">+</div>
+      <div className="card-container" onClick={() => { handleSetId() }}>
+        <div className="card-container__add"
+             onClick={(e) => {
+              e.stopPropagation(); 
+              console.log("+")
+        }}>+</div>
         <div className="card-container__img">
           <img
             src={image}
@@ -22,7 +41,7 @@ function Card({ name, id, types, image }: CardProps) {
             alt="pokemon"
           />
         </div>
-        <div className="card-container__number">Nº {id}</div>
+        <div className="card-container__number">#{newId}</div>
         <div className="card-container__name">{name}</div>
         <div className="type-wrapper">
           {types.map((type) => {

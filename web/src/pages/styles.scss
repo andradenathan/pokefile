@@ -6,6 +6,8 @@ body {
   justify-content: center;
   align-items: center;
 
+  overflow: hidden;
+
   // &::-webkit-scrollbar {
   //   width: 10px;
   // }
@@ -35,7 +37,6 @@ body {
   .container-wrapper {
     background-color: #f4f4f4;
     width: 920px;
-    position: fixed;
     z-index: 1;
   }
 
