@@ -21,7 +21,7 @@ function Menu() {
             <Link to="/bag">my bag</Link>
           </li>
           <li className="menu__container__buttons__profile">
-            <Link to="/login">
+            <Link to="/profile">
               <FaUser/>
             </Link>
           </li>

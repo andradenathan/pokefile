@@ -43,30 +43,6 @@ function Bag() {
           <BagCard/>
           <BagCard/>
           <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
         </div>
       </div>
     </>

@@ -1,0 +1,138 @@
+.profile-container {
+  box-sizing: border-box;
+  width: 920px;
+  height: 70vh;
+  min-height: 650px;
+  border-radius: 10px;
+  border: 1px solid #151515;
+  background-color: white;
+  padding: 40px;
+
+  &__user {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    &__img {
+      width: 150px;
+      height: 150px;
+      border: 1px solid #151515;
+      border-radius: 10px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__infos {
+      width: calc(100% - 190px);
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+
+      &__username {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        font-family: 'Montserrat';
+        font-size: 32px;
+
+        &__usercode {
+          display: flex;
+
+          &--code {
+            margin-right: 25px;
+          }
+
+          &--icon {
+            border: 1px solid #151515;
+            border-radius: 50px;
+            padding: 0px 10px;
+            cursor: pointer;
+            transition: 0.5s;
+
+            & > svg {
+              font-size: 20px;
+            }
+
+            &:hover {
+              background-color: #151515;
+              color: white;
+            }
+          }
+        }
+      }
+
+      &__userdesc {
+        font-size: 20px;
+        font-family: 'Montserrat';
+      }
+    }
+  }
+
+  & > .divider {
+    width: 100%;
+    height: 1px;
+    background-color: #151515;
+    margin: 40px 0px;
+  }
+
+  &__pokemons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 60%;
+
+    
+    &__item {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+
+      &:first-child {
+        width: 30%;
+      }
+
+      &:last-child {
+        width: calc(100% - 30% - 40px);
+      }
+
+      &--label {
+        text-transform: uppercase;
+        font-family: 'Montserrat';
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      &--img {
+        height: 100%;
+        border-radius: 10px;
+        border: 1px solid #151515;
+        background-color: aquamarine;
+      }
+
+      &__team {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+        height: 100%;
+
+        &--pokemon {
+          width: 30%;
+          height: calc(50% - 10px);
+          background-color: aqua;
+          margin-right: 20px;
+          border: 1px solid #151515;
+          border-radius: 10px;
+
+          &:nth-child(3n) {
+            margin-right: 0px;
+          }
+        }
+      }
+    }
+  }
+}
