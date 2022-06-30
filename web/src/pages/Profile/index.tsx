@@ -12,7 +12,7 @@ function Profile() {
         <div className="profile-container__user">
           <div className="profile-container__user__img">
             <img             
-              src={require('../../assets/cap.png')}
+              src={require('../../assets/user-icons/012.jpg')}
               className="profile-container__image"
               alt="cap"
             />
