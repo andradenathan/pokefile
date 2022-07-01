@@ -3,18 +3,11 @@ import jsonwebtoken from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
 import {Request} from "express";
+import { User } from "@prisma/client";
 
 interface IGenerateHash {
     salt: string;
     hash: string;
-}
-
-export interface IUserPayload {
-    code: number;
-    name: string;
-    email: string;
-    bio: string;
-    avatar: string;
 }
 
 const pathToKey = path.join(__dirname, '../../..', 'id_rsa_priv.pem');
@@ -49,7 +42,7 @@ const checkPassword = (
 }
 
 
-const generateToken = (user: IUserPayload): string => {
+const generateToken = (user: User): string => {
     const payload = {
         sub: user.code,
         name: user.name,
@@ -71,7 +64,7 @@ const getToken = (request: Request): string => {
     return header.split(' ')[1];
 }
 
-const getAuthenticatedUser = (token: string): IUserPayload => {
+const getAuthenticatedUser = (token: string): User => {
     const payload = token.split('.')[1];
     const encodedPayload = Buffer.from(payload, 'base64');
     const decodedPayload = encodedPayload.toString('utf-8');
