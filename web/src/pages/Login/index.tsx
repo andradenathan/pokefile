@@ -4,17 +4,21 @@ import './styles.scss';
 import '../styles.scss';
 import { useForm } from 'react-hook-form';
 import { ILoginFormData, login } from '../../services/auth.service';
-
+import { useAuth } from '../../hooks/useAuth';
 
 function Login() {
   const {register, handleSubmit} = useForm<ILoginFormData>();
   const navigate = useNavigate();
-  
+  const {setToken} = useAuth();
+
   const submit = async(loginData: ILoginFormData) => {
     try {
       const { data } = await login(loginData);
-      if(!data.success) return;
+      if(!data.success || !data.success.token) return;
 
+      localStorage.setItem('token', data.success.token);
+      setToken(data.success.token);
+      
       alert('Login realizado com sucesso');
       navigate('/pokedex');
     } catch(err: any) {
