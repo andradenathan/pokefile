@@ -6,7 +6,8 @@ CREATE TABLE `User` (
     `birthday` DATETIME(3) NOT NULL,
     `hash` VARCHAR(191) NOT NULL,
     `salt` VARCHAR(191) NOT NULL,
-    `bio` VARCHAR(200) NOT NULL,
+    `avatar` VARCHAR(191) NOT NULL,
+    `bio` VARCHAR(200) NULL,
 
     UNIQUE INDEX `User_code_key`(`code`),
     UNIQUE INDEX `User_email_key`(`email`),
@@ -46,7 +47,6 @@ CREATE TABLE `PokemonRegion` (
     `regionId` INTEGER NOT NULL,
     `pokemonName` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `PokemonRegion_regionId_key`(`regionId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

@@ -21,7 +21,6 @@ const options: StrategyOptions = {
 export default (passport: PassportStatic): void => {
     passport.use(new Strategy(options, async (payload: IUserPayload, done) => {
         try {
-            console.log(payload);
             let user = await (new UserRepository()).findByEmail(payload.email);
             if (!user) return done(null, false);
 

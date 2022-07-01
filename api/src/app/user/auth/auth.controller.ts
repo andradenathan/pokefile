@@ -25,7 +25,7 @@ interface ILoginData {
 
 interface IAuthResponse extends Response {
     success?: {
-        auth: IUserPayload | User;
+        authenticatedUser: IUserPayload | User;
         token?: string;
     }
     error?: string;
@@ -40,7 +40,7 @@ export default class AuthController {
         try {
             const token = getToken(request);
             const user = getAuthenticatedUser(token);
-            return response.status(200).json({ success: { auth: user } });
+            return response.status(200).json({ success: { authenticatedUser: user } });
         } catch(err: any) {
             return response.status(422).json({error: err.message});
         }

@@ -13,6 +13,8 @@ export interface IUserPayload {
     code: number;
     name: string;
     email: string;
+    bio: string;
+    avatar: string;
 }
 
 const pathToKey = path.join(__dirname, '../../..', 'id_rsa_priv.pem');
@@ -52,6 +54,8 @@ const generateToken = (user: IUserPayload): string => {
         sub: user.code,
         name: user.name,
         email: user.email,
+        bio: user.bio,
+        avatar: user.avatar,
     }
 
     return jsonwebtoken.sign(
@@ -67,7 +71,7 @@ const getToken = (request: Request): string => {
     return header.split(' ')[1];
 }
 
-const getAuthenticatedUser = (token: string) => {
+const getAuthenticatedUser = (token: string): IUserPayload => {
     const payload = token.split('.')[1];
     const encodedPayload = Buffer.from(payload, 'base64');
     const decodedPayload = encodedPayload.toString('utf-8');
