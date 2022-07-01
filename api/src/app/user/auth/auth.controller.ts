@@ -12,8 +12,7 @@ import {
     checkPassword, 
     generateToken, 
     getAuthenticatedUser, 
-    getToken, 
-    IUserPayload 
+    getToken 
 } from "../../../config/auth/auth";
 import { User } from "@prisma/client";
 import passport from "passport";
@@ -25,7 +24,7 @@ interface ILoginData {
 
 interface IAuthResponse extends Response {
     success?: {
-        authenticatedUser: IUserPayload | User;
+        authenticatedUser: User;
         token?: string;
     }
     error?: string;
