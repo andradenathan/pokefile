@@ -18,16 +18,28 @@ interface IPokemonEncounters extends AxiosResponse {
 export class PokemonRegionService {
     constructor(private readonly pokemonRepository: PokemonRepository) {}
 
-    async execute(): Promise<void> {
+    async execute() {
         const FIRST_GENERATION_LAST_POKEMON_ID = 100;
+        const regions = [];
         const pokemonRegions = [];
-        for (let idx = 1; idx < FIRST_GENERATION_LAST_POKEMON_ID; idx++) {
-            //WIP
+        for (let idx = 1; idx < 2; idx++) {
+            const { data }: IPokemonEncounters = await this._getPokemonEncounters(idx);
+            data.forEach((encounter) => {
+                if(encounter.location_area.name.includes("johto")) return;
+                if(encounter.location_area.name.includes("sinnoh")) return;
+                
+                regions.push({
+                    
+                });
+
+            });            
+
         }
 
+        return data;
     }
 
-    private _getPokemonEncounters(): Promise<IPokemonEncounters> {
-        return api.get("/api/v2/encounters");
+    private _getPokemonEncounters(id: number): Promise<IPokemonEncounters> {
+        return api.get(`/pokemon/${id}/encounters`);
     }    
 }

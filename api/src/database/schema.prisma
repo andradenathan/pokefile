@@ -56,7 +56,7 @@ model PokemonRegion {
     region  Region  @relation(references: [id], fields: [regionId])
     pokemon Pokemon @relation(references: [name], fields: [pokemonName])
     
-    regionId    Int
+    regionId    Int @unique
     pokemonName String
 }
 
@@ -99,7 +99,7 @@ model Bag {
     pokemon Pokemon @relation(references: [id], fields: [id])
     user    User    @relation(references: [code], fields: [userCode])
     
-    userCode    Int
+    userCode    Int @unique
     pokemonId   Int 
 }
 

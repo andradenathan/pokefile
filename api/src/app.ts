@@ -14,15 +14,19 @@ import { PokemonRepository } from "./app/pokemon/pokemon.repository";
 import { PokemonEvolutionService } from "./app/pokemon/pokemon-evolution/pokemon-evolution.service";
 import validatePassport from "./config/auth/middleware/passport";
 import AuthController from "./app/user/auth/auth.controller";
+import { PokemonRegionService } from "./app/pokemon/pokemon-region/pokemon-region.service";
 
 const container = new Container();
 
 container.bind(UserRepository).toSelf();
+container.bind(PokemonRepository).toSelf();
+
 container.bind(AuthController).toSelf();
 
 container.bind(PokemonService).toSelf();
-container.bind(PokemonRepository).toSelf();
+
 container.bind(PokemonEvolutionService).toSelf();
+container.bind(PokemonRegionService).toSelf();
 
 const server = new InversifyExpressServer(container).setConfig((app: express.Application) => {
     app.use(cors());
