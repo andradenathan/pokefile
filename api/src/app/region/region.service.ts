@@ -1,5 +1,4 @@
 import { Prisma } from '@prisma/client';
-import { Axios, AxiosResponse } from 'axios';
 import { injectable } from 'inversify';
 import prismaClient from '../../database/prisma';
 import api from '../../services/api';
@@ -15,6 +14,7 @@ interface IRegionResponseData {
     }
 }
 
+@injectable()
 export class RegionService {
     constructor() {}
 
@@ -30,7 +30,7 @@ export class RegionService {
             });
         });
 
-        prismaClient.region.createMany({data: regions});
+        await prismaClient.region.createMany({data: regions});
         
         return regions;
     }

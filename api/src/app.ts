@@ -15,16 +15,21 @@ import { PokemonEvolutionService } from "./app/pokemon/pokemon-evolution/pokemon
 import validatePassport from "./config/auth/middleware/passport";
 import AuthController from "./app/user/auth/auth.controller";
 import { PokemonRegionService } from "./app/pokemon/pokemon-region/pokemon-region.service";
+import { RegionRepository } from "./app/region/region.repository";
+import { RegionService } from "./app/region/region.service";
+import RegionController from "./app/region/region.controller";
 
 const container = new Container();
 
 container.bind(UserRepository).toSelf();
 container.bind(PokemonRepository).toSelf();
+container.bind(RegionRepository).toSelf();
 
 container.bind(AuthController).toSelf();
+container.bind(RegionController).toSelf();
 
+container.bind(RegionService).toSelf();
 container.bind(PokemonService).toSelf();
-
 container.bind(PokemonEvolutionService).toSelf();
 container.bind(PokemonRegionService).toSelf();
 

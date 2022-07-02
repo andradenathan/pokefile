@@ -8,6 +8,10 @@ export class RegionRepository {
         return await prismaClient.region.findMany();
     }
 
+    async findByLocal(local: string): Promise<Region | null> {
+        return await prismaClient.region.findFirst({where: {local: local}});
+    }
+
     async find(id: number): Promise<Region | null> {
         return await prismaClient.region.findUnique({where: {id: id}});
     }

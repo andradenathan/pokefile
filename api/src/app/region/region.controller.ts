@@ -1,25 +1,18 @@
-import { Region, User } from "@prisma/client";
+import { Region } from "@prisma/client";
 import {
     Request,
     Response
 } from "express";
 import {
     controller,
-    httpDelete,
     httpGet,
-    httpPost,
-    httpPut
 } from "inversify-express-utils";
-import {
-    generateHash,
-    generateToken
-} from "../../config/auth/auth";
 import { RegionRepository } from "./region.repository";
 import { RegionService } from "./region.service";
 
-interface IUserResponse extends Response {
+interface IRegionResponse extends Response {
     success?: {
-        user: User | User[] | string;
+        user: Region | Region[] | string;
         token?: string;
     }
 
@@ -29,15 +22,14 @@ interface IUserResponse extends Response {
 }
 
 @controller('/regions')
-export default class UserController {
-
+export default class RegionController {
     constructor(
         private readonly regionRepository: RegionRepository,
         private readonly regionService: RegionService
     ) { }
 
     @httpGet('/')
-    async all(request: Request, response: Response): Promise<IUserResponse> {
+    async all(request: Request, response: Response): Promise<IRegionResponse> {
         try {
             const regions = await this.regionRepository.all();
             return response.status(200).json({ success: { region: regions } });
@@ -47,7 +39,7 @@ export default class UserController {
     }
 
     @httpGet('/populate')
-    async populate(request: Request, response: Response): Promise<IUserResponse> {
+    async populate(request: Request, response: Response): Promise<IRegionResponse> {
         try {
             const regions = await this.regionService.execute();
             return response.status(200).json({ success: { region: regions } });
