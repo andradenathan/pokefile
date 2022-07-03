@@ -1,10 +1,10 @@
-import { AxiosResponse } from "axios";
+import { Prisma } from "@prisma/client";
 import { injectable } from "inversify";
 import prismaClient from "../../../database/prisma";
 import api from "../../../services/api";
 import { PokemonRepository } from "../pokemon.repository";
 
-interface IPokemonEvolutionChainResponseData extends AxiosResponse {
+interface IPokemonEvolutionChainResponseData {
     data: {
         chain: {
             evolves_to: Array<{
@@ -28,9 +28,9 @@ interface IPokemonEvolutionChainResponseData extends AxiosResponse {
 export class PokemonEvolutionService {
     constructor(private readonly pokemonRepository: PokemonRepository) { }
 
-    async execute(): Promise<Array<any>> {
+    async execute(): Promise<Prisma.PokemonEvolutionCreateManyInput[]> {
         const FIRST_GENERATION_LAST_POKEMON_ID = 100;
-        const pokemonEvolutions = [];
+        const pokemonEvolutions: Prisma.PokemonEvolutionCreateManyInput[] = [];
         for (let idx = 1; idx < FIRST_GENERATION_LAST_POKEMON_ID; idx++) {
             const { data }: IPokemonEvolutionChainResponseData
                 = await this._getAllEvolutionChains(idx);
@@ -77,7 +77,7 @@ export class PokemonEvolutionService {
         return pokemonEvolutions;
     }
 
-    private async _getAllEvolutionChains(id: number) {
+    private async _getAllEvolutionChains(id: number): Promise<IPokemonEvolutionChainResponseData> {
         return api.get(`/evolution-chain/${id}`);
     }
 }

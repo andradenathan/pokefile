@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Region } from "@prisma/client";
 import { injectable } from "inversify";
 import prismaClient from "../../../database/prisma";
 import api from "../../../services/api";
@@ -31,14 +31,21 @@ export class PokemonRegionService {
     private readonly regionRepository: RegionRepository
   ) {}
 
-  async execute() {
-    const FIRST_GENERATION_LAST_POKEMON_ID = 152;
-    const pokemonRegions: Prisma.PokemonRegionCreateManyInput[] = [];
+  async execute(): Promise<Prisma.PokemonRegionCreateManyInput[]> {
     const regions = await this.regionRepository.all();
+    const pokemonRegions = await this._handlePokemonEncounter(regions);
 
+    await prismaClient.pokemonRegion.createMany({ data: pokemonRegions });
+
+    return pokemonRegions;
+  }
+
+  private async _handlePokemonEncounter(
+    regions: Region[]
+  ): Promise<Prisma.PokemonRegionCreateManyInput[]> {
+    const pokemonRegions: Prisma.PokemonRegionCreateManyInput[] = [];
     for (let index = 0; index < regions.length; index++) {
       const data = await this._getLocationAreaByName(regions[index].local);
-
       if (!data) continue;
 
       for (
@@ -62,8 +69,6 @@ export class PokemonRegionService {
         });
       }
     }
-
-    await prismaClient.pokemonRegion.createMany({ data: pokemonRegions });
 
     return pokemonRegions;
   }

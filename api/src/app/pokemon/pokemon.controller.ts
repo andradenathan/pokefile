@@ -21,7 +21,7 @@ export default class PokemonController {
     ) { }
 
     @httpGet('/')
-    async all(request: Request, response: Response) {
+    async all(request: Request, response: Response): Promise<Response> {
         try {
             const pokemons = await this.pokemonRepository.all();
             return response.status(200).json({ success: { pokemons: pokemons } });
@@ -31,7 +31,7 @@ export default class PokemonController {
     }
 
     @httpGet('/populate')
-    async populate(request: Request, response: Response) {
+    async populate(request: Request, response: Response): Promise<Response> {
         try {
             const pokemons = await this.pokemonService.execute();
             return response.status(200).json({ success: { pokemons: pokemons } });
@@ -41,7 +41,7 @@ export default class PokemonController {
     }
 
     @httpGet('/populate/evolutions')
-    async populateEvolutions(request: Request, response: Response) {
+    async populateEvolutions(request: Request, response: Response): Promise<Response> {
         try {
             const evolutions = await this.pokemonEvoService.execute();
             return response.status(200).json({ success: { pokemon_evolutions: evolutions } });
@@ -51,7 +51,7 @@ export default class PokemonController {
     }
 
     @httpGet('/populate/regions')
-    async populateRegions(request: Request, response: Response) {
+    async populateRegions(request: Request, response: Response): Promise<Response> {
         try {
             const regions = await this.pokemonRegionService.execute();
             return response.status(200).json({ success: { pokemon_regions: regions } });
