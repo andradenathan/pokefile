@@ -1,5 +1,4 @@
 import { Prisma } from "@prisma/client";
-import axios, { Axios, AxiosResponse } from "axios";
 import { injectable } from "inversify";
 import prismaClient from "../../../database/prisma";
 import api from "../../../services/api";
@@ -22,7 +21,7 @@ interface IPokemonLocationAreaData {
 }
 
 interface IPokemonLocationAreaResponseData {
-    pokemon_encounters: Array<IPokemonLocationAreaData>;
+  pokemon_encounters: Array<IPokemonLocationAreaData>;
 }
 
 @injectable()
@@ -36,22 +35,24 @@ export class PokemonRegionService {
     const FIRST_GENERATION_LAST_POKEMON_ID = 152;
     const pokemonRegions: Prisma.PokemonRegionCreateManyInput[] = [];
     const regions = await this.regionRepository.all();
-    
+
     for (let index = 0; index < regions.length; index++) {
       const data = await this._getLocationAreaByName(regions[index].local);
 
-      if(!data) continue;
-      
+      if (!data) continue;
+
       for (
         let encounterIndex = 0;
         encounterIndex < data.pokemon_encounters.length;
         encounterIndex++
       ) {
         let pokemonName = data.pokemon_encounters[encounterIndex].pokemon.name;
-        const pokemon = await this.pokemonRepository.getPokemonByName(pokemonName);
-      
-        if(!pokemon) continue;
-         
+        const pokemon = await this.pokemonRepository.getPokemonByName(
+          pokemonName
+        );
+
+        if (!pokemon) continue;
+
         pokemonRegions.push({
           localName: regions[index].local,
           pokemonName: pokemonName,
@@ -59,23 +60,24 @@ export class PokemonRegionService {
             data.pokemon_encounters[encounterIndex].version_details[0]
               .encounter_details[0].chance,
         });
-
-        console.log(pokemonRegions);
       }
     }
 
-    await prismaClient.pokemonRegion.createMany({data: pokemonRegions});
+    await prismaClient.pokemonRegion.createMany({ data: pokemonRegions });
 
     return pokemonRegions;
   }
+
   private async _getLocationAreaByName(
     locationAreaName: string
   ): Promise<IPokemonLocationAreaResponseData | null> {
     try {
-      const response = await api.get(`/location-area/${locationAreaName + "-area"}`);
+      const response = await api.get(
+        `/location-area/${locationAreaName + "-area"}`
+      );
       return response.data;
-    } catch(err: any) {
-      if(err.response.status === 404) {
+    } catch (err: any) {
+      if (err.response.status === 404) {
         console.log(`${locationAreaName + "-area"} not found`);
       }
     }
