@@ -41,13 +41,11 @@ CREATE TABLE `PokemonEvolution` (
 
 -- CreateTable
 CREATE TABLE `PokemonRegion` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `chance` VARCHAR(191) NOT NULL,
-    `regionId` INTEGER NOT NULL,
+    `chance` INTEGER NOT NULL,
+    `localName` VARCHAR(191) NOT NULL,
     `pokemonName` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `PokemonRegion_regionId_key`(`regionId`),
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`localName`, `pokemonName`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -75,6 +73,7 @@ CREATE TABLE `Region` (
     `name` VARCHAR(191) NOT NULL,
     `local` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `Region_local_key`(`local`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -107,7 +106,7 @@ ALTER TABLE `PokemonEvolution` ADD CONSTRAINT `PokemonEvolution_pokemonEvolution
 ALTER TABLE `PokemonRegion` ADD CONSTRAINT `PokemonRegion_pokemonName_fkey` FOREIGN KEY (`pokemonName`) REFERENCES `Pokemon`(`name`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `PokemonRegion` ADD CONSTRAINT `PokemonRegion_regionId_fkey` FOREIGN KEY (`regionId`) REFERENCES `Region`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `PokemonRegion` ADD CONSTRAINT `PokemonRegion_localName_fkey` FOREIGN KEY (`localName`) REFERENCES `Region`(`local`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Image` ADD CONSTRAINT `Image_pokemonId_fkey` FOREIGN KEY (`pokemonId`) REFERENCES `Pokemon`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
