@@ -1,14 +1,12 @@
 .bag {
   width: 100%;
-  height: 60%;
+  height: calc(85vh - 250px);
   box-sizing: border-box;
   border: 1px solid #151515;
   border-radius: 10px;
   background-color: #FFFDC7;
   padding: 20px 20px 0px 20px;
 
-  margin-top: 190px;
-  z-index: -1;
   overflow-y: auto;
   display: flex;
   flex-wrap: wrap;

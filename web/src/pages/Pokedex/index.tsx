@@ -2,13 +2,16 @@ import Menu from '../../components/Menu';
 import { FaSearch } from 'react-icons/fa';
 import { BsFilter } from 'react-icons/bs';
 import Card from '../../components/Card';
+import Pokemon from '../../components/Pokemon';
 import { useEffect, useState } from 'react';
 import { IPokemonData, PokemonImages, pokemons } from '../../services/pokedex.service';
 import './styles.scss';
 import '../styles.scss';
 
 function Pokedex() {
-  const [allPokemons, setAllPokemons] = useState<IPokemonData[]>([]);
+  const [ allPokemons, setAllPokemons ] = useState<IPokemonData[]>([]);
+  const [ isOpen, setIsOpen ] = useState(false);
+  const [ id, setId ] = useState(Number);
 
   useEffect(() => {
     async function getAllPokemons(): Promise<void> {
@@ -41,13 +44,16 @@ function Pokedex() {
       if (image.path.includes(`/sprites/pokemon/${pokemonId}.png`))
         savedImage = image.path;
     });
-
     return savedImage;
   }
 
   return (
     <>
       <Menu />
+      {
+        isOpen &&
+        <Pokemon id={id} isOpen={isOpen} setIsOpen={setIsOpen}/>
+      }
       <div className="container">
         <div className="container-wrapper">
           <div className="container__title">
@@ -78,10 +84,11 @@ function Pokedex() {
                 name={pokemon.name}
                 types={pokemon.type}
                 image={handlePokemonImages(pokemon.id, pokemon.image)}
+                setId={setId}
+                setIsOpen={setIsOpen}
               />
             )
           })}
-
         </div>
       </div>
     </>

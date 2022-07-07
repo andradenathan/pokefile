@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles.scss';
 
-export default function Types(props: {type: string}) {
+export default function Types(props: { type: string }) {
   const [ color, setColor ] = useState("");
   
   useEffect(() => {
