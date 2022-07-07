@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import IdAdjust from '../../utils/IdAdjust';
 import './styles.scss';
 import './../../pages/styles.scss';
+import Types from '../Types';
 
 interface IPokemonProps {
   id: number;
@@ -64,9 +65,65 @@ function Pokemon(props: IPokemonProps) {
           </div> 
         </div>
         <div className="pokemon-container__right">
-          <div className="pokemon-container__right__type"></div>
-          <div className="pokemon-container__right__type"></div>
+          <div className="pokemon-container__right__types">
+            <span>Type</span>
+            <div className="pokemon-container__right__types__row">
+              <Types type="poison"/>
+              <Types type="grass"/>
+            </div>
+          </div>
+          <div className="pokemon-container__right__bases">
+            <div className="pokemon-container__right__bases__col">
+              <span>EXP</span>
+              <span>64</span>
+            </div>
+            <div className="pokemon-container__right__bases__col">
+              <span>Weight</span>
+              <span>64</span>
+            </div>
+            <div className="pokemon-container__right__bases__col">
+              <span>Height</span>
+              <span>64</span>
+            </div>
+          </div>
+          <div className="pokemon-container__right__stats">
+            <span>Stats</span>
+            <div className="pokemon-container__right__stats__items">
+               <div className="item">
+                 <span>HP</span>
+                 <span>50</span>
+               </div>
+               <div className="item">
+                 <span>HP</span>
+                 <span>50</span>
+               </div>
+               <div className="item">
+                 <span>HP</span>
+                 <span>50</span>
+               </div>
+               <div className="item">
+                 <span>HP</span>
+                 <span>50</span>
+               </div>
+               <div className="item">
+                 <span>HP</span>
+                 <span>50</span>
+               </div>
+               <div className="item">
+                 <span>HP</span>
+                 <span>50</span>
+               </div>
+            </div>
+          </div>
+          <div className="pokemon-container__right__locations">
+            <span>Location</span>
+            <span>Cerulean, lumiose, pallet town</span>
+          </div>
         </div>
+        <button 
+          className="pokemon-container__add" 
+          onClick={() => {console.log("hello!")}}
+        >+</button>
       </div>
     </div>
   );
