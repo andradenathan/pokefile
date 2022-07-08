@@ -32,8 +32,8 @@ function Register() {
       const {data} = await create(registerFormData); 
       
       if(!data.success || !data.success.token) return;
-
       setToken(data.success.token);
+      localStorage.setItem('token', data.success.token);
       alert('Conta cadastrada');
     } catch(err: any) {
 

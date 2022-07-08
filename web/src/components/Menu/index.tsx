@@ -11,7 +11,7 @@ function Menu() {
 
   useEffect(() => {
     auth.signed ? setPath("/profile") : setPath("/login");
-  }, [])
+  }, [auth])
   
   return (
     <div className="menu">

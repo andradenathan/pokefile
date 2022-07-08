@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Menu from '../../components/Menu';
+import { IAuthenticatedTrainer, me } from '../../services/auth.service';
 import { FaCopy } from 'react-icons/fa';
 import './styles.scss';
 import '../styles.scss';
-import { IAuthenticatedTrainer, me } from '../../services/auth.service';
 
 
 function Profile() {
+
   const [trainer, setTrainer] = useState<IAuthenticatedTrainer>({} as IAuthenticatedTrainer);
 
   useEffect(() => {
@@ -31,8 +32,6 @@ function Profile() {
           <div className="profile-container__user__img">
             <img             
               src={trainer.avatar}
-              width="150"
-              height="150"
               className="profile-container__image"
               alt="cap"
             />
