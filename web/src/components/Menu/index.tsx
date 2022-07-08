@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { FaUser } from 'react-icons/fa';
+import { AuthContext } from '../../contexts/Auth';
 import './styles.scss';
 
 function Menu() {
+
+  const auth = useContext(AuthContext);
+  const [ path, setPath ] = useState("");
+
+  useEffect(() => {
+    auth.signed ? setPath("/profile") : setPath("/login");
+  }, [])
+  
   return (
     <div className="menu">
       <div className="menu__container">
@@ -21,7 +30,7 @@ function Menu() {
             <Link to="/bag">my bag</Link>
           </li>
           <li className="menu__container__buttons__profile">
-            <Link to="/profile">
+            <Link to={path}>
               <FaUser/>
             </Link>
           </li>

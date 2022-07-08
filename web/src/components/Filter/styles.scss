@@ -8,10 +8,20 @@
   margin-top: 20px;
   padding: 20px;
 
-  &__types__row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 10px;
+  &__types {
+  
+    & > span {
+      text-transform: uppercase;
+      font-family: 'Montserrat';
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    &__row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
   }
 
   &__stats {
@@ -21,6 +31,13 @@
       display: flex;
       flex-wrap: wrap;
       margin-top: 10px;
+    }
+
+    & > span {
+      text-transform: uppercase;
+      font-family: 'Montserrat';
+      font-weight: bold;
+      font-size: 12px;
     }
   }
 
@@ -64,13 +81,6 @@
   &:hover {
     border: 1px solid #151515;
   }
-}
-
-span {
-  text-transform: uppercase;
-  font-family: 'Montserrat';
-  font-weight: bold;
-  font-size: 12px;
 }
 
 .black {
