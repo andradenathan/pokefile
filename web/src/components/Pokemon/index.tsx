@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import IdAdjust from '../../utils/IdAdjust';
+import Types from '../Types';
+import { IoMdFemale, IoMdMale } from 'react-icons/io';
+import { BsStars } from 'react-icons/bs';
 import './styles.scss';
 import './../../pages/styles.scss';
-import Types from '../Types';
 
 interface IPokemonProps {
   id: number;
@@ -13,6 +15,8 @@ interface IPokemonProps {
 function Pokemon(props: IPokemonProps) {
   
   const [ newId, setNewId ] = useState('');
+  const [ selectedGender, setSelectedGender ] = useState(false);
+  const [ selectedShiny, setSelectedShiny ] = useState(false);
 
   useEffect(() => {
     IdAdjust({ id: props.id, setNewId: setNewId });
@@ -37,8 +41,30 @@ function Pokemon(props: IPokemonProps) {
             />
           </div>
           <div className="pokemon-container__left__extra">
-            <div className="pokemon-container__left__extra__gender">M F</div>
-            <div className="pokemon-container__left__extra__shiny">S</div>
+            <div className="pokemon-container__left__extra__gender">
+              {
+                selectedGender ?
+                <>
+                  <IoMdMale color="#808080" onClick={() => {setSelectedGender(false)}}/>
+                  <IoMdFemale color="#151515"/>
+                </> :
+                <>
+                  <IoMdMale color="#151515"/>
+                  <IoMdFemale color="#808080" onClick={() => {setSelectedGender(true)}}/>
+                </>
+              }
+            </div>
+            <div className="pokemon-container__left__extra__shiny">
+              {
+                selectedShiny ?
+                <>
+                  <BsStars color="#151515" onClick={() => {setSelectedShiny(false)}}/>
+                </> :
+                <>
+                  <BsStars color="#808080" onClick={() => {setSelectedShiny(true)}}/>
+                </>
+              }
+            </div>
           </div> 
           <div className="pokemon-container__left__evo">
             <span>Evolution</span>

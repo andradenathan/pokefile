@@ -52,13 +52,13 @@
   &__add {
     position: absolute;
     box-sizing: border-box;
-    bottom: 60px;
+    bottom: 58px;
     right: 60px;
     font-size: 46px;
     padding: 7px 20.6px;
     border: 1px solid #151515;
     border-radius: 10px;
-    background-color: transparent;
+    background-color: white;
     cursor: pointer;
     transition: 0.5s;
 
@@ -107,6 +107,22 @@
       align-items: center;
       margin-top: 20px;
       font-size: 32px;
+
+      &__gender {
+        & > svg {
+          cursor: pointer;
+          
+          &:first-child {
+            margin-right: 20px;
+          }
+        }
+      }
+
+      &__shiny {
+        & > svg {
+          cursor: pointer;
+        }
+      }
     }
 
     &__evo {
