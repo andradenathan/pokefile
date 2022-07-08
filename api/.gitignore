@@ -2,3 +2,4 @@
 /src/database/dev.db
 *.env
 id_rsa_priv.pem
+package-lock.json
