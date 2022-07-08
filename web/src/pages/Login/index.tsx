@@ -1,10 +1,31 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Menu from '../../components/Menu';
 import './styles.scss';
 import '../styles.scss';
+import { useForm } from 'react-hook-form';
+import { ILoginFormData, login } from '../../services/auth.service';
+import { useAuth } from '../../hooks/useAuth';
 
 function Login() {
+  const {register, handleSubmit} = useForm<ILoginFormData>();
+  const navigate = useNavigate();
+  const {setToken} = useAuth();
+
+  const submit = async(loginData: ILoginFormData) => {
+    try {
+      const { data } = await login(loginData);
+      if(!data.success || !data.success.token) return;
+
+      localStorage.setItem('token', data.success.token);
+      setToken(data.success.token);
+      
+      alert('Login realizado com sucesso');
+      navigate('/pokedex');
+    } catch(err: any) {
+      console.log(err);
+    }
+  }
+
   return (
     <>
       <Menu/>
@@ -14,17 +35,17 @@ function Login() {
         </h1>
         <div className="account-container__inputbox">
           <span className="account-container__inputbox--label">E-mail</span>
-          <input className="account-container__inputbox--input"></input>
+          <input {...register("email")} className="account-container__inputbox--input"></input>
         </div>
         <div className="account-container__inputbox">
           <span className="account-container__inputbox--label">Password</span>
-          <input className="account-container__inputbox--input"></input>
+          <input {...register("password")}  className="account-container__inputbox--input"></input>
         </div>
         <span className="account-container__noaccount">No account?
           <Link to="/register">Register</Link>.
         </span>
         <div className="account-container__button-container">
-          <button className="account-container__button-container--button">Login</button>
+          <button onClick={handleSubmit(submit)} className="account-container__button-container--button">Login</button>
         </div>
       </div>
     </>

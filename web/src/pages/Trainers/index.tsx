@@ -4,10 +4,11 @@ import { FaSearch } from 'react-icons/fa';
 import TrainerCard from '../../components/TrainerCard';
 import './styles.scss';
 import '../styles.scss';
-import { getTrainers, IUserData } from '../../services/trainer.service';
+import { getTrainers } from '../../services/trainer.service';
+import { ITrainerData } from '../../models/trainer';
 
 function Trainers() {
-  const [trainers, setTrainers] = useState<IUserData[]>([]);
+  const [trainers, setTrainers] = useState<ITrainerData[]>([]);
 
   useEffect(() => {
     async function getAllTrainers(): Promise<void> {

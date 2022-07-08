@@ -1,22 +1,25 @@
+import { ITrainerData } from "../models/trainer";
 import { api } from "./api";
 
-export interface IUserData {
-    code: number;
-    email: string;
-    name: string;
-    birthday: Date;
-    bio: string;
+export interface IRegisterFormData extends Omit<ITrainerData, "code"> {
+    password: string;
+    passwordRepeat?: string;
 }
 
-export interface IUserResponse {
+export interface ITrainerResponse {
     data: {
         success?: {
-            user: IUserData[];
+            user: ITrainerData[];
+            token?: string;
         }
         error?: string;
     }
 }
 
-export function getTrainers(): Promise<IUserResponse> {
+export function create(registerData: Omit<IRegisterFormData, "passwordRepeat">): Promise<ITrainerResponse> {
+    return api.post("/users", registerData);
+}
+
+export function getTrainers(): Promise<ITrainerResponse> {
   return api.get("/users");
 }

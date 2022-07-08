@@ -14,7 +14,8 @@ model User {
     birthday    DateTime
     hash    String
     salt    String
-    bio String  @db.VarChar(200)
+    avatar  String
+    bio String?  @db.VarChar(200) 
 
     bag Bag?
 }
@@ -97,10 +98,10 @@ model Bag {
     pokemonGender   String  @db.Char(1) @default("M")
     isShiny Boolean @default(false)
 
-    pokemon Pokemon @relation(references: [id], fields: [id])
-    user    User    @relation(references: [code], fields: [userCode])
-    
     userCode    Int @unique
     pokemonId   Int 
+
+    pokemon Pokemon @relation(references: [id], fields: [id])
+    user    User    @relation(references: [code], fields: [userCode])
 }
 
