@@ -1,7 +1,6 @@
 import { Prisma, Pokemon } from "@prisma/client";
 import { injectable } from "inversify";
 import prismaClient from "../../database/prisma";
-
 import PokemonService from "./pokemon.service";
 
 @injectable()
@@ -11,9 +10,27 @@ export class PokemonRepository {
     async all(): Promise<Pokemon[]> {
         return await prismaClient.pokemon.findMany({
             include: {
-                image: true,
-                type: true,
-                pokemon: true,
+                image: {
+                    select: {
+                        path: true,
+                    }
+                },
+                type: {
+                    select: {
+                        name: true,
+                    }
+                },
+                pokemon: {
+                    select: {
+                        pokemonEvolutionName: true,
+                    }
+                },
+                region: {
+                    select: {
+                        localName: true,
+                        chance: true
+                    }
+                },
             }
         });
     }

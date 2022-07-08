@@ -51,14 +51,15 @@ model PokemonEvolution {
 }
 
 model PokemonRegion {
-    id  Int @id @default(autoincrement())
-    chance  String
+    chance  Int
     
-    region  Region  @relation(references: [id], fields: [regionId])
+    region  Region  @relation(references: [local], fields: [localName])
     pokemon Pokemon @relation(references: [name], fields: [pokemonName])
     
-    regionId    Int
+    localName  String
     pokemonName String
+
+    @@id([localName, pokemonName])
 }
 
 model Image {
@@ -80,9 +81,9 @@ model Type {
 model Region {
     id  Int @id @default(autoincrement())
     name    String
-    local   String
+    local   String @unique  
 
-    pokemon PokemonRegion[]  
+    pokemon PokemonRegion[]
 }
 
 model Bag {

@@ -7,7 +7,7 @@ import {
 } from "passport-jwt";
 import { PassportStatic } from "passport";
 import { ExtractJwt } from "passport-jwt";
-import { IUserPayload } from "../auth";
+import { User } from "@prisma/client";
 
 const pathToKey = path.join(__dirname, '../../../../id_rsa_priv.pem');
 const PUB_KEY = fs.readFileSync(pathToKey, 'utf-8');
@@ -19,7 +19,7 @@ const options: StrategyOptions = {
 }
 
 export default (passport: PassportStatic): void => {
-    passport.use(new Strategy(options, async (payload: IUserPayload, done) => {
+    passport.use(new Strategy(options, async (payload: User, done) => {
         try {
             let user = await (new UserRepository()).findByEmail(payload.email);
             if (!user) return done(null, false);

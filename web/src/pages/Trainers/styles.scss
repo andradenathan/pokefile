@@ -1,6 +1,6 @@
 .container {
   &__trainers {
-    margin-top: 190px;
-    z-index: -1;
+    height: calc(100vh - 250px);
+    overflow-y: auto;
   }
 }
