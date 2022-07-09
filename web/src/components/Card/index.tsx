@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PokemonTypes } from '../../services/pokedex.service';
+import { IPokemonData, PokemonTypes } from '../../services/pokedex.service';
 import Types from '../Types';
 import IdAdjust from '../../utils/IdAdjust';
 import './styles.scss';
@@ -10,20 +10,24 @@ interface CardProps {
   name: string;
   types: PokemonTypes[];
   image: string;
+  pokemon: IPokemonData;
   setId: React.Dispatch<React.SetStateAction<number>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setPokemon: React.Dispatch<React.SetStateAction<IPokemonData>>
 }
 
-function Card({ name, id, types, image, setId, setIsOpen }: CardProps) {
+function Card({ name, id, types, image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
   const [ newId, setNewId ] = useState('');
 
   function handleSetId() {
     setId(id);
     setIsOpen(true);
+    setPokemon(pokemon);
   }
 
   useEffect(() => {
     IdAdjust({ id: id, setNewId: setNewId });
+    
   }, [])
 
   return (
@@ -32,7 +36,6 @@ function Card({ name, id, types, image, setId, setIsOpen }: CardProps) {
         <div className="card-container__add"
              onClick={(e) => {
               e.stopPropagation(); 
-              console.log("+")
         }}>+</div>
         <div className="card-container__img">
           <img

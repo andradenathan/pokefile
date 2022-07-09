@@ -22,7 +22,11 @@ export class PokemonRepository {
                 },
                 pokemon: {
                     select: {
-                        pokemonEvolutionName: true,
+                        evolution: {
+                            include: {
+                                image: true
+                            }
+                        },
                     }
                 },
                 region: {

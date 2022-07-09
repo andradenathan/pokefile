@@ -10,6 +10,7 @@ import '../styles.scss';
 
 function Pokedex() {
   const [ allPokemons, setAllPokemons ] = useState<IPokemonData[]>([]);
+  const [pokemon, setPokemon] = useState<IPokemonData>({} as IPokemonData);
   const [ isOpen, setIsOpen ] = useState(false);
   const [ id, setId ] = useState(Number);
 
@@ -19,7 +20,6 @@ function Pokedex() {
         const { data } = await pokemons();
 
         if (data.success) {
-          console.log(data.success);
           setAllPokemons(data.success.pokemons);
           return;
         }
@@ -52,7 +52,7 @@ function Pokedex() {
       <Menu />
       {
         isOpen &&
-        <Pokemon id={id} isOpen={isOpen} setIsOpen={setIsOpen}/>
+        <Pokemon pokemon={pokemon} id={id} isOpen={isOpen} setIsOpen={setIsOpen} />
       }
       <div className="container">
         <div className="container-wrapper">
@@ -83,9 +83,11 @@ function Pokedex() {
                 id={pokemon.id}
                 name={pokemon.name}
                 types={pokemon.type}
+                pokemon={pokemon}
                 image={handlePokemonImages(pokemon.id, pokemon.image)}
                 setId={setId}
                 setIsOpen={setIsOpen}
+                setPokemon={setPokemon}
               />
             )
           })}

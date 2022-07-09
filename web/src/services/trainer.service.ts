@@ -2,6 +2,7 @@ import { ITrainerData } from "../models/trainer";
 import { api } from "./api";
 
 export interface IRegisterFormData extends Omit<ITrainerData, "code"> {
+    birthday: Date;
     password: string;
     passwordRepeat?: string;
 }

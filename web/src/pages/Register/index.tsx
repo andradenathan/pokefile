@@ -11,8 +11,7 @@ import { useAuth } from '../../hooks/useAuth';
 function Register() {
   const [ slide, setSlide ] = useState(0);
   const {
-    register, 
-    unregister, 
+    register,  
     handleSubmit, 
     watch, 
     control, 
@@ -25,9 +24,10 @@ function Register() {
 
   const submit = async(registerFormData: IRegisterFormData) => {
     try {
-
+      //@ts-ignore
+      registerFormData.birthday = new Date(registerFormData.birthday).toISOString();
       delete registerFormData['passwordRepeat'];
-      console.log(registerFormData);
+      //TODO: Adicionar um avatar-generator
       registerFormData.avatar = 'https://i.pinimg.com/736x/61/a4/d8/61a4d8536eb6275b05556d9609e8d406.jpg';
       const {data} = await create(registerFormData); 
       
