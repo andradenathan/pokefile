@@ -53,3 +53,7 @@ interface PokemonResponse extends AxiosResponse {
 export function pokemons(): Promise<PokemonResponse> {
     return api.get('/pokemons');
 }
+
+export function searchByName(value: string): Promise<PokemonResponse> {
+    return api.get(`/pokemons/search/name/${value}`,);
+}

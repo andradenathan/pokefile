@@ -9,18 +9,15 @@ import { handlePokemonImages } from '../../hooks/usePokemonImage';
 
 interface IPokemonProps {
   pokemon: IPokemonData;
-  id: number;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function Pokemon(props: IPokemonProps) {
-  
   const [ newId, setNewId ] = useState('');
 
   useEffect(() => {
-    console.log(props.pokemon);
-    IdAdjust({ id: props.id, setNewId: setNewId });
+    IdAdjust({ id: props.pokemon.id, setNewId: setNewId });
   }, [])
 
   return (
