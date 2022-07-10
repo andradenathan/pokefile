@@ -45,7 +45,7 @@ export default class UserController {
     @httpGet('/:code')
     async find(request: Request, response: Response): Promise<IUserResponse> {
         try {
-            const id = parseInt(request.params.id);
+            const id = parseInt(request.params.code);
             const user = await this.userRepository.find(id);
             return response.status(201).json({ success: { user: user } });
         } catch (err: any) {

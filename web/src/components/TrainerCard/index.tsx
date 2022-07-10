@@ -1,4 +1,5 @@
 import { FaCopy } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './styles.scss';
 
 interface ITrainersCardProps {
@@ -8,9 +9,16 @@ interface ITrainersCardProps {
 }
 
 function TrainerCard({name, code, avatar}: ITrainersCardProps) {
+
+  const navigate = useNavigate();
+
+  function handleTrainerProfile() {
+    navigate(`/profile/${code}`);
+  }
+
   return (
     <>
-      <div className="trainer-container">
+      <div className="trainer-container" onClick={() => { handleTrainerProfile(); }}>
         <div className="trainer-container__img">
           <img
             src={avatar}
@@ -22,7 +30,12 @@ function TrainerCard({name, code, avatar}: ITrainersCardProps) {
           <div 
             className="trainer-container__info--tid"><b>#</b>{code}</div>
         </div>
-        <div className="trainer-container__copy">
+        <div 
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log("hello!!")
+          }} 
+          className="trainer-container__copy">
           <FaCopy/>
         </div>
       </div>

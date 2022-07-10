@@ -1,11 +1,12 @@
 import { ITrainerData } from "../models/trainer";
 import { api } from "./api";
 
+
 export interface ILoginFormData extends Omit<ITrainerData, "code"|"name"|"birthday"|"avatar"|"bio"> {
     password: string;
 }
 
-export interface IAuthenticatedTrainer extends Omit<ITrainerData, "code"> {
+export interface IAuthenticatedTrainer extends ITrainerData {
     sub: ITrainerData['code'];
 }
 

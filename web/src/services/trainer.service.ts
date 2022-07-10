@@ -17,10 +17,18 @@ export interface ITrainerResponse {
     }
 }
 
+export interface ICodeData {
+    code: string;
+}
+
 export function create(registerData: Omit<IRegisterFormData, "passwordRepeat">): Promise<ITrainerResponse> {
     return api.post("/users", registerData);
 }
 
 export function getTrainers(): Promise<ITrainerResponse> {
   return api.get("/users");
+}
+
+export function getTrainer(codeData: ICodeData): Promise<ITrainerResponse> {
+    return api.get(`/users/${codeData.code}`);
 }

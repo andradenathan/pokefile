@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import IdAdjust from '../../utils/IdAdjust';
 import Types from '../Types';
+import { useAuth } from '../../hooks/useAuth';
 import { IoMdFemale, IoMdMale } from 'react-icons/io';
 import { BsStars } from 'react-icons/bs';
-import './styles.scss';
-import './../../pages/styles.scss';
 import { IPokemonData } from '../../services/pokedex.service';
 import { handlePokemonImages } from '../../hooks/usePokemonImage';
+import './styles.scss';
+import './../../pages/styles.scss';
 
 
 interface IPokemonProps {
@@ -17,15 +19,18 @@ interface IPokemonProps {
 }
 
 function Pokemon(props: IPokemonProps) {
-
-  console.log(props.pokemon.pokemon) 
   
+  const navigate = useNavigate();
+  const { signed } = useAuth();
   const [ newId, setNewId ] = useState('');
   const [ selectedGender, setSelectedGender ] = useState(false);
   const [ selectedShiny, setSelectedShiny ] = useState(false);
 
+  function handleOnClick() {
+    signed ? console.log("add pokemon") : navigate("/login");
+  }
+
   useEffect(() => {
-    console.log(props.pokemon);
     IdAdjust({ id: props.id, setNewId: setNewId });
   }, [])
 
@@ -160,7 +165,7 @@ function Pokemon(props: IPokemonProps) {
           </div> : null }
           <button 
             className="pokemon-container__add" 
-            onClick={() => {console.log("hello!")}}
+            onClick={() => { handleOnClick(); }}
           >+</button>
         </div>
       </div>

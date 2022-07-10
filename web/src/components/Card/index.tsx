@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IPokemonData } from '../../services/pokedex.service';
 import Types from '../Types';
 import IdAdjust from '../../utils/IdAdjust';
+import { useAuth } from '../../hooks/useAuth';
 import './styles.scss';
 import './../../pages/styles.scss';
 
@@ -15,6 +17,8 @@ interface CardProps {
 
 function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
   const [ newId, setNewId ] = useState('');
+  const { signed } = useAuth();
+  const navigate = useNavigate();
 
   function handleSetId() {
     setId(pokemon.id);
@@ -22,9 +26,12 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
     setPokemon(pokemon);
   }
 
+  function handleOnClick() {
+    signed ? console.log("add pokemon") : navigate("/login");
+  }
+
   useEffect(() => {
     IdAdjust({ id: pokemon.id, setNewId: setNewId });
-    
   }, [])
 
   return (
@@ -33,6 +40,7 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
         <div className="card-container__add"
              onClick={(e) => {
               e.stopPropagation(); 
+              handleOnClick();
         }}>+</div>
         <div className="card-container__img">
           <img
