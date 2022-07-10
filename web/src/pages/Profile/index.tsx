@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Menu from '../../components/Menu';
 import { FaCopy } from 'react-icons/fa';
 import './styles.scss';
 import '../styles.scss';
+import { IAuthenticatedTrainer, me } from '../../services/auth.service';
+
 
 function Profile() {
+  const [trainer, setTrainer] = useState<IAuthenticatedTrainer>({} as IAuthenticatedTrainer);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await me();
+        if(!data.success) return;
+        setTrainer(data.success.authenticatedUser);
+        return;
+      } catch(err) {
+        return err;
+      }
+    })();
+
+  }, []);
+
   return (
     <>
       <Menu/>
@@ -12,23 +30,25 @@ function Profile() {
         <div className="profile-container__user">
           <div className="profile-container__user__img">
             <img             
-              src={require('../../assets/cap.png')}
+              src={trainer.avatar}
+              width="150"
+              height="150"
               className="profile-container__image"
               alt="cap"
             />
           </div>
           <div className="profile-container__user__infos">
             <div className="profile-container__user__infos__username">
-              <span className="profile-container__user__infos__username__name">Milton</span>
+              <span className="profile-container__user__infos__username__name">{trainer.name}</span>
               <div className="profile-container__user__infos__username__usercode">
-                <span className="profile-container__user__infos__username__usercode--code">424243</span>
+                <span className="profile-container__user__infos__username__usercode--code">{trainer.sub}</span>
                 <div className="profile-container__user__infos__username__usercode--icon">
                   <FaCopy/>
                 </div>
               </div>
             </div>
             <span className="profile-container__user__infos__userdesc">
-            Uma descrição.
+            {trainer.bio ? trainer.bio : 'Nenhuma bio'}
             </span>
           </div>
         </div>

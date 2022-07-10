@@ -28,8 +28,17 @@ export interface IPokemonData {
     image: PokemonImages[];
     type: PokemonTypes[];
     // bag: IBagData[];
-    // region: IRegionData[];
-    // pokemon: IPokemonData[];
+    region: IRegionData[];
+    pokemon: IPokemonEvolutionData[];
+}
+
+export interface IPokemonEvolutionData {
+    evolution: IPokemonData;
+}
+
+export interface IRegionData {
+    localName: string;
+    chance: number;
 }
 
 interface PokemonResponse extends AxiosResponse {

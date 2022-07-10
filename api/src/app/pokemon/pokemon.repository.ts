@@ -22,7 +22,11 @@ export class PokemonRepository {
         },
         pokemon: {
           select: {
-            pokemonEvolutionName: true,
+            evolution: {
+              include: {
+                image: true,
+              },
+            },
           },
         },
         region: {
@@ -54,10 +58,7 @@ export class PokemonRepository {
     return await prismaClient.pokemon.findFirst({ where: { name: name } });
   }
 
-  async search(
-    query: string,
-    paramType: string
-  ): Promise<Pokemon[] | null> {
+  async search(query: string, paramType: string): Promise<Pokemon[] | null> {
     switch (paramType) {
       case "type":
         return await prismaClient.$queryRaw<Pokemon[]>`
@@ -69,10 +70,44 @@ export class PokemonRepository {
         SELECT name, local, pokemonName, chance FROM Region
         INNER JOIN PokemonRegion pr ON local = localName
         WHERE Region.local = ${query}`;
+      case "name":
+        return await prismaClient.pokemon.findMany({
+          where: {
+            name: {
+              contains: query,
+            },
+          },
+          include: {
+            image: {
+              select: {
+                path: true,
+              },
+            },
+            type: {
+              select: {
+                name: true,
+              },
+            },
+            pokemon: {
+              select: {
+                evolution: {
+                  include: {
+                    image: true,
+                  },
+                },
+              },
+            },
+            region: {
+              select: {
+                localName: true,
+                chance: true,
+              },
+            },
+          },
+        });
       default:
         break;
     }
-
     return null;
   }
 }

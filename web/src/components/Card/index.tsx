@@ -1,20 +1,39 @@
+import { useEffect, useState } from 'react';
+import { IPokemonData } from '../../services/pokedex.service';
+import Types from '../Types';
+import IdAdjust from '../../utils/IdAdjust';
 import './styles.scss';
 import './../../pages/styles.scss';
-import { PokemonTypes } from '../../services/pokedex.service';
-import Types from '../Types';
 
 interface CardProps {
-  id: number;
-  name: string;
-  types: PokemonTypes[];
+  pokemon: IPokemonData;
   image: string;
+  setId: React.Dispatch<React.SetStateAction<number>>;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setPokemon: React.Dispatch<React.SetStateAction<IPokemonData>>
 }
 
-function Card({ name, id, types, image }: CardProps) {
+function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
+  const [ newId, setNewId ] = useState('');
+
+  function handleSetId() {
+    setId(pokemon.id);
+    setIsOpen(true);
+    setPokemon(pokemon);
+  }
+
+  useEffect(() => {
+    IdAdjust({ id: pokemon.id, setNewId: setNewId });
+    
+  }, [])
+
   return (
     <>
-      <div className="card-container">
-        <div className="card-container__add">+</div>
+      <div className="card-container" onClick={() => { handleSetId() }}>
+        <div className="card-container__add"
+             onClick={(e) => {
+              e.stopPropagation(); 
+        }}>+</div>
         <div className="card-container__img">
           <img
             src={image}
@@ -22,10 +41,10 @@ function Card({ name, id, types, image }: CardProps) {
             alt="pokemon"
           />
         </div>
-        <div className="card-container__number">Nº {id}</div>
-        <div className="card-container__name">{name}</div>
+        <div className="card-container__number">#{newId}</div>
+        <div className="card-container__name">{pokemon.name}</div>
         <div className="type-wrapper">
-          {types.map((type) => {
+          {pokemon.type.map((type) => {
             return (
               <Types type={type.name} />
             )

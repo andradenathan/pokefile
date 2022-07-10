@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { controller, httpGet } from "inversify-express-utils";
+import { controller, httpGet, httpPost } from "inversify-express-utils";
 import { PokemonEvolutionService } from "./pokemon-evolution/pokemon-evolution.service";
 import { PokemonRegionService } from "./pokemon-region/pokemon-region.service";
 import { PokemonRepository } from "./pokemon.repository";
@@ -14,6 +14,18 @@ export default class PokemonController {
     private readonly pokemonRepository: PokemonRepository
   ) {}
 
+  @httpGet("/search/name/:value")
+  async searchByName(request: Request, response: Response): Promise<Response> {
+    const name = request.params.value;
+    
+    try {
+      const pokemons = await this.pokemonRepository.search(name, "name");
+      return response.status(200).json({ success: { pokemons: pokemons } });
+    } catch (err: any) {
+      return response.status(422).json({ error: { message: err.message } });
+    }
+  }
+
   @httpGet("/")
   async all(request: Request, response: Response): Promise<Response> {
     try {
@@ -23,6 +35,8 @@ export default class PokemonController {
       return response.status(422).json({ error: { message: err.message } });
     }
   }
+
+
 
   @httpGet("/search/type/:value")
   async searchByType(request: Request, response: Response): Promise<Response> {
