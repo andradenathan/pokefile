@@ -3,7 +3,8 @@ import IdAdjust from '../../utils/IdAdjust';
 import './styles.scss';
 import './../../pages/styles.scss';
 import Types from '../Types';
-import { IPokemonData, PokemonImages } from '../../services/pokedex.service';
+import { IPokemonData } from '../../services/pokedex.service';
+import { handlePokemonImages } from '../../hooks/usePokemonImage';
 
 
 interface IPokemonProps {
@@ -16,21 +17,6 @@ interface IPokemonProps {
 function Pokemon(props: IPokemonProps) {
   
   const [ newId, setNewId ] = useState('');
-
-  function handlePokemonImages(
-    pokemonId: number,
-    pokemonImages: Array<PokemonImages>
-  ): string {
-    let savedImage: string = '';
-    pokemonImages.forEach((image) => {
-      if (image.path.includes('back') || image.path.includes('shiny')) return;
-
-      if (image.path.includes(`/sprites/pokemon/${pokemonId}.png`))
-        savedImage = image.path;
-    });
-    return savedImage;
-  }
-
 
   useEffect(() => {
     console.log(props.pokemon);

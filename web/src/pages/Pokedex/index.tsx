@@ -4,9 +4,10 @@ import { BsFilter } from 'react-icons/bs';
 import Card from '../../components/Card';
 import Pokemon from '../../components/Pokemon';
 import { useEffect, useState } from 'react';
-import { IPokemonData, PokemonImages, pokemons } from '../../services/pokedex.service';
+import { IPokemonData, pokemons } from '../../services/pokedex.service';
 import './styles.scss';
 import '../styles.scss';
+import { handlePokemonImages } from '../../hooks/usePokemonImage';
 
 function Pokedex() {
   const [ allPokemons, setAllPokemons ] = useState<IPokemonData[]>([]);
@@ -32,20 +33,6 @@ function Pokedex() {
 
     getAllPokemons();
   }, []);
-
-  function handlePokemonImages(
-    pokemonId: number,
-    pokemonImages: Array<PokemonImages>
-  ): string {
-    let savedImage: string = '';
-    pokemonImages.forEach((image) => {
-      if (image.path.includes('back') || image.path.includes('shiny')) return;
-
-      if (image.path.includes(`/sprites/pokemon/${pokemonId}.png`))
-        savedImage = image.path;
-    });
-    return savedImage;
-  }
 
   return (
     <>
@@ -80,9 +67,6 @@ function Pokedex() {
             return (
               <Card
                 key={key}
-                id={pokemon.id}
-                name={pokemon.name}
-                types={pokemon.type}
                 pokemon={pokemon}
                 image={handlePokemonImages(pokemon.id, pokemon.image)}
                 setId={setId}
