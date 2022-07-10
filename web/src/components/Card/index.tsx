@@ -1,29 +1,30 @@
 import { useEffect, useState } from 'react';
-import { PokemonTypes } from '../../services/pokedex.service';
+import { IPokemonData } from '../../services/pokedex.service';
 import Types from '../Types';
 import IdAdjust from '../../utils/IdAdjust';
 import './styles.scss';
 import './../../pages/styles.scss';
 
 interface CardProps {
-  id: number;
-  name: string;
-  types: PokemonTypes[];
+  pokemon: IPokemonData;
   image: string;
   setId: React.Dispatch<React.SetStateAction<number>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setPokemon: React.Dispatch<React.SetStateAction<IPokemonData>>
 }
 
-function Card({ name, id, types, image, setId, setIsOpen }: CardProps) {
+function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
   const [ newId, setNewId ] = useState('');
 
   function handleSetId() {
-    setId(id);
+    setId(pokemon.id);
     setIsOpen(true);
+    setPokemon(pokemon);
   }
 
   useEffect(() => {
-    IdAdjust({ id: id, setNewId: setNewId });
+    IdAdjust({ id: pokemon.id, setNewId: setNewId });
+    
   }, [])
 
   return (
@@ -32,7 +33,6 @@ function Card({ name, id, types, image, setId, setIsOpen }: CardProps) {
         <div className="card-container__add"
              onClick={(e) => {
               e.stopPropagation(); 
-              console.log("+")
         }}>+</div>
         <div className="card-container__img">
           <img
@@ -42,9 +42,9 @@ function Card({ name, id, types, image, setId, setIsOpen }: CardProps) {
           />
         </div>
         <div className="card-container__number">#{newId}</div>
-        <div className="card-container__name">{name}</div>
+        <div className="card-container__name">{pokemon.name}</div>
         <div className="type-wrapper">
-          {types.map((type) => {
+          {pokemon.type.map((type) => {
             return (
               <Types type={type.name} />
             )
