@@ -7,24 +7,6 @@ body {
   align-items: center;
 
   overflow: hidden;
-
-  // &::-webkit-scrollbar {
-  //   width: 10px;
-  // }
-  
-  // &::-webkit-scrollbar-track {
-  //   background: #f1f1f1;
-  //   border-radius: 50px;
-  // }
-  
-  // &::-webkit-scrollbar-thumb {
-  //   background: #888;
-  //   border-radius: 50px;
-  // }
-  
-  // &::-webkit-scrollbar-thumb:hover {
-  //   background: #555;
-  // }
 }
 
 .container {
@@ -38,6 +20,7 @@ body {
     background-color: #f4f4f4;
     width: 920px;
     z-index: 1;
+    margin-bottom: 40px;
   }
 
   &__title {
@@ -65,7 +48,6 @@ body {
     position: relative;
     justify-content: space-between;
     height: 40px;
-    margin-bottom: 40px;
 
     & > svg {
       position: absolute;

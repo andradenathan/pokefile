@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Menu from '../../components/Menu';
 import '../Login/styles.scss';
 import '../styles.scss';
@@ -20,12 +20,14 @@ function Register() {
   const {setToken} = useAuth();
 
   const password = useRef({});
+  const navigate = useNavigate();
   password.current = watch('password', "");
 
   const submit = async(registerFormData: IRegisterFormData) => {
     try {
       //@ts-ignore
       registerFormData.birthday = new Date(registerFormData.birthday).toISOString();
+      console.log(registerFormData)
       delete registerFormData['passwordRepeat'];
       //TODO: Adicionar um avatar-generator
       registerFormData.avatar = 'https://i.pinimg.com/736x/61/a4/d8/61a4d8536eb6275b05556d9609e8d406.jpg';
@@ -33,10 +35,9 @@ function Register() {
       
       if(!data.success || !data.success.token) return;
 
-      setToken(data.success.token);
-      alert('Conta cadastrada');
+      alert('Registered account.');
+      navigate("/login");
     } catch(err: any) {
-
     }
   }
 
@@ -70,19 +71,18 @@ function Register() {
             </div>
             <div className="account-container__inputbox">
               <span className="account-container__inputbox--label">Password</span>
-              <input {...register("password")} className="account-container__inputbox--input"></input>
+              <input {...register("password")} type="password" className="account-container__inputbox--input"></input>
             </div>
             <div className="account-container__inputbox">
               <span className="account-container__inputbox--label">Confirm Password</span>
-             
               <Controller
               name="passwordRepeat"
               control={control}
               defaultValue=""
               render={() => (
-                <input {...register("passwordRepeat")} className="account-container__inputbox--input"></input>
+                <input {...register("passwordRepeat")} type="password" className="account-container__inputbox--input"></input>
               )}
-              rules={{validate: value => password.current === value || 'As senhas não conferem'}}
+              rules={{validate: value => password.current === value || "Passwords don't match."}}
               />
               {errors.passwordRepeat?.message && (<p>{errors.passwordRepeat.message}</p>)}
             </div>

@@ -29,7 +29,7 @@ function Router() {
                 <Route path="/bag" element={<Bag/>} />
             </Routes>
             <Routes>
-                <Route path="/profile" element={<Profile/>} />
+                <Route path="/profile/:code" element={<Profile/>} />
             </Routes>
             <Routes>
                 <Route path="/login" element={<Login/>} />
