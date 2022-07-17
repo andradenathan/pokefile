@@ -11,6 +11,8 @@ interface IAuthProps {
 interface IAuthContext {
     token: string;
     setToken: React.Dispatch<React.SetStateAction<string>>;
+    code: number;
+    setCode: React.Dispatch<React.SetStateAction<number>>;
     signed: boolean;
 }
 
@@ -19,6 +21,7 @@ export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 const AuthProvider = (props: IAuthProps) => {
     const [authorization, setAuthorization] = useState('');
     const [checkLogin, setCheckLogin] = useState(false);
+    const [code, setCode] = useState<number>(0);
 
     const userToken = async() => {
         let token = '';
@@ -29,11 +32,25 @@ const AuthProvider = (props: IAuthProps) => {
             return err.message;
         }
 
+        if(token == 'Bearer ') token = '';
         return token;
+    }
+
+    const userCode = async() => {
+        let code = 0;
+        try {
+            const value = await localStorage.getItem('code');
+            if(value !== null) code = parseInt(value);
+        } catch(err: any) {
+            return err.message;
+        }
+
+        return code;
     }
     
     useEffect(() => {
         userToken().then(value => setAuthorization(value));        
+        userCode().then(value => setCode(value));        
     });
 
     const checkIfUserIsAuthorized = (): void => {
@@ -50,6 +67,8 @@ const AuthProvider = (props: IAuthProps) => {
             value={{
                     token: authorization, 
                     setToken: setAuthorization, 
+                    code: code,
+                    setCode: setCode,
                     signed: checkLogin
                 }}>
                     {props.children}

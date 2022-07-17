@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import Menu from '../../components/Menu';
 import BagCard from '../../components/BagCard';
 import { FaSearch } from 'react-icons/fa';
@@ -7,6 +9,18 @@ import './styles.scss';
 import '../styles.scss';
 
 function Bag() {
+
+  const navigate = useNavigate();
+  const { signed } = useAuth();
+
+  function handleSignedIn() {
+    signed ? console.log("signed.") : navigate("/login");
+  }
+
+  useEffect(() => {
+    handleSignedIn();
+  }, []);
+
   return (
     <>
       <Menu/>

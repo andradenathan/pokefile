@@ -1,29 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import Menu from '../../components/Menu';
+import { IAuthenticatedTrainer, me } from '../../services/auth.service';
 import { FaCopy } from 'react-icons/fa';
 import './styles.scss';
 import '../styles.scss';
-import { IAuthenticatedTrainer, me } from '../../services/auth.service';
-
+import { useNavigate, useParams } from 'react-router-dom';
+import { getTrainer, ICodeData } from '../../services/trainer.service';
 
 function Profile() {
+
+  const params = useParams();
+  const navigate = useNavigate();
   const [trainer, setTrainer] = useState<IAuthenticatedTrainer>({} as IAuthenticatedTrainer);
+
+  async function handleGetTrainer(codeData: ICodeData) {
+    const response = await getTrainer(codeData);
+    if(response.data.success) {
+      //@ts-ignore
+      setTrainer(response.data.success.user);
+    }
+  }
 
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await me();
-        if(!data.success) return;
-        setTrainer(data.success.authenticatedUser);
-        return;
-      } catch(err) {
-        return err;
-      }
+        !params.code ? navigate("/login") : handleGetTrainer({code: params.code});
+      } catch(err) { return err; }
     })();
 
-  }, []);
+  }, [params.code]);
 
   return (
+
     <>
       <Menu/>
       <div className="profile-container">
@@ -31,8 +39,6 @@ function Profile() {
           <div className="profile-container__user__img">
             <img             
               src={trainer.avatar}
-              width="150"
-              height="150"
               className="profile-container__image"
               alt="cap"
             />
@@ -41,14 +47,14 @@ function Profile() {
             <div className="profile-container__user__infos__username">
               <span className="profile-container__user__infos__username__name">{trainer.name}</span>
               <div className="profile-container__user__infos__username__usercode">
-                <span className="profile-container__user__infos__username__usercode--code">{trainer.sub}</span>
+                <span className="profile-container__user__infos__username__usercode--code">{trainer.code}</span>
                 <div className="profile-container__user__infos__username__usercode--icon">
                   <FaCopy/>
                 </div>
               </div>
             </div>
             <span className="profile-container__user__infos__userdesc">
-            {trainer.bio ? trainer.bio : 'Nenhuma bio'}
+            {trainer.bio ? trainer.bio : 'Nothing to see here.'}
             </span>
           </div>
         </div>

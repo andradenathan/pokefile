@@ -52,7 +52,7 @@ function Trainers() {
         <div className="container__trainers">
           {trainers.map((trainer, key) => {
             return (
-                <TrainerCard name={trainer.name} code={trainer.code} key={key}/>
+                <TrainerCard name={trainer.name} code={trainer.code} avatar={trainer.avatar} key={key}/>
               )
             }
           )}
