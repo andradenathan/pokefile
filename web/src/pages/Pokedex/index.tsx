@@ -97,7 +97,9 @@ function Pokedex() {
         </div>
 
         {search.length > 0 &&
-          <button onClick={() => setSearch([])}>Limpar filtro</button>
+          <button 
+            onClick={() => setSearch([])}>Limpar filtro
+          </button>
         }
 
         <div className="container__pokedex">
