@@ -84,7 +84,7 @@ function Pokemon(props: IPokemonProps) {
               <div className="pokemon-container__left__evo__container__img">
                 {props.pokemon.pokemon.map((evolution) =>{
                     return (<img 
-                    // src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image)}
+                    src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image)}
                     alt="pokemon"
                   />)
                 })}

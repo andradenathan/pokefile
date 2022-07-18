@@ -17,7 +17,7 @@ function Pokedex() {
   const [ isOpen, setIsOpen ] = useState(false);
   const [ filterOpen, setFilterOpen ] = useState(false);
   const [ id, setId ] = useState(Number);
-
+  
   const handleSearch = async(pokemonName: string) => {
     if(pokemonName.length === 0) setSearch([]);
 
@@ -25,7 +25,7 @@ function Pokedex() {
     if(!response.data.success || response.data.success.pokemons.length == 0) return;
     setSearch(response.data.success?.pokemons);
   }
-
+  
   useEffect(() => {
     async function getAllPokemons(): Promise<void> {
       try {

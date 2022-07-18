@@ -5,8 +5,7 @@ import '../Login/styles.scss';
 import '../styles.scss';
 import { useForm, Controller } from 'react-hook-form';
 import { create, IRegisterFormData } from '../../services/trainer.service';
-import { useAuth } from '../../hooks/useAuth';
-
+import { randomImages } from '../../hooks/useRandomImage';
 
 function Register() {
   const [ slide, setSlide ] = useState(0);
@@ -17,7 +16,7 @@ function Register() {
     control, 
     formState: {errors}
   } = useForm<IRegisterFormData>();
-  const {setToken} = useAuth();
+
 
   const password = useRef({});
   const navigate = useNavigate();
@@ -27,10 +26,9 @@ function Register() {
     try {
       //@ts-ignore
       registerFormData.birthday = new Date(registerFormData.birthday).toISOString();
-      console.log(registerFormData)
       delete registerFormData['passwordRepeat'];
-      //TODO: Adicionar um avatar-generator
-      registerFormData.avatar = 'https://i.pinimg.com/736x/61/a4/d8/61a4d8536eb6275b05556d9609e8d406.jpg';
+      registerFormData.avatar = randomImages();
+
       const {data} = await create(registerFormData); 
       
       if(!data.success || !data.success.token) return;
@@ -57,7 +55,7 @@ function Register() {
             </div>
             <div className="account-container__inputbox">
               <span className="account-container__inputbox--label">Birthdate</span>
-              <input {...register("birthday")} className="account-container__inputbox--input"></input>
+              <input {...register("birthday")} type="date" className="account-container__inputbox--input"></input>
             </div>
             <span className="account-container__noaccount">Already have an account?
               <Link to="/login">Login</Link>.

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './styles.scss';
 
 interface IFilterProps {
@@ -7,7 +7,7 @@ interface IFilterProps {
 }
 
 function Filter(props: IFilterProps) {
-
+  const [filterData, setFilterData] = useState<any>();
   function handleApply() {
     props.setFilterOpen(false);
   }
@@ -17,7 +17,7 @@ function Filter(props: IFilterProps) {
       <div className="filter-container__types">
         <span>Types</span>
         <div className="filter-container__types__row">
-          <div className="type-button">grass</div>
+          <div className="type-button" onClick={() => setFilterData('grass')}>grass</div>
           <div className="type-button">poison</div>
           <div className="type-button">fire</div>
           <div className="type-button">flying</div>
