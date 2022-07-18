@@ -14,6 +14,7 @@ export interface PokemonTypes {
 }
 
 export interface IPokemonData {
+    pokemonName: string;
     id: number;
     name: string;
     weight: number;
@@ -55,5 +56,9 @@ export function pokemons(): Promise<PokemonResponse> {
 }
 
 export function searchByName(value: string): Promise<PokemonResponse> {
-    return api.get(`/pokemons/search/name/${value}`,);
+    return api.get(`/pokemons/search/name/${value}`);
+}
+
+export function filterPokemonByType(value: string): Promise<PokemonResponse> {
+    return api.get(`/pokemons/search/type/${value}`);
 }

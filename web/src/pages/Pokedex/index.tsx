@@ -87,9 +87,19 @@ function Pokedex() {
           </div>
           {
             filterOpen &&
-            <Filter filterOpen={filterOpen} setFilterOpen={setFilterOpen}/>
+            <Filter 
+              pokemons={allPokemons}
+              filterOpen={filterOpen} 
+              setSearch={setSearch} 
+              setFilterOpen={setFilterOpen} 
+            />
           }
         </div>
+
+        {search.length > 0 &&
+          <button onClick={() => setSearch([])}>Limpar filtro</button>
+        }
+
         <div className="container__pokedex">
           {search.length > 0 ? 
           search.map((pokemon) => {
@@ -104,7 +114,6 @@ function Pokedex() {
               />
             )
           }) :
-
            allPokemons.map((pokemon) => {
             return (
               <Card
