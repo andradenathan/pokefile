@@ -12,13 +12,17 @@ import { handlePokemonImages } from '../../hooks/usePokemonImage';
 
 function Pokedex() {
   const [ allPokemons, setAllPokemons ] = useState<IPokemonData[]>([]);
+  const [searchValue, setSearchValue] = useState<string>('');
   const [search, setSearch] = useState<IPokemonData[]>([]);
   const [pokemon, setPokemon] = useState<IPokemonData>({} as IPokemonData);
   const [ isOpen, setIsOpen ] = useState(false);
   const [ filterOpen, setFilterOpen ] = useState(false);
+  const [isFiltered, setIsFiltered] = useState<boolean>(false);
   const [ id, setId ] = useState(Number);
   
   const handleSearch = async(pokemonName: string) => {
+    if(isFiltered) return;
+
     if(pokemonName.length === 0) setSearch([]);
 
     const response = await searchByName(pokemonName);
@@ -66,7 +70,11 @@ function Pokedex() {
             <FaSearch />
             <input
               className="container__search__bar"
-              onChange={(event) => handleSearch(event.target.value)}
+              value={searchValue}
+              onChange={(event) => {
+                setSearchValue(event.target.value);
+                handleSearch(searchValue);
+              }}
               placeholder="Search by name..."
             />
             {
@@ -92,13 +100,18 @@ function Pokedex() {
               filterOpen={filterOpen} 
               setSearch={setSearch} 
               setFilterOpen={setFilterOpen} 
+              setIsFiltered={setIsFiltered}
             />
           }
         </div>
 
         {search.length > 0 &&
           <button 
-            onClick={() => setSearch([])}>Limpar filtro
+            onClick={() => {
+              setSearch([]);
+              setIsFiltered(false);
+              setSearchValue('');
+            }}>Limpar filtro
           </button>
         }
 

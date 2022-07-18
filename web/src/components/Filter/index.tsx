@@ -7,6 +7,7 @@ interface IFilterProps {
   pokemons: IPokemonData[];
   setSearch: React.Dispatch<React.SetStateAction<IPokemonData[]>>;
   setFilterOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface IFilterTypeData {
@@ -36,6 +37,7 @@ function Filter(props: IFilterProps) {
     });
 
     props.setSearch(filteredPokemonData);
+    props.setIsFiltered(true);
     props.setFilterOpen(false);
   }
 
