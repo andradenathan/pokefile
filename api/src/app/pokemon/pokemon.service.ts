@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import { injectable } from 'inversify';
 import prismaClient from '../../database/prisma';
 import api from '../../services/api';
+import { OrderByType } from './pokemon.repository';
 
 interface PokemonResponseData {
     name: string;
@@ -28,6 +29,11 @@ interface PokemonResponseData {
             name: string;
         }
     }>
+}
+
+export interface IFilterTypeValue {
+    type: string;
+    stat: OrderByType | null;
 }
 
 @injectable()

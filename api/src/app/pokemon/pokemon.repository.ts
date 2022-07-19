@@ -1,7 +1,12 @@
-import { Prisma, Pokemon } from "@prisma/client";
+import { Prisma, Pokemon, Type } from "@prisma/client";
 import { injectable } from "inversify";
 import prismaClient from "../../database/prisma";
 import PokemonService from "./pokemon.service";
+
+export type OrderByType = 
+"id" | "baseHp" | "baseAttack" 
+| "baseDefense" | "baseSpecialAttack" | "baseSpecialDefense" 
+| "baseSpeed" | "name";
 
 @injectable()
 export class PokemonRepository {
@@ -25,6 +30,15 @@ export class PokemonRepository {
             evolution: {
               include: {
                 image: true,
+                pokemon: {
+                  select: {
+                    evolution: {
+                      include: {
+                        image: true,
+                      }
+                    },
+                  }
+                }
               },
             },
           },
@@ -38,7 +52,7 @@ export class PokemonRepository {
       },
     });
   }
-
+  
   async find(id: number): Promise<Pokemon | null> {
     return await prismaClient.pokemon.findUnique({ where: { id: id } });
   }
@@ -52,6 +66,12 @@ export class PokemonRepository {
 
   async delete(id: number): Promise<void> {
     await prismaClient.pokemon.delete({ where: { id: id } });
+  }
+
+  async pokemonTypes(): Promise<Type[] | null> {
+    return await prismaClient.$queryRaw<Type[]>`
+      SELECT DISTINCT name FROM Type
+    `;
   }
 
   async getPokemonByName(name: string): Promise<Pokemon | null> {

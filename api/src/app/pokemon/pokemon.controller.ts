@@ -26,6 +26,16 @@ export default class PokemonController {
     }
   }
 
+  @httpGet("/types")
+  async types(request: Request, response: Response): Promise<Response> {
+    try {
+      const types = await this.pokemonRepository.pokemonTypes();
+      return response.status(200).json({ success: { types: types } });
+    } catch (err: any) {
+      return response.status(422).json({ error: { message: err.message } });
+    }
+  }
+
   @httpGet("/")
   async all(request: Request, response: Response): Promise<Response> {
     try {
@@ -35,8 +45,6 @@ export default class PokemonController {
       return response.status(422).json({ error: { message: err.message } });
     }
   }
-
-
 
   @httpGet("/search/type/:value")
   async searchByType(request: Request, response: Response): Promise<Response> {
