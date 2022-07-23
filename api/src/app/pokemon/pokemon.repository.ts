@@ -1,16 +1,10 @@
 import { Prisma, Pokemon, Type } from "@prisma/client";
 import { injectable } from "inversify";
 import prismaClient from "../../database/prisma";
-import PokemonService from "./pokemon.service";
-
-export type OrderByType = 
-"id" | "baseHp" | "baseAttack" 
-| "baseDefense" | "baseSpecialAttack" | "baseSpecialDefense" 
-| "baseSpeed" | "name";
 
 @injectable()
 export class PokemonRepository {
-  constructor(private readonly pokemonService: PokemonService) {}
+  constructor() {}
 
   async all(): Promise<Pokemon[]> {
     return await prismaClient.pokemon.findMany({
@@ -82,7 +76,11 @@ export class PokemonRepository {
     switch (paramType) {
       case "type":
         return await prismaClient.$queryRaw<Pokemon[]>`
-        SELECT Type.name, pokemonName, Pokemon.id FROM Type 
+        SELECT Type.name, 
+        pokemonName, 
+        baseAttack, 
+        baseDefense, baseSpecialAttack, baseSpecialDefense, baseSpeed, baseHp
+        FROM Type 
         RIGHT OUTER JOIN Pokemon ON Pokemon.name = Type.pokemonName 
         WHERE Type.name = ${query}`;
       case "region":
