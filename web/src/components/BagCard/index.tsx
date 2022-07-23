@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { TbPokeball, TbTrash, TbHeart } from 'react-icons/tb';
 import './styles.scss';
 import './../../pages/styles.scss';
 
 function BagCard() {
+
+  const [ openEdit, setOpenEdit ] = useState(false);
+
   return (
     <>
-      <div className="bagcard-container">
-        <div className="bagcard-container__delete">x</div>
+    {
+      openEdit ? 
+      <div className="bagcard-container bag-edit">
+        <div className="bag-edit__delete" onClick={() => {setOpenEdit(false)}}>x</div>
+        <div className="bag-edit__options">
+          <span><TbHeart className="edit-icon"/>Favorite</span>
+          <span><TbPokeball className="edit-icon"/>Team Add</span>
+          <span><TbTrash className="edit-icon"/>Remove</span>
+        </div>
+      </div>
+      :
+      <div className="bagcard-container" onClick={() => {setOpenEdit(true)}}>
         <div className="bagcard-container__level">LvL 99</div>
         <div className="bagcard-container__img">
           <img 
@@ -26,6 +40,7 @@ function BagCard() {
           </div>
         </div>
       </div>
+    }
     </>
   );
 }

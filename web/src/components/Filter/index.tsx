@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { filterPokemonByType, IPokemonData, pokemonTypes } from '../../services/pokedex.service';
 import './styles.scss';
-import {arraySort} from '../../hooks/useArraySort';
+import { arraySort } from '../../hooks/useArraySort';
 
 interface IFilterProps {
   filterOpen: boolean;
@@ -18,10 +18,10 @@ interface IFilterState {
 }
 
 function Filter(props: IFilterProps) {
-  const [filterType, setFilterType] = useState<string>('');
   let filteredPokemonData: IPokemonData[] = [];
-  const [types, setTypes] = useState<string[]>([]);
-  const [filteredState, setFilteredState] = useState<IFilterState>({} as IFilterState);
+  const [ filterType, setFilterType ] = useState<string>('');
+  const [ types, setTypes ] = useState<string[]>([]);
+  const [ filteredState, setFilteredState ] = useState<IFilterState>({} as IFilterState);
   
   useEffect(() => {
     (async () => {
@@ -31,7 +31,9 @@ function Filter(props: IFilterProps) {
       setTypes(data.success.types.map(type => type.name));
     })();
   }, []);
+
   console.log(filteredState, filterType);
+
   async function handleApply() {
     if(!filterType) {
       filteredPokemonData = [...props.pokemons];
@@ -70,7 +72,13 @@ function Filter(props: IFilterProps) {
         <div className="filter-container__types__row">
           {types.map((type, key) => {
             return (
-              <div key={key} className="type-button" onClick={() => setFilterType(type)}>{type}</div>
+              <>
+              {
+                filterType == type ?
+                <button key={key} className="type-button black" onClick={() => setFilterType(type)}>{type}</button> :
+                <button key={key} className="type-button" onClick={() => setFilterType(type)}>{type}</button>
+              }
+              </>
             )
           })}
         </div>
@@ -78,12 +86,36 @@ function Filter(props: IFilterProps) {
       <div className="filter-container__stats">
         <span>Stats</span>
         <div className="filter-container__stats__row">
-          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseHp'})}>hp</div>
-          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseAttack'})}>atk</div>
-          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseSpecialAttack'})}>s. atk</div>
-          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseDefense'})}>def</div> 
-          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseSpecialDefense'})}>s. def</div> 
-          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseSpeed'})}>speed</div> 
+          {
+            filteredState.orderBy == 'baseHp' ?
+            <div className="type-button black" onClick={() => setFilteredState({orderBy: 'baseHp'})}>hp</div> :
+            <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseHp'})}>hp</div>
+          }
+          {
+            filteredState.orderBy == 'baseAttack' ?
+            <div className="type-button black" onClick={() => setFilteredState({orderBy: 'baseAttack'})}>attack</div> :
+            <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseAttack'})}>attack</div>
+          }
+          {
+            filteredState.orderBy == 'baseSpecialAttack' ?
+            <div className="type-button black" onClick={() => setFilteredState({orderBy: 'baseSpecialAttack'})}>special attack</div> :
+            <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseSpecialAttack'})}>special attack</div>
+          }
+          {
+            filteredState.orderBy == 'baseDefense' ?
+            <div className="type-button black" onClick={() => setFilteredState({orderBy: 'baseDefense'})}>defense</div> :
+            <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseDefense'})}>defense</div> 
+          }
+          {
+            filteredState.orderBy == 'baseSpecialDefense' ?
+            <div className="type-button black" onClick={() => setFilteredState({orderBy: 'baseSpecialDefense'})}>special defense</div> :
+            <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseSpecialDefense'})}>special defense</div> 
+          }
+          {
+            filteredState.orderBy == 'baseSpeed' ?
+            <div className="type-button black" onClick={() => setFilteredState({orderBy: 'baseSpeed'})}>speed</div> :
+            <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseSpeed'})}>speed</div> 
+          }
         </div>
       </div>
       <div className="filter-container__button">

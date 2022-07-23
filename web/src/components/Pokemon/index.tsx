@@ -26,7 +26,7 @@ function Pokemon(props: IPokemonProps) {
   const [ selectedShiny, setSelectedShiny ] = useState(false);
 
   function handleOnClick() {
-    signed ? console.log("add pokemon") : navigate("/login");
+    signed ? console.log("add pokemon here") : navigate("/login");
   }
 
   useEffect(() => {
@@ -81,32 +81,39 @@ function Pokemon(props: IPokemonProps) {
             <span>Evolution</span>
             <div className="pokemon-container__left__evo__container">
               { props.pokemon.pokemon.length > 0 ? 
-              <div className="pokemon-container__left__evo__container__img">
+                <>
+                <div className="pokemon-container__left__evo__container__img">
+                  <img 
+                    src={handlePokemonImages(props.pokemon.id, props.pokemon.image)}
+                    alt="pokemon"
+                  />
+                </div>
                 {props.pokemon.pokemon.map((evolution) => {
                     if(evolution.evolution.pokemon.length > 0) {
                       return (
                         <>
+                          <div className="pokemon-container__left__evo__container__img">
                           <img
                             src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image)}
                             alt="pokemon"
-                          />
+                          /></div>
+                          <div className="pokemon-container__left__evo__container__img">
                           <img
                             src={handlePokemonImages(evolution.evolution.pokemon[0].evolution.id, evolution.evolution.pokemon[0].evolution.image)}
-                            />
+                          /></div>
                         </>
                       );
                     }
 
                     return (
+                      <div className="pokemon-container__left__evo__container__img">
                       <img 
                         src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image)}
                         alt="pokemon"
-                      />
-                  )
-                })}
-                
-              </div> : 
-              <span className="no-evo">This Pokemon does not have an Evolution.</span>
+                      /></div>
+                    )
+              })} </> : 
+              <span className="no-evo">This Pokémon does not have an Evolution.</span>
               }
             </div>
           </div> 
@@ -178,7 +185,17 @@ function Pokemon(props: IPokemonProps) {
                     </div> ) 
               }})}
             </div> 
-          </div> : null }
+          </div> : 
+          <div className="pokemon-container__right__locations">
+            <div className="pokemon-container__right__locations__title">
+              <span>Location</span>
+            </div>
+            <div className="pokemon-container__right__locations__areas">
+              <span className='no-location'>This Pokémon can not be found.</span>
+            </div> 
+          </div>
+          
+          }
           <button 
             className="pokemon-container__add" 
             onClick={() => { handleOnClick(); }}

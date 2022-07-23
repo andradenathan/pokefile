@@ -143,7 +143,7 @@
         &__img {
           width: 68px;
           height: 68px;
-          margin: 0px 10px;
+          //margin: 0px 10px;
 
           & > img {
             width: 100%;
@@ -238,6 +238,12 @@
         display: flex;
         flex-direction: column;
 
+        & > .no-location {
+          font-size: 14px;
+          color: #808080;
+          font-style: italic;
+        }
+
         &::-webkit-scrollbar {
           width: 5px;
         }
@@ -255,9 +261,12 @@
       &__area {
         display: flex;
         justify-content: space-between;
+
+        & :nth-child(even) {
+          color: #808080;
+        }
         
         & > span {
-          color: #808080;
           font-size: 14px;
           margin-top: 3px;
         }

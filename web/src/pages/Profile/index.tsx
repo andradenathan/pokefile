@@ -53,26 +53,54 @@ function Profile() {
                 </div>
               </div>
             </div>
-            <span className="profile-container__user__infos__userdesc">
-            {trainer.bio ? trainer.bio : 'Nothing to see here.'}
-            </span>
+            <div className="profile-container__user__infos__userdesc">
+              {/* <p>user statistics</p> */}
+              <div className="profile-container__user__infos__userdesc__items">
+                <div className="profile-container__user__infos__userdesc__items--item">
+                  <p>Collection</p>
+                  <span>398</span>
+                </div>
+                <div className="profile-container__user__infos__userdesc__items--item">
+                  <p>Pokédex</p>
+                  <span>15/151</span>
+                </div>
+                <div className="profile-container__user__infos__userdesc__items--item">
+                  <p>Favorite Type</p>
+                  <span>Fairy</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="divider"/>
         <div className="profile-container__pokemons">
           <div className="profile-container__pokemons__item">
             <div className="profile-container__pokemons__item--label">favorite</div>
-            <div className="profile-container__pokemons__item--img"></div>
+            <div className="profile-container__pokemons__item--img">
+              <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+            </div>
           </div>
           <div className="profile-container__pokemons__item">
             <div className="profile-container__pokemons__item--label">team</div>
             <div className="profile-container__pokemons__item__team">
-              <div className="profile-container__pokemons__item__team--pokemon"></div>
-              <div className="profile-container__pokemons__item__team--pokemon"></div>
-              <div className="profile-container__pokemons__item__team--pokemon"></div>
-              <div className="profile-container__pokemons__item__team--pokemon"></div>
-              <div className="profile-container__pokemons__item__team--pokemon"></div>
-              <div className="profile-container__pokemons__item__team--pokemon"></div>
+              <div className="profile-container__pokemons__item__team--pokemon">
+                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+              </div>
+              <div className="profile-container__pokemons__item__team--pokemon">
+                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+              </div>
+              <div className="profile-container__pokemons__item__team--pokemon">
+                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+              </div>
+              <div className="profile-container__pokemons__item__team--pokemon">
+               <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+              </div>
+              <div className="profile-container__pokemons__item__team--pokemon">
+                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+              </div>
+              <div className="profile-container__pokemons__item__team--pokemon">
+                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+              </div>
             </div>
           </div>
         </div>
