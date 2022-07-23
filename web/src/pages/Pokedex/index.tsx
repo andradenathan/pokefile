@@ -2,21 +2,35 @@ import { useEffect, useState } from 'react';
 import Menu from '../../components/Menu';
 import Card from '../../components/Card';
 import Pokemon from '../../components/Pokemon';
+import { IPokemonData, pokemons, searchByName } from '../../services/pokedex.service';
 import Filter from '../../components/Filter';
-import { IPokemonData, PokemonImages, pokemons } from '../../services/pokedex.service';
 import { FaSearch } from 'react-icons/fa';
 import { BsFilter } from 'react-icons/bs';
 import './styles.scss';
 import '../styles.scss';
 import { handlePokemonImages } from '../../hooks/usePokemonImage';
+import { arraySort } from '../../hooks/useArraySort';
 
 function Pokedex() {
   const [ allPokemons, setAllPokemons ] = useState<IPokemonData[]>([]);
+  const [search, setSearch] = useState<IPokemonData[]>([]);
   const [pokemon, setPokemon] = useState<IPokemonData>({} as IPokemonData);
   const [ isOpen, setIsOpen ] = useState(false);
   const [ filterOpen, setFilterOpen ] = useState(false);
+  const [isFiltered, setIsFiltered] = useState<boolean>(false);
+  const [isOrdered, setIsOrdered] = useState<boolean>(false);
   const [ id, setId ] = useState(Number);
+  
+  const handleSearch = async(pokemonName: string) => {
+    if(isFiltered) return;  
 
+    if(pokemonName.length === 0) setSearch([]);
+
+    const response = await searchByName(pokemonName);
+    if(!response.data.success || response.data.success.pokemons.length == 0) return;
+    setSearch(response.data.success?.pokemons);
+  }
+  
   useEffect(() => {
     async function getAllPokemons(): Promise<void> {
       try {
@@ -36,12 +50,13 @@ function Pokedex() {
     getAllPokemons();
   }, []);
 
+  
   return (
     <>
       <Menu />
       {
         isOpen &&
-        <Pokemon pokemon={pokemon} id={id} isOpen={isOpen} setIsOpen={setIsOpen} />
+        <Pokemon pokemon={pokemon} isOpen={isOpen} setIsOpen={setIsOpen} />
       }
       <div className="container">
         <div className="container-wrapper">
@@ -56,7 +71,11 @@ function Pokedex() {
             <FaSearch />
             <input
               className="container__search__bar"
-              placeholder="Search by name or type..."
+
+              onChange={(event) => {
+                handleSearch(event.target.value);
+              }}
+              placeholder="Search by name..."
             />
             {
               filterOpen ?
@@ -76,14 +95,44 @@ function Pokedex() {
           </div>
           {
             filterOpen &&
-            <Filter filterOpen={filterOpen} setFilterOpen={setFilterOpen}/>
+            <Filter 
+              pokemons={allPokemons}
+              filterOpen={filterOpen} 
+              setSearch={setSearch} 
+              setFilterOpen={setFilterOpen} 
+              setIsFiltered={setIsFiltered}
+              setIsOrdered={setIsOrdered}
+            />
           }
-        </div>
+        </div> 
+
+        {search.length > 0 && (isFiltered || isOrdered) &&
+          <button 
+            onClick={() => {
+              setSearch([]);
+              setIsFiltered(false);
+            }}>Limpar filtro
+          </button>
+        }
+
         <div className="container__pokedex">
-          {allPokemons.length > 0 && allPokemons.map((pokemon, key) => {
+          {search.length > 0 ? 
+          search.map((pokemon) => {
             return (
               <Card
-                key={key}
+                key={pokemon.id}
+                pokemon={pokemon}
+                image={handlePokemonImages(pokemon.id, pokemon.image)}
+                setId={setId}
+                setIsOpen={setIsOpen}
+                setPokemon={setPokemon}
+              />
+            )
+          }) :
+           allPokemons.map((pokemon) => {
+            return (
+              <Card
+                key={pokemon.id}
                 pokemon={pokemon}
                 image={handlePokemonImages(pokemon.id, pokemon.image)}
                 setId={setId}

@@ -1,20 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { FaUser } from 'react-icons/fa';
 import MenuPopup from './MenuPopup';
-import { AuthContext } from '../../contexts/Auth';
 import './styles.scss';
+import { useAuth } from '../../hooks/useAuth';
 
 function Menu() {
-
-  const auth = useContext(AuthContext);
-  // const [ path, setPath ] = useState("");
+  const auth = useAuth();
   const [ popup, setPopup ] = useState(false);
 
-  // useEffect(() => {
-    
-  // }, [auth])
-  
   return (
     <div className="menu">
       <div className="menu__container">
@@ -29,9 +23,9 @@ function Menu() {
           <li className="menu__container__buttons__trainers">
             <Link to="/trainers">trainers</Link>
           </li>
-          <li className="menu__container__buttons__bag">
+          {auth.token && (<li className="menu__container__buttons__bag">
             <Link to="/bag">my bag</Link>
-          </li>
+          </li>)}
           <li className="menu__container__buttons__profile">
             {
               auth.token ?

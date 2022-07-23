@@ -12,7 +12,7 @@ interface CardProps {
   image: string;
   setId: React.Dispatch<React.SetStateAction<number>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setPokemon: React.Dispatch<React.SetStateAction<IPokemonData>>
+  setPokemon: React.Dispatch<React.SetStateAction<IPokemonData>>;
 }
 
 function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
@@ -20,7 +20,7 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
   const { signed } = useAuth();
   const navigate = useNavigate();
 
-  function handleSetId() {
+  function handleClick() {
     setId(pokemon.id);
     setIsOpen(true);
     setPokemon(pokemon);
@@ -36,7 +36,7 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
 
   return (
     <>
-      <div className="card-container" onClick={() => { handleSetId() }}>
+      <div className="card-container" onClick={() => { handleClick() }}>
         <div className="card-container__add"
              onClick={(e) => {
               e.stopPropagation(); 
@@ -50,7 +50,7 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
           />
         </div>
         <div className="card-container__number">#{newId}</div>
-        <div className="card-container__name">{pokemon.name}</div>
+        <div className="card-container__name">{pokemon!.name}</div>
         <div className="type-wrapper">
           {pokemon.type.map((type) => {
             return (

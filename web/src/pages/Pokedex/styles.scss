@@ -27,6 +27,7 @@
 
   &__pokedex {
     display: flex;
+    align-content: baseline;
     flex-wrap: wrap;
 
     height: calc(100vh - 250px);

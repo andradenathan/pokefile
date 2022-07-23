@@ -14,6 +14,7 @@ export interface PokemonTypes {
 }
 
 export interface IPokemonData {
+    pokemonName: string;
     id: number;
     name: string;
     weight: number;
@@ -50,6 +51,31 @@ interface PokemonResponse extends AxiosResponse {
     }
 }
 
+export interface ITypesData {
+    name: string;
+}
+
+interface TypesResponse extends AxiosResponse {
+    data: {
+        success?: {
+            types: ITypesData[];
+        }
+        error?: string;
+    }
+}
+  
 export function pokemons(): Promise<PokemonResponse> {
     return api.get('/pokemons');
+}
+
+export function pokemonTypes(): Promise<TypesResponse> {
+    return api.get('/pokemons/types');
+}
+
+export function searchByName(value: string): Promise<PokemonResponse> {
+    return api.get(`/pokemons/search/name/${value}`);
+}
+
+export function filterPokemonByType(type: string): Promise<PokemonResponse> {
+    return api.get(`/pokemons/search/type/${type}`);
 }

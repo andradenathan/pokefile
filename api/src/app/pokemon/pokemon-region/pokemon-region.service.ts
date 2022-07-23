@@ -82,9 +82,9 @@ export class PokemonRegionService {
       );
       return response.data;
     } catch (err: any) {
-      if (err.response.status === 404) {
-        console.log(`${locationAreaName + "-area"} not found`);
-      }
+        if (err.response.status === 404) {
+          console.log(`${locationAreaName + "-area"} not found`);
+        }
     }
 
     return null;
