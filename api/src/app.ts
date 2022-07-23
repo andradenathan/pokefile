@@ -18,15 +18,19 @@ import { PokemonRegionService } from "./app/pokemon/pokemon-region/pokemon-regio
 import { RegionRepository } from "./app/region/region.repository";
 import { RegionService } from "./app/region/region.service";
 import RegionController from "./app/region/region.controller";
+import BagController from "./app/user/bag/bag.controller";
+import { BagRepository } from "./app/user/bag/bag.repository";
 
 const container = new Container();
 
 container.bind(UserRepository).toSelf();
 container.bind(PokemonRepository).toSelf();
 container.bind(RegionRepository).toSelf();
+container.bind(BagRepository).toSelf();
 
 container.bind(AuthController).toSelf();
 container.bind(RegionController).toSelf();
+container.bind(BagController).toSelf();
 
 container.bind(RegionService).toSelf();
 container.bind(PokemonService).toSelf();

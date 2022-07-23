@@ -1,8 +1,5 @@
 import { User } from "@prisma/client";
-import {
-    Request,
-    Response
-} from "express";
+import { Request, Response } from "express";
 import {
     controller,
     httpDelete,

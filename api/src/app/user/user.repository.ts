@@ -9,7 +9,20 @@ export class UserRepository {
     }
 
     async find(code: number): Promise<User | null> {
-        return await prismaClient.user.findUnique({where: {code: code}});
+        return await prismaClient.user.findUnique({
+            include: {
+                bag: {
+                    select: {
+                        pokemon: {
+                            include: {
+                                image: true,
+                            }
+                        }
+                    }
+                }
+            },
+            where: {code: code}
+        });
     }
     
     async findByEmail(email: string): Promise<User | null> {

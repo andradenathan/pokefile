@@ -93,7 +93,6 @@ CREATE TABLE `Bag` (
     `userCode` INTEGER NOT NULL,
     `pokemonId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `Bag_userCode_key`(`userCode`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -119,4 +118,4 @@ ALTER TABLE `Type` ADD CONSTRAINT `Type_pokemonName_fkey` FOREIGN KEY (`pokemonN
 ALTER TABLE `Bag` ADD CONSTRAINT `Bag_userCode_fkey` FOREIGN KEY (`userCode`) REFERENCES `User`(`code`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Bag` ADD CONSTRAINT `Bag_id_fkey` FOREIGN KEY (`id`) REFERENCES `Pokemon`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Bag` ADD CONSTRAINT `Bag_pokemonId_fkey` FOREIGN KEY (`pokemonId`) REFERENCES `Pokemon`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

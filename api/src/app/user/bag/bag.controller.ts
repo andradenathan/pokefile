@@ -1,0 +1,59 @@
+import { Bag } from "@prisma/client";
+import { Request, Response } from "express";
+import {
+    controller,
+    httpDelete,
+    httpGet,
+    httpPost,
+    httpPut
+} from "inversify-express-utils";
+import { PokemonRepository } from "../../pokemon/pokemon.repository";
+import { BagRepository } from "./bag.repository";
+
+@controller('/users/bags')
+export default class BagController {
+    constructor(
+        private readonly bagRepository: BagRepository,
+        private readonly pokemonRepository: PokemonRepository
+    ) { }
+
+    @httpGet('/:code')
+    async find(request: Request, response: Response): Promise<Response> {
+        const code = parseInt(request.params.code);
+        try {
+            const bags = await this.bagRepository.find(code);
+            return response.status(200).json({ success: { bag: bags } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
+        }
+    }
+
+    @httpPost('/:code/:pokemonId')
+    async add(request: Request, response: Response): Promise<Response> {
+        const pokemon = await this.pokemonRepository.find(parseInt(request.params.pokemonId));
+        if(!pokemon) return response.status(422).json({ error: { message: "Pokemon not found" } });
+
+        const bagData = {
+            userCode: parseInt(request.params.code),
+            pokemonId: parseInt(request.params.pokemonId),
+            attack: pokemon.baseAttack,
+            defense: pokemon.baseDefense,
+            hp: pokemon.baseHp,
+            speed: pokemon.baseSpeed,
+            specialDefense: pokemon.baseSpecialDefense,
+            specialAttack: pokemon.baseSpecialAttack,
+            isShiny: false,
+            pokemonGender: "M",
+            level: 1,
+        }
+
+        try {
+            //@ts-ignore
+            const bag = await this.bagRepository.add(bagData);
+            return response.status(200).json({ success: { bag: bag } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
+        }
+    }
+
+}
