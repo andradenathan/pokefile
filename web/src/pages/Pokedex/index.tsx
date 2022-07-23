@@ -30,7 +30,7 @@ function Pokedex() {
     if(pokemonName.length === 0) setSearch([]);
 
     const response = await searchByName(pokemonName);
-    if(!response.data.success || response.data.success.pokemons.length == 0) return;
+    if(!response.data.success || response.data.success.pokemons.length === 0) return;
     setSearch(response.data.success?.pokemons);
   }
   

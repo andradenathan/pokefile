@@ -4,11 +4,26 @@ import { FaSearch } from 'react-icons/fa';
 import TrainerCard from '../../components/TrainerCard';
 import './styles.scss';
 import '../styles.scss';
-import { getTrainers } from '../../services/trainer.service';
+import { getTrainers, searchTrainer } from '../../services/trainer.service';
 import { ITrainerData } from '../../models/trainer';
 
 function Trainers() {
   const [trainers, setTrainers] = useState<ITrainerData[]>([]);
+  const [search, setSearch] = useState<ITrainerData[]>([]);
+
+  async function handleSearch(trainerName: string) {
+    if (trainerName.length === 0) {
+      setSearch([]);
+    }
+
+    const response = await searchTrainer(trainerName);
+
+    if (!response.data.success || response.data.success.user.length === 0) {
+      return;
+    }
+
+    setSearch(response.data.success.user);
+  }
 
   useEffect(() => {
     async function getAllTrainers(): Promise<void> {
@@ -46,11 +61,19 @@ function Trainers() {
             <input 
               className="container__search__bar"
               placeholder="Search by name or Trainer ID..."
+              onChange={(event) => handleSearch(event.target.value)}
             />
           </div>
         </div>
         <div className="container__trainers">
-          {trainers.map((trainer, key) => {
+          {search.length > 0 ?
+          search.map((trainer, key) => {
+            return (
+                <TrainerCard name={trainer.name} code={trainer.code} avatar={trainer.avatar} key={key}/>
+              )
+            }) :
+            
+          trainers.map((trainer, key) => {
             return (
                 <TrainerCard name={trainer.name} code={trainer.code} avatar={trainer.avatar} key={key}/>
               )

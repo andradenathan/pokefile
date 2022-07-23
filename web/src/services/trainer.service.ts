@@ -63,6 +63,10 @@ export function getTrainerBag(code: number): Promise<ITrainerBagResponse> {
     return api.get(`users/bags/${code}`);
 }
 
+export function searchTrainer(name: string): Promise<ITrainerResponse> {
+    return api.get(`/users/search/${name}`);
+}
+
 export function addPokemon(code: number, pokemonId: number): Promise<ITrainerBagResponse> {
     return api.get(`users/bags/${code}/${pokemonId}`);
 }

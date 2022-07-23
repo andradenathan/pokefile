@@ -39,7 +39,7 @@ export default class UserController {
         }
     }
 
-    @httpGet('/:name')
+    @httpGet('/search/:name')
     async search(request: Request, response: Response): Promise<IUserResponse> {
         const query = request.params.name;
         try {
