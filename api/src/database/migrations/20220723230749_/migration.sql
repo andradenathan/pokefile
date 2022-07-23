@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Bag` ADD COLUMN `isTeam` BOOLEAN NOT NULL DEFAULT false;

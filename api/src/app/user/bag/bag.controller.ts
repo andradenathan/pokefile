@@ -1,11 +1,8 @@
-import { Bag } from "@prisma/client";
 import { Request, Response } from "express";
 import {
     controller,
     httpDelete,
     httpGet,
-    httpPost,
-    httpPut
 } from "inversify-express-utils";
 import { PokemonRepository } from "../../pokemon/pokemon.repository";
 import { BagRepository } from "./bag.repository";
@@ -28,7 +25,7 @@ export default class BagController {
         }
     }
 
-    @httpPost('/:code/:pokemonId')
+    @httpGet('/:code/:pokemonId')
     async add(request: Request, response: Response): Promise<Response> {
         const pokemon = await this.pokemonRepository.find(parseInt(request.params.pokemonId));
         if(!pokemon) return response.status(422).json({ error: { message: "Pokemon not found" } });
@@ -56,4 +53,15 @@ export default class BagController {
         }
     }
 
+    @httpDelete('/:bagId')
+    async remove(request: Request, response: Response): Promise<Response> {
+        const bagId = parseInt(request.params.bagId);
+
+        try {
+            await this.bagRepository.remove(bagId);
+            return response.status(200).json({ success: { bag: "Pokemon successfully deleted" } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
+        }
+    }
 }

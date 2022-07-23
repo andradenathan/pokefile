@@ -39,6 +39,17 @@ export default class UserController {
         }
     }
 
+    @httpGet('/:name')
+    async search(request: Request, response: Response): Promise<IUserResponse> {
+        const query = request.params.name;
+        try {
+            const user = await this.userRepository.search(query);
+            return response.status(201).json({ success: { user: user } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
+        }
+    }
+
     @httpGet('/:code')
     async find(request: Request, response: Response): Promise<IUserResponse> {
         const code = parseInt(request.params.code);

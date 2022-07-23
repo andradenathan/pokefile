@@ -32,7 +32,7 @@ function Pokemon(props: IPokemonProps) {
   useEffect(() => {
     IdAdjust({ id: props.pokemon.id, setNewId: setNewId });
   }, [])
-
+  {console.log(props.pokemon)}
   return (
     <div className="modal-black-bg">
       <div className="pokemon-container">

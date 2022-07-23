@@ -97,6 +97,7 @@ model Bag {
     level   Int
     pokemonGender   String  @db.Char(1) @default("M")
     isShiny Boolean @default(false)
+    isTeam Boolean @default(false)
 
     userCode    Int 
     pokemonId   Int 

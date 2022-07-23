@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import { api } from "./api";
+import { IBag } from "./trainer.service";
 
 export interface PokemonImages {
     id: number;
@@ -28,7 +29,7 @@ export interface IPokemonData {
 
     image: PokemonImages[];
     type: PokemonTypes[];
-    // bag: IBagData[];
+    bag: IBag[];
     region: IRegionData[];
     pokemon: IPokemonEvolutionData[];
 }

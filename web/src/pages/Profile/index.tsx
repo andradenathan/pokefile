@@ -12,7 +12,7 @@ function Profile() {
   const params = useParams();
   const navigate = useNavigate();
   const [trainer, setTrainer] = useState<IAuthenticatedTrainer>({} as IAuthenticatedTrainer);
-
+  
   async function handleGetTrainer(codeData: ICodeData) {
     const response = await getTrainer(codeData);
     if(response.data.success) {

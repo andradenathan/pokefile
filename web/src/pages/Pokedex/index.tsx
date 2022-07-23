@@ -9,7 +9,7 @@ import { BsFilter } from 'react-icons/bs';
 import './styles.scss';
 import '../styles.scss';
 import { handlePokemonImages } from '../../hooks/usePokemonImage';
-import { arraySort } from '../../hooks/useArraySort';
+import { useAuth } from '../../hooks/useAuth';
 
 function Pokedex() {
   const [ allPokemons, setAllPokemons ] = useState<IPokemonData[]>([]);
@@ -21,6 +21,9 @@ function Pokedex() {
   const [isOrdered, setIsOrdered] = useState<boolean>(false);
   const [ id, setId ] = useState(Number);
   
+  const { code } = useAuth();
+  
+
   const handleSearch = async(pokemonName: string) => {
     if(isFiltered) return;  
 

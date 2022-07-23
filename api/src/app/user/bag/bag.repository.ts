@@ -21,7 +21,7 @@ export class BagRepository {
         return await prismaClient.bag.create({data: data});
     }
 
-    async remove(id: number): Promise<void> {
-        await prismaClient.bag.delete({where: {id: id}});
+    async remove(bagId: number): Promise<void> {
+        await prismaClient.bag.delete({where: {id: bagId}});
     }
 }

@@ -1,29 +1,34 @@
-import React from 'react';
 import './styles.scss';
 import './../../pages/styles.scss';
+import { handlePokemonImages } from '../../hooks/usePokemonImage';
+import { IBag, removePokemon } from '../../services/trainer.service';
+import { useAuth } from '../../hooks/useAuth';
 
-function BagCard() {
+interface IBagCardProps {
+  bag: IBag;
+  setTrainerBag: React.Dispatch<React.SetStateAction<IBag[]>>;
+}
+function BagCard(props: IBagCardProps) {
+  console.log(props.bag);
+  async function handleDelete(bagId: number): Promise<void> { 
+    await removePokemon(bagId);
+    alert('Pokemon removed from bag');
+    return;
+  }
+
   return (
     <>
       <div className="bagcard-container">
-        <div className="bagcard-container__delete">x</div>
-        <div className="bagcard-container__level">LvL 99</div>
+        <div className="bagcard-container__delete" onClick={() => handleDelete(props.bag.id)}>x</div>
+        <div className="bagcard-container__level">LvL {props.bag.level}</div>
         <div className="bagcard-container__img">
           <img 
-            src={require('../../assets/pikachu.png')}
+            src={handlePokemonImages(props.bag.pokemonId, props.bag.pokemon.image)}
             className="bagcard-container__image"
             alt="pokemon"
           />
         </div>
         <div className="bagcard-container__details">
-          <div className="bagcard-container__details__list">
-            <div className="bagcard-container__details__list__item">a</div>
-            <div className="bagcard-container__details__list__item">b</div>
-          </div>
-          <div className="bagcard-container__details__list">
-            <div className="bagcard-container__details__list__item">c</div>
-            <div className="bagcard-container__details__list__item">d</div>
-          </div>
         </div>
       </div>
     </>

@@ -111,6 +111,15 @@ export class PokemonRepository {
                 evolution: {
                   include: {
                     image: true,
+                    pokemon: {
+                      select: {
+                        evolution: {
+                          include: {
+                            image: true,
+                          }
+                        },
+                      }
+                    }
                   },
                 },
               },
