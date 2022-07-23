@@ -24,4 +24,8 @@ export class BagRepository {
     async remove(bagId: number): Promise<void> {
         await prismaClient.bag.delete({where: {id: bagId}});
     }
+
+    async addPokemonInTeam(pokemonId: number) {
+        
+    }
 }

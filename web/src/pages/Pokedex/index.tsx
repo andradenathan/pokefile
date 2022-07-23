@@ -13,12 +13,12 @@ import { useAuth } from '../../hooks/useAuth';
 
 function Pokedex() {
   const [ allPokemons, setAllPokemons ] = useState<IPokemonData[]>([]);
-  const [search, setSearch] = useState<IPokemonData[]>([]);
-  const [pokemon, setPokemon] = useState<IPokemonData>({} as IPokemonData);
+  const [ search, setSearch ] = useState<IPokemonData[]>([]);
+  const [ pokemon, setPokemon ] = useState<IPokemonData>({} as IPokemonData);
   const [ isOpen, setIsOpen ] = useState(false);
   const [ filterOpen, setFilterOpen ] = useState(false);
-  const [isFiltered, setIsFiltered] = useState<boolean>(false);
-  const [isOrdered, setIsOrdered] = useState<boolean>(false);
+  const [ isFiltered, setIsFiltered ] = useState<boolean>(false);
+  const [ isOrdered, setIsOrdered ] = useState<boolean>(false);
   const [ id, setId ] = useState(Number);
   
   const { code } = useAuth();
@@ -80,6 +80,15 @@ function Pokedex() {
               }}
               placeholder="Search by name..."
             />
+            {search.length > 0 && (isFiltered || isOrdered) &&
+              <button 
+                className='filter-button'
+                onClick={() => {
+                  setSearch([]);
+                  setIsFiltered(false);
+                }}>Reset Filter
+              </button>
+            }
             {
               filterOpen ?
               <div 
@@ -109,17 +118,9 @@ function Pokedex() {
           }
         </div> 
 
-        {search.length > 0 && (isFiltered || isOrdered) &&
-          <button 
-            onClick={() => {
-              setSearch([]);
-              setIsFiltered(false);
-            }}>Limpar filtro
-          </button>
-        }
 
         <div className="container__pokedex">
-          {search.length > 0 ? 
+          { search.length > 0 ? 
           search.map((pokemon) => {
             return (
               <Card
