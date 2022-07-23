@@ -82,12 +82,29 @@ function Pokemon(props: IPokemonProps) {
             <div className="pokemon-container__left__evo__container">
               { props.pokemon.pokemon.length > 0 ? 
               <div className="pokemon-container__left__evo__container__img">
-                {props.pokemon.pokemon.map((evolution) =>{
-                    return (<img 
-                    src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image)}
-                    alt="pokemon"
-                  />)
+                {props.pokemon.pokemon.map((evolution) => {
+                    if(evolution.evolution.pokemon.length > 0) {
+                      return (
+                        <>
+                          <img
+                            src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image)}
+                            alt="pokemon"
+                          />
+                          <img
+                            src={handlePokemonImages(evolution.evolution.pokemon[0].evolution.id, evolution.evolution.pokemon[0].evolution.image)}
+                            />
+                        </>
+                      );
+                    }
+
+                    return (
+                      <img 
+                        src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image)}
+                        alt="pokemon"
+                      />
+                  )
                 })}
+                
               </div> : 
               <span className="no-evo">This Pokemon does not have an Evolution.</span>
               }

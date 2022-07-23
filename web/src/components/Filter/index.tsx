@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { filterPokemonByType, IPokemonData } from '../../services/pokedex.service';
+import React, { useEffect, useState } from 'react';
+import { filterPokemonByType, IPokemonData, pokemonTypes } from '../../services/pokedex.service';
 import './styles.scss';
+import {arraySort} from '../../hooks/useArraySort';
 
 interface IFilterProps {
   filterOpen: boolean;
@@ -8,35 +9,56 @@ interface IFilterProps {
   setSearch: React.Dispatch<React.SetStateAction<IPokemonData[]>>;
   setFilterOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOrdered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface IFilterTypeData {
-  success: {
-    pokemons: {
-      name: string;
-      pokemonName: string;
-      id: number;
-    }
-  }
+interface IFilterState {
+  orderBy: string;
+  orderDirection?: string;
 }
 
 function Filter(props: IFilterProps) {
-  const [filterValue, setFilterValue] = useState<string | number>('');
-  const filteredPokemonData: IPokemonData[] = [];
+  const [filterType, setFilterType] = useState<string>('');
+  let filteredPokemonData: IPokemonData[] = [];
+  const [types, setTypes] = useState<string[]>([]);
+  const [filteredState, setFilteredState] = useState<IFilterState>({} as IFilterState);
+  
+  useEffect(() => {
+    (async () => {
+      const { data } = await pokemonTypes();
+      if(!data.success) return;
 
+      setTypes(data.success.types.map(type => type.name));
+    })();
+  }, []);
+  console.log(filteredState, filterType);
   async function handleApply() {
-    const { data } = await filterPokemonByType(filterValue as string);
-    if (!data.success) { return; }
-    
-    props.pokemons.forEach((pokemon) => {
-      data.success?.pokemons.forEach((filteredPokemon) => {
-        if (pokemon.name == filteredPokemon.pokemonName) {
-          filteredPokemonData.push(pokemon);
-        }
+    if(!filterType) {
+      filteredPokemonData = [...props.pokemons];
+      arraySort(filteredPokemonData, filteredState.orderBy, filteredState.orderDirection);
+    }
+
+    else {
+      const { data } = await filterPokemonByType(filterType);
+      if (!data.success) return;
+
+      props.pokemons.forEach((pokemon) => {
+        data.success?.pokemons.forEach((filteredPokemon) => {
+          if (pokemon.name === filteredPokemon.pokemonName) {
+            filteredPokemonData.push(pokemon);
+          }
+        });
       });
-    });
+
+      arraySort(
+        filteredPokemonData, 
+        filteredState.orderBy, 
+        filteredState.orderDirection
+      );
+    }  
 
     props.setSearch(filteredPokemonData);
+    props.setIsOrdered(true);
     props.setIsFiltered(true);
     props.setFilterOpen(false);
   }
@@ -46,40 +68,26 @@ function Filter(props: IFilterProps) {
       <div className="filter-container__types">
         <span>Types</span>
         <div className="filter-container__types__row">
-          <div className="type-button" onClick={() => setFilterValue('grass')}>grass</div>
-          <div className="type-button" onClick={() => setFilterValue('poison')}>poison</div>
-          <div className="type-button" onClick={() => setFilterValue('fire')}>fire</div>
-          <div className="type-button" onClick={() => setFilterValue('flying')}>flying</div>
-          <div className="type-button" onClick={() => setFilterValue('water')}>water</div>
-          <div className="type-button" onClick={() => setFilterValue('bug')}>bug</div>
-          <div className="type-button" onClick={() => setFilterValue('electric')}>electric</div>
-          <div className="type-button" onClick={() => setFilterValue('ground')}>ground</div>
-          <div className="type-button" onClick={() => setFilterValue('fairy')}>fairy</div>
-          <div className="type-button" onClick={() => setFilterValue('fighting')}>fighting</div>
-          <div className="type-button" onClick={() => setFilterValue('psychic')}>psychic</div>
-          <div className="type-button" onClick={() => setFilterValue('rock')}>rock</div>
-          <div className="type-button" onClick={() => setFilterValue('steel')}>steel</div>
-          <div className="type-button" onClick={() => setFilterValue('ice')}>ice</div>
-          <div className="type-button" onClick={() => setFilterValue('ghost')}>ghost</div>
-          <div className="type-button" onClick={() => setFilterValue('dragon')}>dragon</div>
-          <div className="type-button" onClick={() => setFilterValue('normal')}>normal</div>
+          {types.map((type, key) => {
+            return (
+              <div key={key} className="type-button" onClick={() => setFilterType(type)}>{type}</div>
+            )
+          })}
         </div>
       </div>
       <div className="filter-container__stats">
         <span>Stats</span>
         <div className="filter-container__stats__row">
-          <div className="type-button">hp</div>
-          <div className="type-button">atk</div>
-          <div className="type-button">s. atk</div>
-          <div className="type-button">def</div> 
-          <div className="type-button">s. def</div> 
-          <div className="type-button">speed</div> 
+          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseHp'})}>hp</div>
+          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseAttack'})}>atk</div>
+          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseSpecialAttack'})}>s. atk</div>
+          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseDefense'})}>def</div> 
+          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseSpecialDefense'})}>s. def</div> 
+          <div className="type-button" onClick={() => setFilteredState({orderBy: 'baseSpeed'})}>speed</div> 
         </div>
       </div>
       <div className="filter-container__button">
-        <button onClick={() => { handleApply(); }}>
-          Apply
-        </button>
+        <button onClick={() => handleApply()}>Apply</button>
       </div>
     </div>
   );

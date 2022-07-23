@@ -9,19 +9,20 @@ import { BsFilter } from 'react-icons/bs';
 import './styles.scss';
 import '../styles.scss';
 import { handlePokemonImages } from '../../hooks/usePokemonImage';
+import { arraySort } from '../../hooks/useArraySort';
 
 function Pokedex() {
   const [ allPokemons, setAllPokemons ] = useState<IPokemonData[]>([]);
-  const [searchValue, setSearchValue] = useState<string>('');
   const [search, setSearch] = useState<IPokemonData[]>([]);
   const [pokemon, setPokemon] = useState<IPokemonData>({} as IPokemonData);
   const [ isOpen, setIsOpen ] = useState(false);
   const [ filterOpen, setFilterOpen ] = useState(false);
   const [isFiltered, setIsFiltered] = useState<boolean>(false);
+  const [isOrdered, setIsOrdered] = useState<boolean>(false);
   const [ id, setId ] = useState(Number);
   
   const handleSearch = async(pokemonName: string) => {
-    if(isFiltered) return;
+    if(isFiltered) return;  
 
     if(pokemonName.length === 0) setSearch([]);
 
@@ -70,10 +71,9 @@ function Pokedex() {
             <FaSearch />
             <input
               className="container__search__bar"
-              value={searchValue}
+
               onChange={(event) => {
-                setSearchValue(event.target.value);
-                handleSearch(searchValue);
+                handleSearch(event.target.value);
               }}
               placeholder="Search by name..."
             />
@@ -101,16 +101,16 @@ function Pokedex() {
               setSearch={setSearch} 
               setFilterOpen={setFilterOpen} 
               setIsFiltered={setIsFiltered}
+              setIsOrdered={setIsOrdered}
             />
           }
-        </div>
+        </div> 
 
-        {search.length > 0 &&
+        {search.length > 0 && (isFiltered || isOrdered) &&
           <button 
             onClick={() => {
               setSearch([]);
               setIsFiltered(false);
-              setSearchValue('');
             }}>Limpar filtro
           </button>
         }
