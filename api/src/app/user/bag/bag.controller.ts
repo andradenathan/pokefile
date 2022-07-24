@@ -26,11 +26,23 @@ export default class BagController {
         }
     }
 
-    @httpGet('/:code/team')
+    @httpGet('/team/:code')
     async findPokemonInTeam(request: Request, response: Response): Promise<Response> {
         const code = parseInt(request.params.code);
         try {
-            const bags = await this.bagRepository.findPokemonInTeam(code);
+            const bags = await this.bagRepository.findPokemonInTeamByCode(code);
+            return response.status(200).json({ success: { bag: bags } });
+        } catch(err: any) {
+            return response.status(422).json({ error: { message: err.message } });
+        }
+    }
+
+    @httpGet('/favorite/:code')
+    async findFavoritePokemon(request: Request, response: Response): Promise<Response> {
+        const code = parseInt(request.params.code);
+
+        try {
+            const bags = await this.bagRepository.findFavoritePokemonByCode(code);
             return response.status(200).json({ success: { bag: bags } });
         } catch(err: any) {
             return response.status(422).json({ error: { message: err.message } });
@@ -77,7 +89,7 @@ export default class BagController {
         }
     }
 
-    @httpPut('/:code/:bagId')
+    @httpPut('/team/:code/:bagId')
     async addPokemonInTeam(request: Request, response: Response): Promise<Response> {
         const bagId = parseInt(request.params.bagId);
         const code = parseInt(request.params.code);
@@ -85,6 +97,19 @@ export default class BagController {
         try {
             await this.bagRepository.addPokemonInTeam(code, bagId);
             return response.status(200).json({ success: { bag: "Pokemon successfully added in team" } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
+        }
+    }
+
+    @httpPut('/favorite/:code/:bagId')
+    async addPokemonAsFavorite(request: Request, response: Response): Promise<Response> {
+        const bagId = parseInt(request.params.bagId);
+        const code = parseInt(request.params.code);
+
+        try {
+            await this.bagRepository.addPokemonAsFavorite(code, bagId);
+            return response.status(200).json({ success: { bag: "Pokemon successfully added as favorite" } });
         } catch (err: any) {
             return response.status(422).json({ error: { message: err.message } });
         }

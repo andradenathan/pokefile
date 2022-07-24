@@ -45,6 +45,15 @@ export interface ITrainerBagResponse {
     }
 }
 
+export interface ITrainerBagFavoritePokemonResponse {
+    data: {
+        success?: {
+            bag: IBag;
+        }
+        error?: string;
+    }
+}
+
 export interface ICodeData {
     code: string;
 }
@@ -73,10 +82,22 @@ export function addPokemon(code: number, pokemonId: number): Promise<ITrainerBag
     return api.get(`users/bags/${code}/${pokemonId}`);
 }
 
-export function removePokemon(bagId: number): Promise<string> {
-    return api.delete(`users/bags/${bagId}`);
+export function addPokemonInTeam(code: number, bagId: number): Promise<ITrainerBagResponse> {
+    return api.put(`users/bags/team/${code}/${bagId}`);
+}
+
+export function addPokemonAsFavorite(code: number, bagId: number): Promise<ITrainerBagResponse> {
+    return api.put(`users/bags/favorite/${code}/${bagId}`);
 }
 
 export function getPokemonInTeam(code: number): Promise<ITrainerBagResponse> {
-    return api.get(`users/bags/${code}/team`);
+    return api.get(`users/bags/team/${code}`);
+}
+
+export function getFavoritePokemon(code: number): Promise<ITrainerBagFavoritePokemonResponse> {
+    return api.get(`users/bags/favorite/${code}`);
+}
+
+export function removePokemon(bagId: number): Promise<string> {
+        return api.delete(`users/bags/${bagId}`);
 }

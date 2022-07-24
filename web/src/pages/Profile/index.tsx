@@ -5,16 +5,17 @@ import { FaCopy } from 'react-icons/fa';
 import './styles.scss';
 import '../styles.scss';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getPokemonInTeam, getTrainer, IBag, ICodeData } from '../../services/trainer.service';
+import { getFavoritePokemon, getPokemonInTeam, getTrainer, IBag, ICodeData } from '../../services/trainer.service';
 import { useAuth } from '../../hooks/useAuth';
 import { handlePokemonImages } from '../../hooks/usePokemonImage';
+import copyToClipboard from '../../utils/copyToClipboard';
 
 function Profile() {
   const params = useParams();
   const navigate = useNavigate();
-  const [trainer, setTrainer] = useState<IAuthenticatedTrainer>({} as IAuthenticatedTrainer);
+  const [trainer, setTrainer] = useState<IAuthenticatedTrainer | null>({} as IAuthenticatedTrainer);
   const [team, setTeam] = useState<IBag[]>([]);
-  const { code } = useAuth();
+  const [favorite, setFavorite] = useState<IBag | null>(null);
 
   async function handleGetTrainer(codeData: ICodeData) {
     const response = await getTrainer(codeData);
@@ -30,18 +31,31 @@ function Profile() {
         !params.code ? navigate("/login") : handleGetTrainer({code: params.code});
       } catch(err) { return err; }
     })();
-  }, [params.code]);
 
-  useEffect(() => {
     async function getTeam() {
-      const { data } = await getPokemonInTeam(code);
+      const { data } = await getPokemonInTeam(parseInt(params.code as string));
       if(!data.success) return;
-      
+
       setTeam(data.success.bag);
     }
 
+    async function getFavorite() {
+      const { data } = await getFavoritePokemon(parseInt(params.code as string));
+      if(!data.success) return;
+      
+      setFavorite(data.success.bag);
+    }
+
     getTeam();
-  }, []);
+    getFavorite();
+  }, [params.code]);
+
+  useEffect(() => {
+    if(document.readyState !== "complete") return;
+    if(trainer == null) {
+      navigate("/login");
+    }
+  });
 
   return (
     <>
@@ -50,17 +64,17 @@ function Profile() {
         <div className="profile-container__user">
           <div className="profile-container__user__img">
             <img             
-              src={trainer.avatar}
+              src={trainer?.avatar}
               className="profile-container__image"
               alt="cap"
             />
           </div>
           <div className="profile-container__user__infos">
             <div className="profile-container__user__infos__username">
-              <span className="profile-container__user__infos__username__name">{trainer.name}</span>
+              <span className="profile-container__user__infos__username__name">{trainer?.name}</span>
               <div className="profile-container__user__infos__username__usercode">
-                <span className="profile-container__user__infos__username__usercode--code">{trainer.code}</span>
-                <div className="profile-container__user__infos__username__usercode--icon">
+                <span className="profile-container__user__infos__username__usercode--code">{trainer?.code}</span>
+                <div onClick={() => copyToClipboard(trainer!.code.toString())} className="profile-container__user__infos__username__usercode--icon">
                   <FaCopy/>
                 </div>
               </div>
@@ -88,7 +102,11 @@ function Profile() {
           <div className="profile-container__pokemons__item">
             <div className="profile-container__pokemons__item--label">favorite</div>
             <div className="profile-container__pokemons__item--img">
-              <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+            {favorite !== null ? 
+                <img key={favorite.id} src={handlePokemonImages(favorite.pokemonId, favorite.pokemon.image)} alt="pokemon" />
+                :
+                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+              }
             </div>
           </div>
           <div className="profile-container__pokemons__item">
@@ -97,7 +115,7 @@ function Profile() {
               {team.map((pokemon, index) => {
                 return (
                 <div className="profile-container__pokemons__item__team--pokemon">
-                  <img src={handlePokemonImages(pokemon.pokemonId, pokemon.pokemon.image)} alt="pokemon" />
+                  <img key={index} src={handlePokemonImages(pokemon.pokemonId, pokemon.pokemon.image)} alt="pokemon" />
                 </div>
                 )
               })}
