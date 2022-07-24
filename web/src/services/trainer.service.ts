@@ -58,6 +58,20 @@ export interface ICodeData {
     code: string;
 }
 
+export interface IProfileDetails {
+    collections: number;
+    pokedex: number;
+    favoriteType: string;
+}
+export interface IProfileDetailsResponse {
+    data: {
+        success?: {
+            user: IProfileDetails
+        };
+        error?: string;
+    }
+}
+
 export function create(registerData: Omit<IRegisterFormData, "passwordRepeat">): Promise<ITrainerResponse> {
     return api.post("/users", registerData);
 }
@@ -100,4 +114,8 @@ export function getFavoritePokemon(code: number): Promise<ITrainerBagFavoritePok
 
 export function removePokemon(bagId: number): Promise<string> {
         return api.delete(`users/bags/${bagId}`);
+}
+
+export function getDetails(code: number): Promise<IProfileDetailsResponse> {
+    return api.get(`/users/details/${code}`);
 }

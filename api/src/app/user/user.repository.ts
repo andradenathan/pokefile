@@ -71,16 +71,27 @@ export class UserRepository {
   }
 
   async profileDetails(code: number): Promise<IProfileDetails> {
-    const collection = await prismaClient.$queryRaw`
-    SELECT COUNT(*) FROM Bag WHERE userCode = ${code}
+    const collection = await prismaClient.$queryRaw<any>`
+      SELECT COUNT(*) AS collections FROM Bag WHERE userCode = ${code}
     `;
-    console.log(collection);
+
+    const pokedex = await prismaClient.$queryRaw<any>`
+      SELECT COUNT(DISTINCT pokemonId) AS pokedex FROM Bag WHERE userCode = ${code}
+    `;
+
+    const favoriteType = await prismaClient.$queryRaw<any>`
+      SELECT Type.name, COUNT(*) AS total FROM Bag b 
+      INNER JOIN Pokemon ON b.pokemonId  = Pokemon.id
+      INNER JOIN Type ON Type.pokemonName = Pokemon.name
+      WHERE b.userCode = ${code}
+      GROUP BY Type.name 
+      ORDER BY total DESC
+    `;
 
     return {
-        //@ts-ignore
-        collections: collection,
-        pokedex: 0, 
-        favoriteType: "",
+        collections: collection[0].collections,
+        pokedex: pokedex[0].pokedex, 
+        favoriteType: favoriteType[0].name,
     };
   }
 }

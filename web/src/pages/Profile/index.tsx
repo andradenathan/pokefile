@@ -5,7 +5,7 @@ import { FaCopy } from 'react-icons/fa';
 import './styles.scss';
 import '../styles.scss';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getFavoritePokemon, getPokemonInTeam, getTrainer, IBag, ICodeData } from '../../services/trainer.service';
+import { getDetails, getFavoritePokemon, getPokemonInTeam, getTrainer, IBag, ICodeData, IProfileDetails } from '../../services/trainer.service';
 import { useAuth } from '../../hooks/useAuth';
 import { handlePokemonImages } from '../../hooks/usePokemonImage';
 import copyToClipboard from '../../utils/copyToClipboard';
@@ -16,6 +16,7 @@ function Profile() {
   const [trainer, setTrainer] = useState<IAuthenticatedTrainer | null>({} as IAuthenticatedTrainer);
   const [team, setTeam] = useState<IBag[]>([]);
   const [favorite, setFavorite] = useState<IBag | null>(null);
+  const [details, setDetails] = useState<IProfileDetails>({collections: 0, pokedex: 0, favoriteType: "-"});
 
   async function handleGetTrainer(codeData: ICodeData) {
     const response = await getTrainer(codeData);
@@ -46,10 +47,18 @@ function Profile() {
       setFavorite(data.success.bag);
     }
 
+    async function getProfileDetails() {
+      const { data } = await getDetails(parseInt(params.code as string));
+      if(!data.success) return;
+
+      setDetails(data.success.user);
+    }
+
     getTeam();
     getFavorite();
+    getProfileDetails();
   }, [params.code]);
-
+  console.log(details);
   useEffect(() => {
     if(document.readyState !== "complete") return;
     if(trainer == null) {
@@ -83,15 +92,15 @@ function Profile() {
               <div className="profile-container__user__infos__userdesc__items">
                 <div className="profile-container__user__infos__userdesc__items--item">
                   <p>Collection</p>
-                  <span>398</span>
+                  <span>{details?.collections}</span>
                 </div>
                 <div className="profile-container__user__infos__userdesc__items--item">
                   <p>Pokédex</p>
-                  <span>15/151</span>
+                  <span>{details?.pokedex}/151</span>
                 </div>
                 <div className="profile-container__user__infos__userdesc__items--item">
                   <p>Favorite Type</p>
-                  <span>Fairy</span>
+                  <span>{details?.favoriteType}</span>
                 </div>
               </div>
             </div>
