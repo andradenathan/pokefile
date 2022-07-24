@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Menu from '../../components/Menu';
-import { IAuthenticatedTrainer, me } from '../../services/auth.service';
+import { IAuthenticatedTrainer } from '../../services/auth.service';
 import { FaCopy } from 'react-icons/fa';
 import './styles.scss';
 import '../styles.scss';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getTrainer, ICodeData } from '../../services/trainer.service';
+import { getPokemonInTeam, getTrainer, IBag, ICodeData } from '../../services/trainer.service';
+import { useAuth } from '../../hooks/useAuth';
+import { handlePokemonImages } from '../../hooks/usePokemonImage';
 
 function Profile() {
-
   const params = useParams();
   const navigate = useNavigate();
   const [trainer, setTrainer] = useState<IAuthenticatedTrainer>({} as IAuthenticatedTrainer);
-  
+  const [team, setTeam] = useState<IBag[]>([]);
+  const { code } = useAuth();
+
   async function handleGetTrainer(codeData: ICodeData) {
     const response = await getTrainer(codeData);
     if(response.data.success) {
@@ -27,11 +30,20 @@ function Profile() {
         !params.code ? navigate("/login") : handleGetTrainer({code: params.code});
       } catch(err) { return err; }
     })();
-
   }, [params.code]);
 
-  return (
+  useEffect(() => {
+    async function getTeam() {
+      const { data } = await getPokemonInTeam(code);
+      if(!data.success) return;
+      
+      setTeam(data.success.bag);
+    }
 
+    getTeam();
+  }, []);
+
+  return (
     <>
       <Menu/>
       <div className="profile-container">
@@ -54,7 +66,6 @@ function Profile() {
               </div>
             </div>
             <div className="profile-container__user__infos__userdesc">
-              {/* <p>user statistics</p> */}
               <div className="profile-container__user__infos__userdesc__items">
                 <div className="profile-container__user__infos__userdesc__items--item">
                   <p>Collection</p>
@@ -83,24 +94,13 @@ function Profile() {
           <div className="profile-container__pokemons__item">
             <div className="profile-container__pokemons__item--label">team</div>
             <div className="profile-container__pokemons__item__team">
-              <div className="profile-container__pokemons__item__team--pokemon">
-                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
-              </div>
-              <div className="profile-container__pokemons__item__team--pokemon">
-                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
-              </div>
-              <div className="profile-container__pokemons__item__team--pokemon">
-                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
-              </div>
-              <div className="profile-container__pokemons__item__team--pokemon">
-               <img src={require('../../assets/pikachu.png')} alt="pokemon" />
-              </div>
-              <div className="profile-container__pokemons__item__team--pokemon">
-                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
-              </div>
-              <div className="profile-container__pokemons__item__team--pokemon">
-                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
-              </div>
+              {team.map((pokemon, index) => {
+                return (
+                <div className="profile-container__pokemons__item__team--pokemon">
+                  <img src={handlePokemonImages(pokemon.pokemonId, pokemon.pokemon.image)} alt="pokemon" />
+                </div>
+                )
+              })}
             </div>
           </div>
         </div>

@@ -30,7 +30,7 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
 
   async function handleAddPokemon() {
     const newPokemon = await addPokemon(code, pokemon.id);
-    if(newPokemon.data.success) alert("Pokémon adicionado com sucesso!");
+    if(newPokemon.data.success) alert("Pokemon successfully add in your bag!");
     return;
   }
 

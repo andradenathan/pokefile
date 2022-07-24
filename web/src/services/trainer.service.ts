@@ -28,6 +28,8 @@ export interface IBag {
     hp: number;
     level: number;
     pokemonId: number;
+    isFavorite: boolean;
+    isTeam: boolean;
     pokemon: {
         id: number;
         name: string;
@@ -73,4 +75,8 @@ export function addPokemon(code: number, pokemonId: number): Promise<ITrainerBag
 
 export function removePokemon(bagId: number): Promise<string> {
     return api.delete(`users/bags/${bagId}`);
+}
+
+export function getPokemonInTeam(code: number): Promise<ITrainerBagResponse> {
+    return api.get(`users/bags/${code}/team`);
 }

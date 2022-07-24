@@ -3,6 +3,7 @@ import {
     controller,
     httpDelete,
     httpGet,
+    httpPut,
 } from "inversify-express-utils";
 import { PokemonRepository } from "../../pokemon/pokemon.repository";
 import { BagRepository } from "./bag.repository";
@@ -21,6 +22,17 @@ export default class BagController {
             const bags = await this.bagRepository.find(code);
             return response.status(200).json({ success: { bag: bags } });
         } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
+        }
+    }
+
+    @httpGet('/:code/team')
+    async findPokemonInTeam(request: Request, response: Response): Promise<Response> {
+        const code = parseInt(request.params.code);
+        try {
+            const bags = await this.bagRepository.findPokemonInTeam(code);
+            return response.status(200).json({ success: { bag: bags } });
+        } catch(err: any) {
             return response.status(422).json({ error: { message: err.message } });
         }
     }
@@ -60,6 +72,19 @@ export default class BagController {
         try {
             await this.bagRepository.remove(bagId);
             return response.status(200).json({ success: { bag: "Pokemon successfully deleted" } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
+        }
+    }
+
+    @httpPut('/:code/:bagId')
+    async addPokemonInTeam(request: Request, response: Response): Promise<Response> {
+        const bagId = parseInt(request.params.bagId);
+        const code = parseInt(request.params.code);
+
+        try {
+            await this.bagRepository.addPokemonInTeam(code, bagId);
+            return response.status(200).json({ success: { bag: "Pokemon successfully added in team" } });
         } catch (err: any) {
             return response.status(422).json({ error: { message: err.message } });
         }

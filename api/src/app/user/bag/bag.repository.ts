@@ -17,6 +17,24 @@ export class BagRepository {
         });
     }
 
+    async findPokemonInTeam(userCode: number) {
+        return await prismaClient.bag.findMany({
+            include: {
+                pokemon: {
+                    include: {
+                        image: true,
+                    }
+                }
+            },
+            where: {
+                userCode: userCode,
+                isTeam: {
+                    equals: true
+                }
+            }
+        });
+    }
+
     async add(data: Prisma.BagCreateInput): Promise<Bag> {
         return await prismaClient.bag.create({data: data});
     }
@@ -25,7 +43,36 @@ export class BagRepository {
         await prismaClient.bag.delete({where: {id: bagId}});
     }
 
-    async addPokemonInTeam(pokemonId: number) {
-        
+    async addPokemonInTeam(userCode: number, bagId: number) {
+        const countPokemonInTeam = await prismaClient.bag.count({where: {
+            userCode: userCode,
+            isTeam: {
+                equals: true
+            }
+        }});
+
+        if(countPokemonInTeam >= 6) {
+            throw new Error("You can't add more than 6 pokemon in your team");
+        }
+
+        return await prismaClient.bag.update({
+            where: {
+                id: bagId
+            },
+            data: {
+                isTeam: true,
+            }
+        });
+    }
+
+    async addPokemonAsFavorite(bagId: number) {
+        await prismaClient.bag.update({
+            where: {
+                id: bagId
+            },
+            data: {
+                isFavorite: true,
+            }
+        });
     }
 }

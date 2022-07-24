@@ -16,7 +16,7 @@ function BagCard(props: IBagCardProps) {
     if(!option) return;
 
     await removePokemon(bagId);
-    alert('Pokemon removed from bag');
+    alert('Pokemon removed from the bag');
     return;
   }
 
