@@ -1,8 +1,5 @@
 import { User } from "@prisma/client";
-import {
-    Request,
-    Response
-} from "express";
+import { Request, Response } from "express";
 import {
     controller,
     httpDelete,
@@ -37,6 +34,28 @@ export default class UserController {
         try {
             const users = await this.userRepository.all();
             return response.status(200).json({ success: { user: users } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
+        }
+    }
+
+    @httpGet('/details/:code')
+    async getDetails(request: Request, response: Response): Promise<IUserResponse> {
+        const code = parseInt(request.params.code);
+        try {
+            const details = await this.userRepository.profileDetails(code);
+            return response.status(200).json({ success: { user: details } });
+        } catch (err: any) {
+            return response.status(422).json({ error: { message: err.message } });
+        }
+    }
+
+    @httpGet('/search/:name')
+    async search(request: Request, response: Response): Promise<IUserResponse> {
+        const query = request.params.name;
+        try {
+            const user = await this.userRepository.search(query);
+            return response.status(201).json({ success: { user: user } });
         } catch (err: any) {
             return response.status(422).json({ error: { message: err.message } });
         }

@@ -1,5 +1,6 @@
 import { FaCopy } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import copyToClipboard from '../../utils/copyToClipboard';
 import './styles.scss';
 
 interface ITrainersCardProps {
@@ -33,7 +34,7 @@ function TrainerCard({name, code, avatar}: ITrainersCardProps) {
         <div 
           onClick={(e) => {
             e.stopPropagation();
-            console.log("hello!!")
+            copyToClipboard(code.toString());
           }} 
           className="trainer-container__copy">
           <FaCopy/>

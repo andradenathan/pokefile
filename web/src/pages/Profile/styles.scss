@@ -35,11 +35,11 @@
       height: 150px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
 
       &__username {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 25px;
         font-family: 'Montserrat';
         font-size: 32px;
 
@@ -70,8 +70,40 @@
       }
 
       &__userdesc {
-        font-size: 20px;
+        text-transform: uppercase;
         font-family: 'Montserrat';
+        font-weight: bold;
+
+        display: flex;
+        flex-direction: column;
+
+        & > p {
+          margin-top: 0px;
+          margin-bottom: 10px;
+          font-size: 18px;
+        }
+
+        &__items {
+          display: flex;
+          font-size: 18px;
+          justify-content: space-between;
+
+          &--item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            & > p {
+              margin-top: 0px;
+              margin-bottom: 10px;
+            }
+  
+            & > span {
+              color: #9D9D9D;
+            }
+          }
+        }
       }
     }
   }
@@ -116,7 +148,16 @@
         height: 100%;
         border-radius: 10px;
         border: 1px solid #151515;
-        background-color: aquamarine;
+        background-color: #D9D9D9;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & > img {
+          width: 20%;
+          opacity: 30%;
+        }
       }
 
       &__team {
@@ -128,10 +169,19 @@
         &--pokemon {
           width: 30%;
           height: calc(50% - 10px);
-          background-color: aqua;
+          background-color: #D9D9D9;
           margin-right: 20px;
           border: 1px solid #151515;
           border-radius: 10px;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          & > img {
+            width: 30%;
+            opacity: 30%;
+          }
 
           &:nth-child(3n) {
             margin-right: 0px;

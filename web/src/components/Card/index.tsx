@@ -6,6 +6,7 @@ import IdAdjust from '../../utils/IdAdjust';
 import { useAuth } from '../../hooks/useAuth';
 import './styles.scss';
 import './../../pages/styles.scss';
+import { addPokemon } from '../../services/trainer.service';
 
 interface CardProps {
   pokemon: IPokemonData;
@@ -19,6 +20,7 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
   const [ newId, setNewId ] = useState('');
   const { signed } = useAuth();
   const navigate = useNavigate();
+  const { code } = useAuth();
 
   function handleClick() {
     setId(pokemon.id);
@@ -26,8 +28,10 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
     setPokemon(pokemon);
   }
 
-  function handleOnClick() {
-    signed ? console.log("add pokemon") : navigate("/login");
+  async function handleAddPokemon() {
+    const newPokemon = await addPokemon(code, pokemon.id);
+    if(newPokemon.data.success) alert("Pokemon successfully add in your bag!");
+    return;
   }
 
   useEffect(() => {
@@ -40,7 +44,7 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
         <div className="card-container__add"
              onClick={(e) => {
               e.stopPropagation(); 
-              handleOnClick();
+              handleAddPokemon();
         }}>+</div>
         <div className="card-container__img">
           <img

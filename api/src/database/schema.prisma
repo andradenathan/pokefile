@@ -15,9 +15,8 @@ model User {
     hash    String
     salt    String
     avatar  String
-    bio String?  @db.VarChar(200) 
 
-    bag Bag?
+    bag Bag[]
 }
 
 model Pokemon {
@@ -97,11 +96,13 @@ model Bag {
     level   Int
     pokemonGender   String  @db.Char(1) @default("M")
     isShiny Boolean @default(false)
+    isTeam Boolean @default(false)
+    isFavorite Boolean @default(false)
 
-    userCode    Int @unique
+    userCode    Int 
     pokemonId   Int 
 
-    pokemon Pokemon @relation(references: [id], fields: [id])
+    pokemon Pokemon @relation(references: [id], fields: [pokemonId])
     user    User    @relation(references: [code], fields: [userCode])
 }
 

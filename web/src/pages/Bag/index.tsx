@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import Menu from '../../components/Menu';
@@ -7,11 +7,12 @@ import { FaSearch } from 'react-icons/fa';
 import { BsFilter } from 'react-icons/bs';
 import './styles.scss';
 import '../styles.scss';
+import { getTrainerBag, IBag } from '../../services/trainer.service';
 
 function Bag() {
-
   const navigate = useNavigate();
-  const { signed } = useAuth();
+  const { signed, code } = useAuth();
+  const [trainerBag, setTrainerBag] = useState<IBag[]>([]);
 
   function handleSignedIn() {
     signed ? console.log("signed.") : navigate("/login");
@@ -19,6 +20,12 @@ function Bag() {
 
   useEffect(() => {
     handleSignedIn();
+    (async() => {
+      const { data } = await getTrainerBag(code);
+      if(!data.success) return;
+
+      setTrainerBag(data.success.bag);
+    })();
   }, []);
 
   return (
@@ -46,17 +53,15 @@ function Bag() {
           <div className="container__filter-box"></div>
         </div>
         <div className="bag">
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
-          <BagCard/>
+          {trainerBag.map((pokemon, key) => {
+            return (
+              <BagCard
+                key={key}
+                bag={pokemon}
+                setTrainerBag={setTrainerBag}
+              />
+            )
+          })}
         </div>
       </div>
     </>
