@@ -47,7 +47,7 @@ export default class PokemonService {
         
             await this.handlePokemonStatus(data);
             await this.handlePokemonTypes(data);
-            await this.handlePokemonImages(i, data);
+            await this.handlePokemonImages(i, data, false);
         }
 
         return "Pokémons registrados com sucesso!";
@@ -105,7 +105,7 @@ export default class PokemonService {
     }
 
 
-    async handlePokemonImages(id: number, data: PokemonResponseData): Promise<void> {
+    async handlePokemonImages(id: number, data: PokemonResponseData, shiny: boolean): Promise<void> {
         for(let image of Object.entries(data.sprites)) {
             if(image[1] == null || typeof image[1] !== 'string') continue;
 

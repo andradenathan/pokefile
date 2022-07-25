@@ -47,7 +47,6 @@ const generateToken = (user: User): string => {
         sub: user.code,
         name: user.name,
         email: user.email,
-        bio: user.bio,
         avatar: user.avatar,
     }
 

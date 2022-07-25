@@ -66,6 +66,14 @@ function Profile() {
     }
   });
 
+  function handleNoPokemon() {
+    return(
+      <div className="profile-container__pokemons__item__team--no-pokemon">
+        <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+      </div>
+    );
+  }
+
   return (
     <>
       <Menu/>
@@ -110,24 +118,68 @@ function Profile() {
         <div className="profile-container__pokemons">
           <div className="profile-container__pokemons__item">
             <div className="profile-container__pokemons__item--label">favorite</div>
-            <div className="profile-container__pokemons__item--img">
-            {favorite !== null ? 
-                <img key={favorite.id} src={handlePokemonImages(favorite.pokemonId, favorite.pokemon.image)} alt="pokemon" />
+              {favorite !== null ?
+                <div className="profile-container__pokemons__item--img">
+                  <img key={favorite.id} src={handlePokemonImages(favorite.pokemonId, favorite.pokemon.image, false)} alt="pokemon" />
+                </div>
                 :
-                <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+                <div className="profile-container__pokemons__item--img-no-fav">
+                  <img src={require('../../assets/pikachu.png')} alt="pokemon" />
+                </div>
               }
-            </div>
           </div>
           <div className="profile-container__pokemons__item">
             <div className="profile-container__pokemons__item--label">team</div>
             <div className="profile-container__pokemons__item__team">
-              {team.map((pokemon, index) => {
+              {/* {team.map((pokemon, index) => {
                 return (
                 <div className="profile-container__pokemons__item__team--pokemon">
-                  <img key={index} src={handlePokemonImages(pokemon.pokemonId, pokemon.pokemon.image)} alt="pokemon" />
+                  <img key={index} src={handlePokemonImages(pokemon.pokemonId, pokemon.pokemon.image, false)} alt="pokemon" />
                 </div>
                 )
-              })}
+              })} */}
+              {
+                team[0] ?
+                <div className="profile-container__pokemons__item__team--pokemon">
+                  <img key={0} src={handlePokemonImages(team[0].pokemonId, team[0].pokemon.image, false)} alt="pokemon" />
+                </div> :
+                handleNoPokemon()
+              }
+              {
+                team[1] ?
+                <div className="profile-container__pokemons__item__team--pokemon">
+                  <img key={1} src={handlePokemonImages(team[1].pokemonId, team[1].pokemon.image, false)} alt="pokemon" />
+                </div> :
+                handleNoPokemon()
+              }
+              {
+                team[2] ?
+                <div className="profile-container__pokemons__item__team--pokemon">
+                  <img key={2} src={handlePokemonImages(team[2].pokemonId, team[2].pokemon.image, false)} alt="pokemon" />
+                </div> :
+                handleNoPokemon()
+              }
+              {
+                team[3] ?
+                <div className="profile-container__pokemons__item__team--pokemon">
+                  <img key={3} src={handlePokemonImages(team[3].pokemonId, team[3].pokemon.image, false)} alt="pokemon" />
+                </div> :
+                handleNoPokemon()
+              }
+              {
+                team[4] ?
+                <div className="profile-container__pokemons__item__team--pokemon">
+                  <img key={4} src={handlePokemonImages(team[4].pokemonId, team[4].pokemon.image, false)} alt="pokemon" />
+                </div> :
+                handleNoPokemon()
+              }
+              {
+                team[5] ?
+                <div className="profile-container__pokemons__item__team--pokemon">
+                  <img key={5} src={handlePokemonImages(team[5].pokemonId, team[5].pokemon.image, false)} alt="pokemon" />
+                </div> :
+                handleNoPokemon()
+              }
             </div>
           </div>
         </div>

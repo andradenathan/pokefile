@@ -7,6 +7,7 @@ import { IoMdFemale, IoMdMale } from 'react-icons/io';
 import { BsStars } from 'react-icons/bs';
 import { IPokemonData } from '../../services/pokedex.service';
 import { handlePokemonImages } from '../../hooks/usePokemonImage';
+import { addPokemon } from '../../services/trainer.service';
 import './styles.scss';
 import './../../pages/styles.scss';
 
@@ -20,19 +21,26 @@ interface IPokemonProps {
 function Pokemon(props: IPokemonProps) {
   
   const navigate = useNavigate();
-  const { signed } = useAuth();
+  const { signed, code } = useAuth();
   const [ newId, setNewId ] = useState('');
   const [ selectedGender, setSelectedGender ] = useState(false);
   const [ selectedShiny, setSelectedShiny ] = useState(false);
 
   function handleOnClick() {
-    signed ? console.log("add pokemon here") : navigate("/login");
+    signed ? handleAddPokemon() : navigate("/login");
+  }
+
+  async function handleAddPokemon() {
+    const newPokemon = await addPokemon(code, props.pokemon.id);
+    if(newPokemon.data.success) alert("Pokemon successfully added in your bag!");
+    return;
   }
 
   useEffect(() => {
     IdAdjust({ id: props.pokemon.id, setNewId: setNewId });
   }, [])
   {console.log(props.pokemon)}
+
   return (
     <div className="modal-black-bg">
       <div className="pokemon-container">
@@ -47,7 +55,7 @@ function Pokemon(props: IPokemonProps) {
         <div className="pokemon-container__left">
           <div className="pokemon-container__left__img">
             <img 
-              src={handlePokemonImages(props.pokemon.id, props.pokemon.image)}
+              src={handlePokemonImages(props.pokemon.id, props.pokemon.image, selectedShiny)}
               alt="pokemon"
             />
           </div>
@@ -84,7 +92,7 @@ function Pokemon(props: IPokemonProps) {
                 <>
                 <div className="pokemon-container__left__evo__container__img">
                   <img 
-                    src={handlePokemonImages(props.pokemon.id, props.pokemon.image)}
+                    src={handlePokemonImages(props.pokemon.id, props.pokemon.image, false)}
                     alt="pokemon"
                   />
                 </div>
@@ -94,12 +102,12 @@ function Pokemon(props: IPokemonProps) {
                         <>
                           <div className="pokemon-container__left__evo__container__img">
                           <img
-                            src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image)}
+                            src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image, false)}
                             alt="pokemon"
                           /></div>
                           <div className="pokemon-container__left__evo__container__img">
                           <img
-                            src={handlePokemonImages(evolution.evolution.pokemon[0].evolution.id, evolution.evolution.pokemon[0].evolution.image)}
+                            src={handlePokemonImages(evolution.evolution.pokemon[0].evolution.id, evolution.evolution.pokemon[0].evolution.image, false)}
                           /></div>
                         </>
                       );
@@ -108,7 +116,7 @@ function Pokemon(props: IPokemonProps) {
                     return (
                       <div className="pokemon-container__left__evo__container__img">
                       <img 
-                        src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image)}
+                        src={handlePokemonImages(evolution.evolution.id, evolution.evolution.image, false)}
                         alt="pokemon"
                       /></div>
                     )

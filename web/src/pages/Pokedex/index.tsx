@@ -126,7 +126,7 @@ function Pokedex() {
               <Card
                 key={pokemon.id}
                 pokemon={pokemon}
-                image={handlePokemonImages(pokemon.id, pokemon.image)}
+                image={handlePokemonImages(pokemon.id, pokemon.image, false)}
                 setId={setId}
                 setIsOpen={setIsOpen}
                 setPokemon={setPokemon}
@@ -138,7 +138,7 @@ function Pokedex() {
               <Card
                 key={pokemon.id}
                 pokemon={pokemon}
-                image={handlePokemonImages(pokemon.id, pokemon.image)}
+                image={handlePokemonImages(pokemon.id, pokemon.image, false)}
                 setId={setId}
                 setIsOpen={setIsOpen}
                 setPokemon={setPokemon}

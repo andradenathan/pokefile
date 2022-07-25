@@ -30,6 +30,7 @@ export interface IBag {
     pokemonId: number;
     isFavorite: boolean;
     isTeam: boolean;
+    pokemonGender: string;
     pokemon: {
         id: number;
         name: string;

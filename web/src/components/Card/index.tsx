@@ -30,7 +30,7 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
 
   async function handleAddPokemon() {
     const newPokemon = await addPokemon(code, pokemon.id);
-    if(newPokemon.data.success) alert("Pokemon successfully add in your bag!");
+    if(newPokemon.data.success) alert("Pokemon successfully added in your bag!");
     return;
   }
 
@@ -43,8 +43,8 @@ function Card({ image, setId, setIsOpen, pokemon, setPokemon }: CardProps) {
       <div className="card-container" onClick={() => { handleClick() }}>
         <div className="card-container__add"
              onClick={(e) => {
-              e.stopPropagation(); 
-              handleAddPokemon();
+              e.stopPropagation();
+              signed ? handleAddPokemon() : navigate('/login');
         }}>+</div>
         <div className="card-container__img">
           <img

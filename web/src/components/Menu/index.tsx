@@ -18,7 +18,7 @@ function Menu() {
         </a>
         <ul className="menu__container__buttons">
           <li className="menu__container__buttons__pokedex">
-            <Link to="/pokedex">pokedex</Link>
+            <Link to="/pokedex">pokédex</Link>
           </li>
           <li className="menu__container__buttons__trainers">
             <Link to="/trainers">trainers</Link>
