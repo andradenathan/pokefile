@@ -12,21 +12,38 @@ import { getTrainerBag, IBag } from '../../services/trainer.service';
 function Bag() {
   const navigate = useNavigate();
   const { signed, code } = useAuth();
-  const [trainerBag, setTrainerBag] = useState<IBag[]>([]);
+  const [ handleBag, setHandleBag ] = useState(false);
+  const [ trainerBag, setTrainerBag ] = useState<IBag[]>([]);
 
   function handleSignedIn() {
     signed ? console.log("signed.") : navigate("/login");
   }
 
-  useEffect(() => {
-    handleSignedIn();
+  function handleTrainerBag() {
     (async() => {
       const { data } = await getTrainerBag(code);
       if(!data.success) return;
 
       setTrainerBag(data.success.bag);
     })();
+  }
+
+  useEffect(() => {
+    handleSignedIn();
+    handleTrainerBag();
+    // (async() => {
+    //   const { data } = await getTrainerBag(code);
+    //   if(!data.success) return;
+
+    //   setTrainerBag(data.success.bag);
+    // })();
   }, []);
+
+  useEffect(() => {
+    handleTrainerBag();
+  }, [handleBag])
+
+  console.log(trainerBag)
 
   return (
     <>
@@ -40,7 +57,7 @@ function Bag() {
             />
             <span>Bag</span>
           </div>
-          <div className="container__search">
+          {/* <div className="container__search">
             <FaSearch/>
             <input 
               className="container__search__bar"
@@ -50,19 +67,32 @@ function Bag() {
               <BsFilter/>
             </div>
           </div>
-          <div className="container__filter-box"></div>
+          <div className="container__filter-box"></div> */}
         </div>
-        <div className="bag">
-          {trainerBag.map((pokemon, key) => {
-            return (
-              <BagCard
-                key={key}
-                bag={pokemon}
-                setTrainerBag={setTrainerBag}
-              />
-            )
-          })}
-        </div>
+          {
+            trainerBag.length > 0 ?
+             <div className="bag">
+              {trainerBag.map((pokemon, key) => {
+                return (
+                  <BagCard
+                    key={key}
+                    bag={pokemon}
+                    setTrainerBag={setTrainerBag}
+                    handleBag={handleBag}
+                    setHandleBag={setHandleBag}
+                  />
+                )
+              })}
+            </div> :
+            <div className="bag-empty">
+              <div className="bag-empty__img">
+                <img src={require('../../assets/pikachu.png')}/>
+              </div>
+              <span>Your bag is empty! If you want to add Pokémons here,
+                visit our Pokédex.
+              </span>
+            </div>
+          }
       </div>
     </>
   );
