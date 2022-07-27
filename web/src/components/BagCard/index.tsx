@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TbPokeball, TbTrash, TbHeart, TbGenderFemale, TbGenderMale } from 'react-icons/tb';
+import { GoHeart } from 'react-icons/go';
 import './styles.scss';
 import './../../pages/styles.scss';
 import { handlePokemonImages } from '../../hooks/usePokemonImage';
@@ -100,7 +101,10 @@ function BagCard(props: IBagCardProps) {
             {
               props.bag.isFavorite &&
               <div className="bagcard-container__details__list__item">
-                <TbHeart color="#FF0000"/>
+                <GoHeart 
+                  color="#FF0000"
+                  size={18}
+                />
               </div>
             }
             {

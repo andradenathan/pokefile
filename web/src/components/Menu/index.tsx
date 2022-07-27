@@ -26,15 +26,16 @@ function Menu() {
           {auth.token && (<li className="menu__container__buttons__bag">
             <Link to="/bag">my bag</Link>
           </li>)}
-          <li className="menu__container__buttons__profile">
             {
               auth.token ?
-              <a><FaUser onClick={() => { setPopup(!popup) }}/></a> :
-              <Link to="/login">
-                <FaUser/>
-              </Link>
+              <li 
+                className="menu__container__buttons__profile"
+                onClick={() => { setPopup(!popup) }} 
+              ><a><FaUser/></a></li> :
+              <li className="menu__container__buttons__profile">
+                <Link to="/login"><FaUser/></Link>
+              </li>
             }
-          </li>
         </ul>
       </div>
     </div>
