@@ -61,13 +61,11 @@ export class UserRepository {
   }
 
   async search(query: string) {
-    return await prismaClient.user.findMany({
-      where: {
-        name: {
-          contains: query,
-        },
-      },
-    });
+    return await prismaClient.$queryRawUnsafe(`
+      SELECT name, code, avatar FROM User WHERE code LIKE '%${query}%'
+      UNION
+      SELECT name, code, avatar FROM User WHERE name LIKE '%${query}%'
+    `);
   }
 
   async profileDetails(code: number): Promise<IProfileDetails> {

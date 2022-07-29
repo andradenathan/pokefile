@@ -7,7 +7,6 @@ CREATE TABLE `User` (
     `hash` VARCHAR(191) NOT NULL,
     `salt` VARCHAR(191) NOT NULL,
     `avatar` VARCHAR(191) NOT NULL,
-    `bio` VARCHAR(200) NULL,
 
     UNIQUE INDEX `User_code_key`(`code`),
     UNIQUE INDEX `User_email_key`(`email`),
