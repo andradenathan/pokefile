@@ -1,6 +1,15 @@
 # Pokéfile
 
+<img src='./docs/pokefile.png'>
+
 Pokéfile é um projeto final da disciplina de Banco de Dados I do curso de Ciência da Computação da Universidade Federal do Rio de Janeiro (UFRJ).
+
+O objetivo do sistema é realizar buscas relacionadas aos Pokémons (da primeira geração). As informações da nossa aplicação são todas obtidas através da PokéAPI (<a href="http://pokeapi.co" target="_blank">http//pokeapi.co</a>).
+
+
+
+### Tela de pesquisa de informações da aplicação
+<img src='./docs/pokedex.png'>
 
 ### Especificações
 As especificações de implementação na programação do projeto, foram:
